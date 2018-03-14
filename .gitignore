@@ -1,0 +1,13 @@
+.*.swp
+*~
+/.project
+/composer.lock
+/vendor
+/node_modules
+/package-lock.json
+/_docs/text/*
+!/_docs/text/*.tex
+!/_docs/text/*.bib
+!/_docs/text/*.bbl
+!/_docs/text/*.pdf
+/server/node_modules

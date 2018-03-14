@@ -1,0 +1,24 @@
+{
+  "name": "imageeditor.server",
+  "version": "1.0.0",
+  "description": "MediaWiki Colaborative ImageEditor server application",
+  "author": "Martin Krasnan <martin.krasnan@devhouse.sk>",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "config": {
+    "port": "3000",
+    "host": "localhost",
+    "endpoint": "http://wiki.localhost/api.php"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "request": "^2.83.0",
+    "socket.io": "^2.0.4"
+  },
+  "engines": {
+    "node": "^4.1.1"
+  }
+}

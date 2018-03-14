@@ -1,0 +1,267 @@
+@import "ext.imageEditor.vars";
+
+/*---------------------------------------*\
+   Variables
+\*---------------------------------------*/
+// Colors
+@white: #fff;
+@black: #000;
+@grey: lighten(@black, 50%);
+@light: #fdfdfd;
+@blue: #00a5ff;
+@red: #ff444d;
+@success: #2c962b;
+@border: #d4d4d4;
+// Transition Time
+@time: 0.3s;
+// Transition Ease
+@ease: linear;
+// Base font type
+@type: sans-serif;
+// Base font size for REM calculate
+@bs: 16;
+// Base Line height
+@lh: 10;
+@radius: 2px;
+
+// Responsive breakpoints
+@screen_mobile: 480px;
+@screen_mobile_max: (480 - 1)*1px;
+@screen_tablet: 768px;
+@screen_tablet_max: (769 - 1)*1px;
+@screen_desktop: 992px;
+@screen_desktop_max: (992 - 1)*1px;
+@screen_large: 1200px;
+@screen_large_max: (1200 - 1)*1px;
+
+// Offset calculate
+// BS Grid has REM offsets
+@gutter: 2rem;
+@gutter_px: (@bs * 2)*1px;
+@offset: (@gutter/2);
+@offset-xs: (@offset/4);
+@offset-sm: (@offset/2);
+@offset-md: (@offset*2);
+@offset-lg: (@offset*4);
+@offset-xl: (@offset*6);
+@offset-xxl: (@offset*8);
+@offset-xxxl: (@offset*10);
+
+// Container has PX width
+@container-tablet: (720px + @gutter_px);
+@container-sm: @container-tablet;
+@container-desktop: (940px + @gutter_px);
+@container-md: @container-desktop;
+@container-large-desktop: (1140px + @gutter_px);
+@container-lg: @container-large-desktop;
+
+/*---------------------------------------*\
+   Fonts
+\*---------------------------------------*/
+/*
+Roboto
+- 100
+- 100 Italic
+- Light 300
+- Light 300 Italic
+- Normal 400
+- Normal 400 Italic
+- Semi-Bold 600
+- Semi-Bold 600 Italic
+- Bold 700
+- Bold 700 Italic
+- Extra-Bold 800
+- Extra-Bold 800 Italic
+*/
+.ff_default() {
+  font-family: 'Roboto', sans-serif;
+}
+
+.ff_title() {
+  font-family: 'Georgia', serif;
+}
+
+/*---------------------------------------*\
+   Rulesets
+\*---------------------------------------*/
+.hover(@rules) {
+  .hover-on & {
+    &:hover {
+      @rules();
+    }
+  }
+}
+
+;
+.transitions(@rules) {
+  .transition-on & {
+    @rules();
+  }
+}
+
+;
+
+.fs(@value, @lh: @lh) {
+  font-size: (@value / @bs) * 1rem;
+  line-height: (@value + @lh) / @bs * 1rem;
+}
+
+.fs_px(@value, @lh: @lh) {
+  font-size: (@value) * 1px;
+  line-height: (@value + @lh) * 1px;
+}
+
+.btn_color(@color) {
+  cursor: pointer;
+  display: inline-block;
+  background: @color;
+  color: @white;
+  border: 2px solid @color;
+  .hover({ background: darken(@color, 5%); border-color: darken(@color, 5%); color: @white; });
+  &:active, &:focus {
+    background: darken(@color, 10%);
+    border-color: darken(@color, 10%);
+    color: @white;
+  }
+}
+
+.input {
+  background: transparent !important;
+  font-size: 18px;
+  margin: @offset-xs;
+  line-height: @offset;
+  min-width: @offset-md;
+  min-height: @offset;
+  color: @black;
+  border: none;
+  border-bottom: @border 1px solid;
+  float: left;
+  &:extend(.transition);
+  &:focus, &:active, &:hover {
+    border-bottom: @blue 1px solid;
+    outline: none !important;
+  }
+}
+
+.btn {
+  .fs(20);
+  margin: @offset-xs;
+  min-width: @offset-md;
+  min-height: @offset-md;
+  line-height: @offset-md;
+  text-align: center;
+  display: inline-block;
+  color: lighten(@black, 25%);
+  &:extend(.transition);
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: lighten(@black, 50%);
+    cursor: pointer;
+  }
+  &.active {
+    color: @blue;
+  }
+  > span {
+    margin-left: 5px;
+    font-size: 11px;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 5px;
+  }
+}
+
+.btn-color(@bg, @color:@white) {
+  &:extend(.btn all);
+  background-color: @bg;
+  color: @color;
+  border-radius: @radius;
+  border: darken(@bg, 10%) 1px solid;
+  padding: 0 @offset;
+  .fs_px(16, 16);
+  &:hover {
+    background-color: darken(@bg, 4%);
+    color: @color;
+  }
+  &:active, &:focus {
+    background-color: lighten(@bg, 4%);
+    color: @color;
+  }
+}
+
+.ul_reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    display: block;
+    a {
+      display: block;
+      &:hover, &:focus, &:active, &:visited {
+        text-decoration: none;
+
+      }
+    }
+  }
+}
+
+.transition {
+  -webkit-transition: ease-in-out all 0.2s;
+  -moz-transition: ease-in-out all 0.2s;
+  -ms-transition: ease-in-out all 0.2s;
+  -o-transition: ease-in-out all 0.2s;
+  transition: ease-in-out all 0.2s;
+}
+
+.shadow-box {
+  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.08);
+  border: @border solid 1px;
+}
+.blur{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+.sharp{
+  -webkit-filter: blur(0);
+  -moz-filter: blur(0);
+  -o-filter: blur(0);
+  -ms-filter: blur(0);
+  filter: blur(0);
+}
+
+.text-primary {
+  color: @blue !important;
+}
+
+.text-danger {
+  color: @red !important;;
+}
+
+.text-success {
+  color: @success !important;;
+}
+
+.text-white {
+  color: @white !important;;
+}
+
+.btn-primary {
+  .btn-color(@blue);
+}
+
+.btn-danger {
+  .btn-color(@red);
+}
+
+.btn-success {
+  .btn-color(@success);
+}
+
+.btn-white {
+  .btn-color(@white, @black);
+}
+

@@ -1,0 +1,14 @@
+{
+  "name": "imageeditor.client",
+  "version": "1.0.0",
+  "description": "MediaWiki Colaborative ImageEditor client application",
+  "author": "Martin Krasnan <martin.krasnan@devhouse.sk>",
+  "scripts": {
+  },
+  "dependencies": {
+    "angular": "^1.6.9",
+    "angular-bootstrap-colorpicker": "^3.0.32",
+    "fabric": "^2.2.1",
+    "socket.io-client": "^2.0.4"
+  }
+}

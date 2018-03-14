@@ -1,0 +1,104 @@
+{
+	"name": "image-editor",
+	"version": "0.1.0",
+	"author": [
+		"Martin Krasňan"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:ImageEditor",
+	"descriptionmsg": "image-editor-desc",
+	"license-name": "MIT",
+	"type": "other",
+	"AutoloadClasses": {
+		"ImageEditorHooks": "ImageEditor.hooks.php",
+		"SpecialImageEditor": "specials/SpecialImageEditor.php",
+
+		"ImageEditorTemplate": "templates/ImageEditorTemplate.php"
+	},
+	"SpecialPages": {
+		"ImageEditor": "SpecialImageEditor"
+	},
+	"config": {
+		"ImageEditorEnableFoo": true
+	},
+	"ExtensionMessagesFiles": {
+		"ImageEditorAlias": "ImageEditor.i18n.alias.php"
+	},
+	"Hooks": {
+		"FileUpload": "ImageEditorHooks::onFileUpload",
+		"SkinTemplateNavigation": "ImageEditorHooks::onSkinTemplateNavigation"
+	},
+	"MessagesDirs": {
+		"ImageEditor": [
+			"i18n"
+		]
+	},
+	"ResourceModules": {
+		"angular":{
+			"scripts": [
+				"vendor/angular/angular.min.js"
+			]
+		},
+		"angular-bootstrap-colorpicker":{
+			"scripts": [
+				"vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"
+			],
+			"dependencies": [
+				"angular"
+			]
+		},
+		"socket.io-client":{
+			"scripts": [
+				"vendor/socket.io-client/dist/socket.io.js"
+			]
+		},
+		"fabric":{
+			"scripts": [
+				"vendor/fabricjs/fabric.min.js"
+			]
+		},
+		"ext.imageEditor": {
+			"scripts": [
+				"scripts/ext.imageEditor.utils.js",
+				"scripts/ext.imageEditor.config.js",
+				"scripts/ext.imageEditor.init.accessors.js",
+				"scripts/ext.imageEditor.init.tools.js",
+				"scripts/ext.imageEditor.init.events.js",
+				"scripts/ext.imageEditor.init.keybindings.js",
+				"scripts/ext.imageEditor.controller.js"
+			],
+			"styles": [
+				"styles/ext.imageEditor.less"
+			],
+			"messages": [
+				"success",
+				"warning",
+				"error",
+				"cancel",
+				"close",
+				"ok",
+				"yes",
+				"no",
+				"close-editor-header",
+				"close-editor-description",
+				"save-and-close",
+				"insert-your-text...",
+				"file-saved-successfully",
+				"file-save-error",
+				"file-save-warning"
+			],
+			"dependencies": [
+				"angular",
+				"angular-bootstrap-colorpicker",
+				"socket.io-client",
+				"fabric",
+				"mediawiki.jqueryMsg"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "modules",
+		"remoteExtPath": "ImageEditor/modules"
+	},
+
+	"manifest_version": 1
+}
