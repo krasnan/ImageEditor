@@ -12,7 +12,7 @@
 	"save" : "Save",
 	"close" : "Close",
 
-	"edit" : "Edit",
+	"ie_edit" : "Edit",
 	"cut" : "Cut",
 	"copy" : "Copy",
 	"paste" : "Paste",
@@ -89,6 +89,8 @@
 
 	"upload-image" : "Upload Image",
 	"insert" : "Insert",
+	"select-image" : "Select Image",
+
 
 	"loading" : "LOADING",
 

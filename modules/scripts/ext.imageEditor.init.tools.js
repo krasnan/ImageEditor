@@ -35,6 +35,10 @@ function initTools($scope, $http, $timeout) {
     $scope.grid = 5;
     $scope.snapToGrid = false;
     $scope.canvasZoom = 50;
+    $scope.canvasWidth = 1280;
+    $scope.canvasHeight = 720;
+
+    $scope.updateCanvasZoom();
 
     $scope.saveRevision = function () {
         //TODO ukladat vo formate podla urlky

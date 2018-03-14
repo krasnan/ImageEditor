@@ -44,7 +44,7 @@ class ImageEditorTemplate extends QuickTemplate {
                     <div class="ie__panel__horizontal">
                         <!--                    <input class="input" type="text" placeholder="Image Name...">-->
                         <div class="ie__dropdown">
-                            <a title="" class="btn ie__dropdown__btn" ng-click="">File</a>
+                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('file') ?></a>
                             <div class="ie__dropdown__list">
                                 <a title="" class="btn" ng-click="rasterize($event,'export.png')"><?= $this->msg('export-as') ?> PNG</a>
                                 <a title="" class="btn" ng-click="rasterizeSVG($event,'export.svg')"><?= $this->msg('export-as') ?> SVG</a>
@@ -54,7 +54,7 @@ class ImageEditorTemplate extends QuickTemplate {
                             </div>
                         </div>
                         <div class="ie__dropdown">
-                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('edit') ?></a>
+                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('ie_edit') ?></a>
                             <div class="ie__dropdown__list">
                                 <a title="" class="btn" ng-click="cut()"><?= $this->msg('cut') ?><span>ctrl + x</span></a>
                                 <a title="" class="btn" ng-click="copy()"><?= $this->msg('copy') ?><span>ctrl + c</span></a>
@@ -123,16 +123,16 @@ class ImageEditorTemplate extends QuickTemplate {
                 <div class="ie__options">
 
                     <div class="ie__panel__vertical" ng-class="panels.layers.opened === true ? 'opened' : '' ">
-                        <div class="ie__options__header"><?= $this->msg('layers') ?> <a class="ie__options__toggle" ng-click="panels.layers.opened = !panels.layers.opened"><i class="icon-circle-up"></i></a></div>
+                        <div class="ie__options__header"><?= $this->msg('layers') ?> <a title="<?= $this->msg('toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.layers.opened = !panels.layers.opened"><i class="icon-circle-up"></i></a></div>
                         <div class="ie__options__body">
                             <div ng-repeat="layer in getLayers() | orderBy: 'index': true" class="ie__tile__14" style="{[(room.users[layer.selectedBy] !== undefined ? 'border:' + room.users[layer.selectedBy].color + '1px solid' : '' )">
                                 <div>
-                                    <a ng-class="layer.selectable ? '' : 'disabled' " ng-click="selectObject(layer)"><i ng-class="layer.isSelected() ? 'icon-radio-checked' : 'icon-radio-unchecked'"></i></a>
+                                    <a title="<?= $this->msg('select-layer') ?>" ng-class="layer.selectable ? '' : 'disabled' " ng-click="selectObject(layer)"><i ng-class="layer.isSelected() ? 'icon-radio-checked' : 'icon-radio-unchecked'"></i></a>
                                     {[layer.type]}
-                                    <a ng-class="layer.selectable ? '' : 'disabled' " ng-click="deleteObject(layer)" class="pull-right"><i class="icon-trash"></i></a>
+                                    <a title="<?= $this->msg('delete-layer') ?>" ng-class="layer.selectable ? '' : 'disabled' " ng-click="deleteObject(layer)" class="pull-right"><i class="icon-trash"></i></a>
                                     <span class="pull-right">&nbsp;</span>
-                                    <a ng-show="$index !== 0" ng-class="layer.selectable ? '' : 'disabled' " ng-click="bringForward(layer)" class="pull-right">⭱</a>
-                                    <a ng-show="$index !== getLayers().length-1" ng-class="layer.selectable ? '' : 'disabled' " ng-click="sendBackwards(layer)" class="pull-right">⭳</a>
+                                    <a title="<?= $this->msg('bring-layer-forward') ?>" ng-show="$index !== 0" ng-class="layer.selectable ? '' : 'disabled' " ng-click="bringForward(layer)" class="pull-right">⭱</a>
+                                    <a title="<?= $this->msg('send-layer-backward') ?>" ng-show="$index !== getLayers().length-1" ng-class="layer.selectable ? '' : 'disabled' " ng-click="sendBackwards(layer)" class="pull-right">⭳</a>
                                 </div>
 
                             </div>
@@ -144,17 +144,17 @@ class ImageEditorTemplate extends QuickTemplate {
 <!--                                <a title="Ungroup selected objects" ng-class="canvas.getActiveObject().type === 'group' ? 'text-primary' : 'disabled' " ng-click="ungroupSelection();" ><i class="icon-ungroup"></i></a>-->
 <!--                            </div>-->
                             <div class="ie__tile__11">
-                                <a title="Select all objects" ng-class="canvas.getObjects().length>0 ? 'text-primary' : 'disabled' "  ng-click="selectAllObjects();"><i class="icon-checkbox-checked"></i></a>
+                                <a title="<?= $this->msg('select-all') ?>" ng-class="canvas.getObjects().length>0 ? 'text-primary' : 'disabled' "  ng-click="selectAllObjects();"><i class="icon-checkbox-checked"></i></a>
                             </div>
                             <div class="ie__tile__11">
-                                <a title="Deselect all objects" ng-class="canvas.getActiveObjects().length>0 ? 'text-primary' : 'disabled' " ng-click="canvas.discardActiveObject();" ><i class="icon-checkbox-unchecked"></i></a>
+                                <a title="<?= $this->msg('deselect-all') ?>" ng-class="canvas.getActiveObjects().length>0 ? 'text-primary' : 'disabled' " ng-click="canvas.discardActiveObject();" ><i class="icon-checkbox-unchecked"></i></a>
                             </div>
                         </div>
 
                     </div>
 
                     <div class="ie__panel__vertical" ng-class="panels.properties.opened === true ? 'opened' : '' ">
-                        <div class="ie__options__header"><?= $this->msg('options') ?> <a class="ie__options__toggle" ng-click="panels.properties.opened = !panels.properties.opened"><i class="icon-circle-up"></i></a></div>
+                        <div class="ie__options__header"><?= $this->msg('options') ?> <a title="<?= $this->msg('toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.properties.opened = !panels.properties.opened"><i class="icon-circle-up"></i></a></div>
                         <div class="ie__options__body">
                             <!-- canvas properties-->
                             <div>
@@ -268,11 +268,11 @@ class ImageEditorTemplate extends QuickTemplate {
 
                     <div class="ie__panel__vertical" ng-class="panels.font.opened === true ? 'opened' : '' " ng-show="canvas.getActiveObject().get('type') == 'textbox'">
                         <div class="ie__options__text">
-                            <div class="ie__options__header"><?= $this->msg('font') ?> <a class="ie__options__toggle" ng-click="panels.font.opened = !panels.font.opened"><i class="icon-circle-up"></i></a></div>
+                            <div class="ie__options__header"><?= $this->msg('font') ?> <a title="<?= $this->msg('toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.font.opened = !panels.font.opened"><i class="icon-circle-up"></i></a></div>
                             <div class="ie__options__body">
 
                                 <div class="ie__tile__24">
-                                    <label>Font</label>
+                                    <label><?= $this->msg('font') ?> </label>
                                     <select title="" bind-value-to="fontFamily">
                                         <option value="arial">Arial</option>
                                         <option value="helvetica" selected="">Helvetica</option>
@@ -292,16 +292,16 @@ class ImageEditorTemplate extends QuickTemplate {
 
                                 </div>
                                 <div class="ie__tile__11">
-                                    <a title="" ng-click="toggleBold()" ng-class="isBold() == true ? 'active' : ''" ><i class="icon-bold"></i></a>
+                                    <a title="<?= $this->msg('bold') ?>" ng-click="toggleBold()" ng-class="isBold() == true ? 'active' : ''" ><i class="icon-bold"></i></a>
                                 </div>
                                 <div class="ie__tile__11">
-                                    <a title="" ng-click="toggleItalic()" ng-class="isItalic() == true ? 'active' : ''" ><i class="icon-italic"></i></a>
+                                    <a title="<?= $this->msg('italic') ?>" ng-click="toggleItalic()" ng-class="isItalic() == true ? 'active' : ''" ><i class="icon-italic"></i></a>
                                 </div>
                                 <div class="ie__tile__11">
-                                    <a title="" ng-click="toggleUnderline()" ng-class="isUnderline() == true ? 'active' : ''" ><i class="icon-underline"></i></a>
+                                    <a title="<?= $this->msg('underline') ?>" ng-click="toggleUnderline()" ng-class="isUnderline() == true ? 'active' : ''" ><i class="icon-underline"></i></a>
                                 </div>
                                 <div class="ie__tile__11">
-                                    <a title="" ng-click="toggleLinethrough()" ng-class="isLinethrough() == true ? 'active' : ''" ><i class="icon-strikethrough"></i></a>
+                                    <a title="<?= $this->msg('line-through') ?>" ng-click="toggleLinethrough()" ng-class="isLinethrough() == true ? 'active' : ''" ><i class="icon-strikethrough"></i></a>
                                 </div>
                                 <div class="ie__tile__22">
                                     <label><?= $this->msg('line-height') ?></label>
@@ -318,7 +318,7 @@ class ImageEditorTemplate extends QuickTemplate {
 
                     <div class="ie__panel__vertical" ng-class="panels.brush.opened === true ? 'opened' : '' " ng-show="canvas.isDrawingMode">
                         <div class="ie__options__text">
-                            <div class="ie__options__header"><?= $this->msg('brush') ?> <a class="ie__options__toggle" ng-click="panels.brush.opened = !panels.brush.opened"><i class="icon-circle-up"></i></a></div>
+                            <div class="ie__options__header"><?= $this->msg('brush') ?> <a title="<?= $this->msg('toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.brush.opened = !panels.brush.opened"><i class="icon-circle-up"></i></a></div>
                             <div class="ie__options__body" >
 <!--                                <div class="ie__tile__24">-->
 <!--                                    <label>Brush</label>-->
@@ -360,7 +360,7 @@ class ImageEditorTemplate extends QuickTemplate {
 
 <!--                    <div class="ie__panel__vertical" ng-class="panels.image.opened === true ? 'opened' : '' " ng-show="canvas.getActiveObject().get('type') == 'textbox'">-->
 <!--                        <div class="ie__options__text">-->
-<!--                            <div class="ie__options__header">Image <a class="ie__options__toggle" ng-click="panels.image.opened = !panels.image.opened"><i class="icon-circle-up"></i></a></div>-->
+<!--                            <div class="ie__options__header">Image <a title="<?= $this->msg('toggle-panel') ?>"  class="ie__options__toggle" ng-click="panels.image.opened = !panels.image.opened"><i class="icon-circle-up"></i></a></div>-->
 <!--                            <div class="ie__options__body">-->
 <!--                            </div>-->
 <!--                        </div>-->
@@ -374,7 +374,7 @@ class ImageEditorTemplate extends QuickTemplate {
                         <div class="ie__modal__header"><?= $this->msg('upload-image') ?> <a class="btn" ng-click="panels.file_upload.opened = false"><i class="icon-circle-cancel"></i></a></div>
                         <div class="ie__modal__body">
                             <input class="hidden" files-input ng-model="new_file"  id="file_upload" type="file" accept=".jpg, .png, .jpeg, .svg">
-                            <label class="btn-white" for="file_upload"><i class="icon-upload"></i> {[ new_file.name ? new_file.name : 'Select File'  ]}</label>
+                            <label class="btn-white" for="file_upload"><i class="icon-upload"></i> {[ new_file.name ? new_file.name : '<?= $this->msg('select-image') ?>'  ]}</label>
                         </div>
                         <div class="ie__modal__footer">
 <!--                            <div class="btn btn-danger" ng-click="panels.file_upload.opened = false">Cancel</div>-->
