@@ -1,6 +1,4 @@
-(function (mw) {
-    'use strict';
-
+(function (mw, angular) {
 
     var canvas = new fabric.Canvas('ie__canvas', {preserveObjectStacking: true});
     window.canvas = canvas;
@@ -8,6 +6,40 @@
     var app = angular.module('ImageEditor', [
         'colorpicker.module'
     ]);
+
+    app.controller('ImageEditor', function ($scope, $http, $timeout, socket) {
+
+        function updateScope() {
+            $scope.$$phase || $scope.$digest();
+            $scope.canvas.renderAll();
+        }
+
+        $scope.socket = socket;
+        $scope.canvas = canvas;
+        $scope.mw = mw;
+        $scope.server = $scope.mw.config.values.wgImageEditor.host + ':' + $scope.mw.config.values.wgImageEditor.port;
+        var query = {query: 'name=' + $scope.mw.user.getName() + '&room=' + $scope.mw.util.getParamValue("file")};
+        $scope.loadingMessage = $scope.mw.msg("ie-connecting-to-server");
+
+
+        $scope.canvas
+            .on('object:selected', updateScope)
+            .on('object:modified', updateScope)
+            .on('group:selected', updateScope)
+            .on('path:created', updateScope)
+            .on('selection:created', updateScope)
+            .on('selection:cleared', updateScope)
+            .on('selection:updated', updateScope);
+
+
+        socket.connect($scope.server, query);
+
+        initAccessors($scope);
+        initTools($scope, $http, $timeout);
+        initEvents($scope);
+        initKeyBindings($scope);
+
+    });
 
     app.config(function ($interpolateProvider) {
         $interpolateProvider
@@ -125,46 +157,4 @@
     });
 
 
-
-
-    app.controller('ImageEditor', function ($scope, $http, $timeout, socket) {
-
-        function updateScope() {
-            $scope.$$phase || $scope.$digest();
-            $scope.canvas.renderAll();
-        }
-
-        $scope.socket = socket;
-        $scope.canvas = canvas;
-        $scope.mw = mw;
-
-        $scope.canvas
-            .on('object:selected', updateScope)
-            .on('object:modified', updateScope)
-            .on('group:selected', updateScope)
-            .on('path:created', updateScope)
-            .on('selection:created', updateScope)
-            .on('selection:cleared', updateScope)
-            .on('selection:updated', updateScope);
-
-        $scope.socketInit = function (serverUrl, serverPort, userName, fileName) {
-            $scope.filename = fileName;
-            $scope.serverUrl = serverUrl;
-            $scope.serverPort = serverPort;
-            $scope.userName = userName;
-
-            var server = serverUrl + ':' + serverPort;
-            var query = {query: 'name=' + userName + '&room=' + fileName};
-
-            socket.connect(server, query);
-            initAccessors($scope);
-            initTools($scope, $http, $timeout);
-            initEvents($scope);
-            initKeyBindings($scope);
-            $scope.loaded = true;
-        };
-
-    });
-
-
-}(mediaWiki));
+}(mediaWiki, angular));

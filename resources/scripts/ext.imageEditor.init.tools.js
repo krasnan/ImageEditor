@@ -73,17 +73,17 @@ function initTools($scope, $http, $timeout) {
                 if(value.data.error !== undefined){
                     $scope.panels.modal = {
                         opened: true,
-                        header: $scope.mw.msg("error"),
-                        text: $scope.mw.msg("file-save-error") + " " + value.data.error.info,
-                        successText: $scope.mw.msg("ok")
+                        header: $scope.mw.msg("ie-error"),
+                        text: $scope.mw.msg("ie-file-save-error") + " " + value.data.error.info,
+                        successText: $scope.mw.msg("ie-ok")
                     }
                 }
                 else{
                     $scope.panels.modal = {
                         opened: true,
-                        header: $scope.mw.msg("success"),
-                        text: $scope.mw.msg("file-saved-successfully"),
-                        successText: $scope.mw.msg("ok")
+                        header: $scope.mw.msg("ie-success"),
+                        text: $scope.mw.msg("ie-file-saved-successfully"),
+                        successText: $scope.mw.msg("ie-ok")
                     }
                 }
                 $scope.room.loaded = true;
@@ -91,9 +91,9 @@ function initTools($scope, $http, $timeout) {
             function (reason) {
                 $scope.panels.modal = {
                     opened: true,
-                    header: $scope.mw.msg("error"),
-                    text: $scope.mw.msg("file-save-error"),
-                    successText: $scope.mw.msg("ok")
+                    header: $scope.mw.msg("ie-error"),
+                    text: $scope.mw.msg("ie-file-save-error"),
+                    successText: $scope.mw.msg("ie-ok")
                 };
                 $scope.room.loaded = true;
             }
@@ -116,21 +116,21 @@ function initTools($scope, $http, $timeout) {
     $scope.closeEditor = function (e) {
         $scope.panels.modal = {
             opened: true,
-            header: $scope.mw.msg("close-editor-header"),
-            text: $scope.mw.msg("close-editor-description"),
-            successText: $scope.mw.msg("save-and-close"),
-            optionalText: $scope.mw.msg("cancel"),
-            cancelText: $scope.mw.msg("close"),
+            header: $scope.mw.msg("ie-close-editor-header"),
+            text: $scope.mw.msg("ie-close-editor-description"),
+            successText: $scope.mw.msg("ie-save-and-close"),
+            optionalText: $scope.mw.msg("ie-cancel"),
+            cancelText: $scope.mw.msg("ie-close"),
             success: function () {
                 $scope.room.loaded = false;
                 $scope.saveRevision();
-                window.location = $scope.mw.util.wikiScript() + '?title=' + $scope.filename;
+                window.location = $scope.mw.util.wikiScript() + '?title=' + $scope.mw.util.getParamValue("file");
             },
             optional: function () {
             },
             cancel: function () {
                 $scope.room.loaded = false;
-                window.location = $scope.mw.util.wikiScript() + '?title=' + $scope.filename;
+                window.location = $scope.mw.util.wikiScript() + '?title=' + $scope.mw.util.getParamValue("file");
             }
         };
     };

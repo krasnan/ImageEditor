@@ -5,7 +5,7 @@
 		"Martin Krasňan"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:ImageEditor",
-	"descriptionmsg": "image-editor-desc",
+	"descriptionmsg": "ie-image-editor-desc",
 	"license-name": "MIT",
 	"type": "other",
 	"AutoloadClasses": {
@@ -25,7 +25,8 @@
 	},
 	"Hooks": {
 		"FileUpload": "ImageEditorHooks::onFileUpload",
-		"SkinTemplateNavigation": "ImageEditorHooks::onSkinTemplateNavigation"
+		"SkinTemplateNavigation": "ImageEditorHooks::onSkinTemplateNavigation",
+		"ResourceLoaderGetConfigVars": "ImageEditorHooks::onResourceLoaderGetConfigVars"
 	},
 	"MessagesDirs": {
 		"ImageEditor": [
@@ -36,7 +37,8 @@
 		"angular":{
 			"scripts": [
 				"vendor/angular/angular.min.js"
-			]
+			],
+			"position": "top"
 		},
 		"angular-bootstrap-colorpicker":{
 			"scripts": [
@@ -69,35 +71,37 @@
 				"styles/ext.imageEditor.less"
 			],
 			"messages": [
-				"success",
-				"warning",
-				"error",
-				"cancel",
-				"close",
-				"ok",
-				"yes",
-				"no",
-				"close-editor-header",
-				"close-editor-description",
-				"save-and-close",
-				"insert-your-text...",
-				"file-saved-successfully",
-				"file-save-error",
-				"file-save-warning"
+				"ie-success",
+				"ie-warning",
+				"ie-error",
+				"ie-cancel",
+				"ie-close",
+				"ie-ok",
+				"ie-yes",
+				"ie-no",
+				"ie-close-editor-header",
+				"ie-close-editor-description",
+				"ie-save-and-close",
+				"ie-insert-your-text...",
+				"ie-file-saved-successfully",
+				"ie-file-save-error",
+				"ie-file-save-warning",
+				"ie-connecting-to-server",
+				"ie-connection-failed"
 			],
 			"dependencies": [
-				"angular",
-				"angular-bootstrap-colorpicker",
-				"socket.io-client",
+				"mediawiki.jqueryMsg",
 				"fabric",
-				"mediawiki.jqueryMsg"
+				"socket.io-client",
+				"angular",
+				"angular-bootstrap-colorpicker"
 			],
 			"position": "bottom"
 		}
 	},
 	"ResourceFileModulePaths": {
-		"localBasePath": "modules",
-		"remoteExtPath": "ImageEditor/modules"
+		"localBasePath": "resources",
+		"remoteExtPath": "ImageEditor/resources"
 	},
 
 	"manifest_version": 1

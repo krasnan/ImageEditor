@@ -22,17 +22,8 @@ class ImageEditorTemplate extends QuickTemplate {
      * proper internationalization functions instead.
      */
     public function execute() {
-        $context = $this->data['context']; // get
-        global $wgScriptPath;
-        global $wgUser;
-        $serverUrl = 'http://wiki.localhost';
-        $serverPort = '3000';
-        $userName = $wgUser->getName();
-        $userEmail = $wgUser->getEmail();
-        $fileName = isset($_GET['file']) ? $_GET['file'] : 'New File';
         ?>
-
-        <div class="ie"  ng-app="ImageEditor" ng-controller="ImageEditor" ng-init="socketInit('<?php echo $serverUrl; ?>','<?php echo $serverPort; ?>','<?php echo $userName; ?>','<?php echo $fileName; ?>')" ng-class="room.loaded==true ? 'ie__loaded' : ''" >
+        <div class="ie"  ng-app="ImageEditor" ng-controller="ImageEditor" ng-class="room.loaded==true ? 'ie__loaded' : ''" >
             <div class="ie__container" style="visibility: hidden;">
                 <div class="ie__playground">
                     <div class="ie__playground__container">
@@ -44,32 +35,32 @@ class ImageEditorTemplate extends QuickTemplate {
                     <div class="ie__panel__horizontal">
                         <!--                    <input class="input" type="text" placeholder="Image Name...">-->
                         <div class="ie__dropdown">
-                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('file') ?></a>
+                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('ie-file') ?></a>
                             <div class="ie__dropdown__list">
-                                <a title="" class="btn" ng-click="rasterize($event,'export.png')"><?= $this->msg('export-as') ?> PNG</a>
-                                <a title="" class="btn" ng-click="rasterizeSVG($event,'export.svg')"><?= $this->msg('export-as') ?> SVG</a>
+                                <a title="" class="btn" ng-click="rasterize($event,'export.png')"><?= $this->msg('ie-export-as') ?> PNG</a>
+                                <a title="" class="btn" ng-click="rasterizeSVG($event,'export.svg')"><?= $this->msg('ie-export-as') ?> SVG</a>
 
-                                <a title="" class="btn" ng-click="saveRevision()"><?= $this->msg('save') ?></a>
-                                <a title="" class="btn" ng-click="closeEditor()"><?= $this->msg('close') ?></a>
+                                <a title="" class="btn" ng-click="saveRevision()"><?= $this->msg('ie-save') ?></a>
+                                <a title="" class="btn" ng-click="closeEditor()"><?= $this->msg('ie-close') ?></a>
                             </div>
                         </div>
                         <div class="ie__dropdown">
-                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('ie_edit') ?></a>
+                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('ie-edit') ?></a>
                             <div class="ie__dropdown__list">
-                                <a title="" class="btn" ng-click="cut()"><?= $this->msg('cut') ?><span>ctrl + x</span></a>
-                                <a title="" class="btn" ng-click="copy()"><?= $this->msg('copy') ?><span>ctrl + c</span></a>
-                                <a title="" class="btn" ng-click="paste()"><?= $this->msg('paste') ?><span>ctrl + v</span></a>
-                                <a title="" class="btn" ng-click="duplicate()"><?= $this->msg('duplicate') ?></a>
-                                <a title="" class="btn" ng-click="deleteSelection()"><?= $this->msg('delete') ?><span>del</span></a>
+                                <a title="" class="btn" ng-click="cut()"><?= $this->msg('ie-cut') ?><span>ctrl + x</span></a>
+                                <a title="" class="btn" ng-click="copy()"><?= $this->msg('ie-copy') ?><span>ctrl + c</span></a>
+                                <a title="" class="btn" ng-click="paste()"><?= $this->msg('ie-paste') ?><span>ctrl + v</span></a>
+                                <a title="" class="btn" ng-click="duplicate()"><?= $this->msg('ie-duplicate') ?></a>
+                                <a title="" class="btn" ng-click="deleteSelection()"><?= $this->msg('ie-delete') ?><span>del</span></a>
                             </div>
                         </div>
                         <div class="ie__dropdown">
-                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('object') ?></a>
+                            <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('ie-object') ?></a>
                             <div class="ie__dropdown__list">
-                                <a title="" class="btn" ng-click="bringToFront()"><?= $this->msg('bring-to-front') ?> <span>ctrl + shift + ↑</span></a>
-                                <a title="" class="btn" ng-click="bringForward()"><?= $this->msg('bring-forward') ?> <span>ctrl + ↑</span></a>
-                                <a title="" class="btn" ng-click="sendBackwards()"><?= $this->msg('send-backward') ?> <span>ctrl + ↓</span></a>
-                                <a title="" class="btn" ng-click="sendToBack()"><?= $this->msg('send-to-back') ?> <span>ctrl + shift + ↓</span></a>
+                                <a title="" class="btn" ng-click="bringToFront()"><?= $this->msg('ie-bring-to-front') ?> <span>ctrl + shift + ↑</span></a>
+                                <a title="" class="btn" ng-click="bringForward()"><?= $this->msg('ie-bring-forward') ?> <span>ctrl + ↑</span></a>
+                                <a title="" class="btn" ng-click="sendBackwards()"><?= $this->msg('ie-send-backward') ?> <span>ctrl + ↓</span></a>
+                                <a title="" class="btn" ng-click="sendToBack()"><?= $this->msg('ie-send-to-back') ?> <span>ctrl + shift + ↓</span></a>
 
                             </div>
                         </div>
@@ -81,8 +72,8 @@ class ImageEditorTemplate extends QuickTemplate {
                             </div>
                         </div>
 
-                        <a title="<?= $this->msg('toggle-fullscreen') ?>" ng-click="toggleFullScreen()" class="btn" ><i ng-class="isFullscreen ? 'icon-shrink' : 'icon-enlarge'"></i></a>
-                        <a title="<?= $this->msg('toggle-messenger') ?>" ng-click="scrollDown('ie__messenger__messages'); messengerVisible = !messengerVisible; room.newMessage = false" class="btn" ng-class="room.newMessage && !messengerVisible ? 'text-primary' : ''"><i class="icon-bubbles2"></i></a>
+                        <a title="<?= $this->msg('ie-toggle-fullscreen') ?>" ng-click="toggleFullScreen()" class="btn" ><i ng-class="isFullscreen ? 'icon-shrink' : 'icon-enlarge'"></i></a>
+                        <a title="<?= $this->msg('ie-toggle-messenger') ?>" ng-click="scrollDown('ie__messenger__messages'); messengerVisible = !messengerVisible; room.newMessage = false" class="btn" ng-class="room.newMessage && !messengerVisible ? 'text-primary' : ''"><i class="icon-bubbles2"></i></a>
                         <div class="ie__messenger" ng-class="messengerVisible==true ? 'active' : ''">
                             <div class="ie__messenger__messages">
                                 <div ng-repeat="message in room.messages" class="ie__messenger__item" ng-class="message.type=='system' ? 'system_message' : ''">
@@ -92,8 +83,8 @@ class ImageEditorTemplate extends QuickTemplate {
                                 </div>
                             </div>
                             <div class="ie__messenger__controll">
-                                <input type="text" ng-model="message" placeholder="<?= $this->msg('message') ?>">
-                                <a title="<?= $this->msg('send') ?>" class="btn" ng-click="sendMessage(message)"><i class="icon-send active"></i></a>
+                                <input type="text" ng-model="message" placeholder="<?= $this->msg('ie-message') ?>">
+                                <a title="<?= $this->msg('ie-send') ?>" class="btn" ng-click="sendMessage(message)"><i class="icon-send active"></i></a>
                             </div>
                         </div>
                     </div>
@@ -101,19 +92,19 @@ class ImageEditorTemplate extends QuickTemplate {
 
                 <div class="ie__tools">
                     <div class="ie__panel__vertical">
-                        <a title="<?= $this->msg('select-tool') ?>" ng-class="activeTool == tools.select ? 'active' : '' " ng-click="setActiveTool(tools.select)" class="btn"><i class="icon-select"></i></a>
-                        <a title="<?= $this->msg('brush-tool') ?>" ng-class="activeTool == tools.brush ? 'active' : '' " ng-click="setActiveTool(tools.brush)" class="btn"><i class="icon-pencil2"></i></a>
-                        <a title="<?= $this->msg('image-tool') ?>" ng-click="panels.file_upload.opened = true" class="btn"><i class="icon-image"></i></a>
-                        <a title="<?= $this->msg('Line-tool') ?>" ng-class="activeTool == tools.line ? 'active' : '' " ng-click="setActiveTool(tools.line)" class="btn"><big><b>\</b></big></a>
-                        <a title="<?= $this->msg('Rectangle-tool') ?>" ng-class="activeTool == tools.rectangle ? 'active' : '' " ng-click="setActiveTool(tools.rectangle)" class="btn"><i class="icon-square" ng-click="addRect()"></i></a>
-                        <a title="<?= $this->msg('ellipse-tool') ?>" ng-class="activeTool == tools.ellipse ? 'active' : '' " ng-click="setActiveTool(tools.ellipse)" class="btn"><i class="icon-oval"></i></a>
-                        <a title="<?= $this->msg('triangle-tool') ?>" ng-class="activeTool == tools.triangle ? 'active' : '' " ng-click="setActiveTool(tools.triangle)" class="btn"><i class="icon-triangle"></i></a>
-                        <a title="<?= $this->msg('polygon-tool') ?>" ng-class="activeTool == tools.polygon ? 'active' : '' " ng-click="setActiveTool(tools.polygon)" class="btn"><i class="icon-polygon"></i></a>
-                        <a title="<?= $this->msg('textbox-tool') ?>" ng-class="activeTool == tools.text ? 'active' : '' " ng-click="setActiveTool(tools.text)" class="btn"><bib><b>T</b></bib></a>
-                        <a title="<?= $this->msg('snap-to-grid') ?>" ng-class="snapToGrid ? 'active' : '' " ng-click="snapToGrid = !snapToGrid" class="btn"><big>▦</big></a>
+                        <a title="<?= $this->msg('ie-select-tool') ?>" ng-class="activeTool == tools.select ? 'active' : '' " ng-click="setActiveTool(tools.select)" class="btn"><i class="icon-select"></i></a>
+                        <a title="<?= $this->msg('ie-brush-tool') ?>" ng-class="activeTool == tools.brush ? 'active' : '' " ng-click="setActiveTool(tools.brush)" class="btn"><i class="icon-pencil2"></i></a>
+                        <a title="<?= $this->msg('ie-image-tool') ?>" ng-click="panels.file_upload.opened = true" class="btn"><i class="icon-image"></i></a>
+                        <a title="<?= $this->msg('ie-Line-tool') ?>" ng-class="activeTool == tools.line ? 'active' : '' " ng-click="setActiveTool(tools.line)" class="btn"><big><b>\</b></big></a>
+                        <a title="<?= $this->msg('ie-Rectangle-tool') ?>" ng-class="activeTool == tools.rectangle ? 'active' : '' " ng-click="setActiveTool(tools.rectangle)" class="btn"><i class="icon-square" ng-click="addRect()"></i></a>
+                        <a title="<?= $this->msg('ie-ellipse-tool') ?>" ng-class="activeTool == tools.ellipse ? 'active' : '' " ng-click="setActiveTool(tools.ellipse)" class="btn"><i class="icon-oval"></i></a>
+                        <a title="<?= $this->msg('ie-triangle-tool') ?>" ng-class="activeTool == tools.triangle ? 'active' : '' " ng-click="setActiveTool(tools.triangle)" class="btn"><i class="icon-triangle"></i></a>
+                        <a title="<?= $this->msg('ie-polygon-tool') ?>" ng-class="activeTool == tools.polygon ? 'active' : '' " ng-click="setActiveTool(tools.polygon)" class="btn"><i class="icon-polygon"></i></a>
+                        <a title="<?= $this->msg('ie-textbox-tool') ?>" ng-class="activeTool == tools.text ? 'active' : '' " ng-click="setActiveTool(tools.text)" class="btn"><bib><b>T</b></bib></a>
+                        <a title="<?= $this->msg('ie-snap-to-grid') ?>" ng-class="snapToGrid ? 'active' : '' " ng-click="snapToGrid = !snapToGrid" class="btn"><big>▦</big></a>
                         <div class="ie__container__picker btn">
-                            <div title="<?= $this->msg('background-color') ?>" colorpicker="rgba" colorpicker-position="right" colorpicker-with-input="true" ng-model="fillColor" ng-change="setFillColor(fillColor)" class="ie__container__picker__background" style="background-color:{[getFillColor()]}"></div>
-                            <div title="<?= $this->msg('stroke-color') ?>" colorpicker="rgba" colorpicker-position="right" colorpicker-with-input="true" ng-model="strokeColor" ng-change="setStrokeColor(strokeColor)" class="ie__container__picker__stroke" style="background-color:{[getStrokeColor();]}">
+                            <div title="<?= $this->msg('ie-background-color') ?>" colorpicker="rgba" colorpicker-position="right" colorpicker-with-input="true" ng-model="fillColor" ng-change="setFillColor(fillColor)" class="ie__container__picker__background" style="background-color:{[getFillColor()]}"></div>
+                            <div title="<?= $this->msg('ie-stroke-color') ?>" colorpicker="rgba" colorpicker-position="right" colorpicker-with-input="true" ng-model="strokeColor" ng-change="setStrokeColor(strokeColor)" class="ie__container__picker__stroke" style="background-color:{[getStrokeColor();]}">
                                 <div class="ie__container__picker__stroke__inner"></div>
                             </div>
                         </div>
@@ -123,16 +114,16 @@ class ImageEditorTemplate extends QuickTemplate {
                 <div class="ie__options">
 
                     <div class="ie__panel__vertical" ng-class="panels.layers.opened === true ? 'opened' : '' ">
-                        <div class="ie__options__header"><?= $this->msg('layers') ?> <a title="<?= $this->msg('toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.layers.opened = !panels.layers.opened"><i class="icon-circle-up"></i></a></div>
+                        <div class="ie__options__header"><?= $this->msg('ie-layers') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.layers.opened = !panels.layers.opened"><i class="icon-circle-up"></i></a></div>
                         <div class="ie__options__body">
                             <div ng-repeat="layer in getLayers() | orderBy: 'index': true" class="ie__tile__14" style="{[(room.users[layer.selectedBy] !== undefined ? 'border:' + room.users[layer.selectedBy].color + '1px solid' : '' )">
                                 <div>
-                                    <a title="<?= $this->msg('select-layer') ?>" ng-class="layer.selectable ? '' : 'disabled' " ng-click="selectObject(layer)"><i ng-class="layer.isSelected() ? 'icon-radio-checked' : 'icon-radio-unchecked'"></i></a>
+                                    <a title="<?= $this->msg('ie-select-layer') ?>" ng-class="layer.selectable ? '' : 'disabled' " ng-click="selectObject(layer)"><i ng-class="layer.isSelected() ? 'icon-radio-checked' : 'icon-radio-unchecked'"></i></a>
                                     {[layer.type]}
-                                    <a title="<?= $this->msg('delete-layer') ?>" ng-class="layer.selectable ? '' : 'disabled' " ng-click="deleteObject(layer)" class="pull-right"><i class="icon-trash"></i></a>
+                                    <a title="<?= $this->msg('ie-delete-layer') ?>" ng-class="layer.selectable ? '' : 'disabled' " ng-click="deleteObject(layer)" class="pull-right"><i class="icon-trash"></i></a>
                                     <span class="pull-right">&nbsp;</span>
-                                    <a title="<?= $this->msg('bring-layer-forward') ?>" ng-show="$index !== 0" ng-class="layer.selectable ? '' : 'disabled' " ng-click="bringForward(layer)" class="pull-right">⭱</a>
-                                    <a title="<?= $this->msg('send-layer-backward') ?>" ng-show="$index !== getLayers().length-1" ng-class="layer.selectable ? '' : 'disabled' " ng-click="sendBackwards(layer)" class="pull-right">⭳</a>
+                                    <a title="<?= $this->msg('ie-bring-layer-forward') ?>" ng-show="$index !== 0" ng-class="layer.selectable ? '' : 'disabled' " ng-click="bringForward(layer)" class="pull-right">⭱</a>
+                                    <a title="<?= $this->msg('ie-send-layer-backward') ?>" ng-show="$index !== getLayers().length-1" ng-class="layer.selectable ? '' : 'disabled' " ng-click="sendBackwards(layer)" class="pull-right">⭳</a>
                                 </div>
 
                             </div>
@@ -144,38 +135,38 @@ class ImageEditorTemplate extends QuickTemplate {
 <!--                                <a title="Ungroup selected objects" ng-class="canvas.getActiveObject().type === 'group' ? 'text-primary' : 'disabled' " ng-click="ungroupSelection();" ><i class="icon-ungroup"></i></a>-->
 <!--                            </div>-->
                             <div class="ie__tile__11">
-                                <a title="<?= $this->msg('select-all') ?>" ng-class="canvas.getObjects().length>0 ? 'text-primary' : 'disabled' "  ng-click="selectAllObjects();"><i class="icon-checkbox-checked"></i></a>
+                                <a title="<?= $this->msg('ie-select-all') ?>" ng-class="canvas.getObjects().length>0 ? 'text-primary' : 'disabled' "  ng-click="selectAllObjects();"><i class="icon-checkbox-checked"></i></a>
                             </div>
                             <div class="ie__tile__11">
-                                <a title="<?= $this->msg('deselect-all') ?>" ng-class="canvas.getActiveObjects().length>0 ? 'text-primary' : 'disabled' " ng-click="canvas.discardActiveObject();" ><i class="icon-checkbox-unchecked"></i></a>
+                                <a title="<?= $this->msg('ie-deselect-all') ?>" ng-class="canvas.getActiveObjects().length>0 ? 'text-primary' : 'disabled' " ng-click="canvas.discardActiveObject();" ><i class="icon-checkbox-unchecked"></i></a>
                             </div>
                         </div>
 
                     </div>
 
                     <div class="ie__panel__vertical" ng-class="panels.properties.opened === true ? 'opened' : '' ">
-                        <div class="ie__options__header"><?= $this->msg('options') ?> <a title="<?= $this->msg('toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.properties.opened = !panels.properties.opened"><i class="icon-circle-up"></i></a></div>
+                        <div class="ie__options__header"><?= $this->msg('ie-options') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.properties.opened = !panels.properties.opened"><i class="icon-circle-up"></i></a></div>
                         <div class="ie__options__body">
                             <!-- canvas properties-->
                             <div>
                                 <div class="ie__tile__24">
-                                    <label><?= $this->msg('zoom') ?> <input type="number" ng-model="canvasZoom" ng-change="updateCanvasZoom()" min="1" max="300" step="0.1">%</label>
+                                    <label><?= $this->msg('ie-zoom') ?> <input type="number" ng-model="canvasZoom" ng-change="updateCanvasZoom()" min="1" max="300" step="0.1">%</label>
                                     <input title="" type="range" ng-model="canvasZoom" ng-change="updateCanvasZoom()" min="1" max="300" step="0.1">
                                 </div>
                             </div>
                             <div class="ie__options__canvas" ng-show="canvas.getActiveObject() == undefined">
-                                <div class="ie__options__title"><?= $this->msg('canvas') ?> </div>
+                                <div class="ie__options__title"><?= $this->msg('ie-canvas') ?> </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('width') ?></label>
+                                    <label><?= $this->msg('ie-width') ?></label>
                                     <input title="" type="number" ng-model="canvasWidth" ng-change="updateCanvasWidth()">
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('height') ?></label>
+                                    <label><?= $this->msg('ie-height') ?></label>
                                     <input title="" type="number" ng-model="canvasHeight" ng-change="updateCanvasHeight()">
                                 </div>
 
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('background-color') ?></label>
+                                    <label><?= $this->msg('ie-background-color') ?></label>
                                     <div title="" colorpicker="rgba" colorpicker-position="left" colorpicker-with-input="true" ng-model="canvasBgColor" ng-change="setCanvasBgColor(canvasBgColor)" class="ie__colorpicker" style="background-color:{[getCanvasBgColor()]}"></div>
 
                                     <!--                            <input type="color" bind-value-to="canvasBgColor">-->
@@ -188,31 +179,31 @@ class ImageEditorTemplate extends QuickTemplate {
 
                                 <div class="ie__options__title">{[canvas.getActiveObject().get('type')]}</div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('x-coords') ?></label>
+                                    <label><?= $this->msg('ie-x-coords') ?></label>
                                     <input type="number" bind-value-to="left">
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('y-coords') ?></label>
+                                    <label><?= $this->msg('ie-y-coords') ?></label>
                                     <input type="number" bind-value-to="top">
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('height') ?></label>
+                                    <label><?= $this->msg('ie-height') ?></label>
                                     <input type="number" bind-value-to="height">
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('width') ?></label>
+                                    <label><?= $this->msg('ie-width') ?></label>
                                     <input type="number" bind-value-to="width">
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('angle') ?></label>
+                                    <label><?= $this->msg('ie-angle') ?></label>
                                     <input type="number" bind-value-to="angle" min="-360" max="360">
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('opacity') ?></label>
+                                    <label><?= $this->msg('ie-opacity') ?></label>
                                     <input type="number" bind-value-to="opacity" min="0" max="100">
                                 </div>
 
-                                <div class="ie__options__title"><?= $this->msg('reference-point') ?></div>
+                                <div class="ie__options__title"><?= $this->msg('ie-reference-point') ?></div>
                                 <div class="ie__options__reference">
                                     <svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32 32" overflow="scroll" xml:space="preserve">
                                         <rect ng-click="setOriginX('left');setOriginY('top')" ng-class="getOriginX() == 'left' && getOriginY() == 'top'  ? 'active' : ''" y="0"  width="8" height="8"/>
@@ -227,7 +218,7 @@ class ImageEditorTemplate extends QuickTemplate {
                                     </svg>
                                 </div>
                                 <div ng-show="canvas.getActiveObjects().length > 1">
-                                    <div class="ie__options__title"><?= $this->msg('align-objects') ?></div>
+                                    <div class="ie__options__title"><?= $this->msg('ie-align-objects') ?></div>
                                     <div class="ie__options__align">
                                         <div class="ie__tile__11">
                                             <a ng-click="groupAlign('horizontal-left')"><i class="icon-horizontal-align-left"></i></a>
@@ -256,9 +247,9 @@ class ImageEditorTemplate extends QuickTemplate {
 
                             <!-- stroke properties-->
                             <div class="ie__options__stroke" ng-show="canvas.getActiveObject() != undefined">
-                                <div class="ie__options__title"><?= $this->msg('stroke') ?></div>
+                                <div class="ie__options__title"><?= $this->msg('ie-stroke') ?></div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('width') ?></label>
+                                    <label><?= $this->msg('ie-width') ?></label>
                                     <input title="" type="number" bind-value-to="strokeWidth" min="0">
                                 </div>
                             </div>
@@ -268,11 +259,11 @@ class ImageEditorTemplate extends QuickTemplate {
 
                     <div class="ie__panel__vertical" ng-class="panels.font.opened === true ? 'opened' : '' " ng-show="canvas.getActiveObject().get('type') == 'textbox'">
                         <div class="ie__options__text">
-                            <div class="ie__options__header"><?= $this->msg('font') ?> <a title="<?= $this->msg('toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.font.opened = !panels.font.opened"><i class="icon-circle-up"></i></a></div>
+                            <div class="ie__options__header"><?= $this->msg('ie-font') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.font.opened = !panels.font.opened"><i class="icon-circle-up"></i></a></div>
                             <div class="ie__options__body">
 
                                 <div class="ie__tile__24">
-                                    <label><?= $this->msg('font') ?> </label>
+                                    <label><?= $this->msg('ie-font') ?> </label>
                                     <select title="" bind-value-to="fontFamily">
                                         <option value="arial">Arial</option>
                                         <option value="helvetica" selected="">Helvetica</option>
@@ -292,23 +283,23 @@ class ImageEditorTemplate extends QuickTemplate {
 
                                 </div>
                                 <div class="ie__tile__11">
-                                    <a title="<?= $this->msg('bold') ?>" ng-click="toggleBold()" ng-class="isBold() == true ? 'active' : ''" ><i class="icon-bold"></i></a>
+                                    <a title="<?= $this->msg('ie-bold') ?>" ng-click="toggleBold()" ng-class="isBold() == true ? 'active' : ''" ><i class="icon-bold"></i></a>
                                 </div>
                                 <div class="ie__tile__11">
-                                    <a title="<?= $this->msg('italic') ?>" ng-click="toggleItalic()" ng-class="isItalic() == true ? 'active' : ''" ><i class="icon-italic"></i></a>
+                                    <a title="<?= $this->msg('ie-italic') ?>" ng-click="toggleItalic()" ng-class="isItalic() == true ? 'active' : ''" ><i class="icon-italic"></i></a>
                                 </div>
                                 <div class="ie__tile__11">
-                                    <a title="<?= $this->msg('underline') ?>" ng-click="toggleUnderline()" ng-class="isUnderline() == true ? 'active' : ''" ><i class="icon-underline"></i></a>
+                                    <a title="<?= $this->msg('ie-underline') ?>" ng-click="toggleUnderline()" ng-class="isUnderline() == true ? 'active' : ''" ><i class="icon-underline"></i></a>
                                 </div>
                                 <div class="ie__tile__11">
-                                    <a title="<?= $this->msg('line-through') ?>" ng-click="toggleLinethrough()" ng-class="isLinethrough() == true ? 'active' : ''" ><i class="icon-strikethrough"></i></a>
+                                    <a title="<?= $this->msg('ie-line-through') ?>" ng-click="toggleLinethrough()" ng-class="isLinethrough() == true ? 'active' : ''" ><i class="icon-strikethrough"></i></a>
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('line-height') ?></label>
+                                    <label><?= $this->msg('ie-line-height') ?></label>
                                     <input title="" type="number" bind-value-to="lineHeight" min="0" step="0.1">
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('font-size') ?></label>
+                                    <label><?= $this->msg('ie-font-size') ?></label>
                                     <input title="" type="number" bind-value-to="fontSize" min="0">
                                 </div>
                             </div>
@@ -318,7 +309,7 @@ class ImageEditorTemplate extends QuickTemplate {
 
                     <div class="ie__panel__vertical" ng-class="panels.brush.opened === true ? 'opened' : '' " ng-show="canvas.isDrawingMode">
                         <div class="ie__options__text">
-                            <div class="ie__options__header"><?= $this->msg('brush') ?> <a title="<?= $this->msg('toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.brush.opened = !panels.brush.opened"><i class="icon-circle-up"></i></a></div>
+                            <div class="ie__options__header"><?= $this->msg('ie-brush') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.brush.opened = !panels.brush.opened"><i class="icon-circle-up"></i></a></div>
                             <div class="ie__options__body" >
 <!--                                <div class="ie__tile__24">-->
 <!--                                    <label>Brush</label>-->
@@ -339,16 +330,16 @@ class ImageEditorTemplate extends QuickTemplate {
                                 </div>
 
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('brush-size') ?></label>
+                                    <label><?= $this->msg('ie-brush-size') ?></label>
                                     <input title="" type="number" min="1" step="1" ng-model="canvas.freeDrawingBrush.width">
                                 </div>
-                                <div class="ie__options__title"><?= $this->msg('shadow') ?></div>
+                                <div class="ie__options__title"><?= $this->msg('ie-shadow') ?></div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('blur') ?></label>
+                                    <label><?= $this->msg('ie-blur') ?></label>
                                     <input title="" type="number" min="0" step="1" ng-model="canvas.freeDrawingBrush.shadow.blur">
                                 </div>
                                 <div class="ie__tile__22">
-                                    <label><?= $this->msg('color') ?></label>
+                                    <label><?= $this->msg('ie-color') ?></label>
                                     <div title="" colorpicker="rgba" colorpicker-position="left" colorpicker-with-input="true" ng-model="canvas.freeDrawingBrush.shadow.color" class="ie__colorpicker" style="background-color:{[canvas.freeDrawingBrush.shadow.color]}"></div>
 
                                     <!--                            <input type="color" bind-value-to="canvasBgColor">-->
@@ -360,7 +351,7 @@ class ImageEditorTemplate extends QuickTemplate {
 
 <!--                    <div class="ie__panel__vertical" ng-class="panels.image.opened === true ? 'opened' : '' " ng-show="canvas.getActiveObject().get('type') == 'textbox'">-->
 <!--                        <div class="ie__options__text">-->
-<!--                            <div class="ie__options__header">Image <a title="<?= $this->msg('toggle-panel') ?>"  class="ie__options__toggle" ng-click="panels.image.opened = !panels.image.opened"><i class="icon-circle-up"></i></a></div>-->
+<!--                            <div class="ie__options__header">Image <a title="<?= $this->msg('ie-toggle-panel') ?>"  class="ie__options__toggle" ng-click="panels.image.opened = !panels.image.opened"><i class="icon-circle-up"></i></a></div>-->
 <!--                            <div class="ie__options__body">-->
 <!--                            </div>-->
 <!--                        </div>-->
@@ -371,14 +362,14 @@ class ImageEditorTemplate extends QuickTemplate {
 
                 <div class="ie__modal" ng-show="panels.file_upload.opened === true">
                     <div class="ie__modal__container">
-                        <div class="ie__modal__header"><?= $this->msg('upload-image') ?> <a class="btn" ng-click="panels.file_upload.opened = false"><i class="icon-circle-cancel"></i></a></div>
+                        <div class="ie__modal__header"><?= $this->msg('ie-upload-image') ?> <a class="btn" ng-click="panels.file_upload.opened = false"><i class="icon-circle-cancel"></i></a></div>
                         <div class="ie__modal__body">
                             <input class="hidden" files-input ng-model="new_file"  id="file_upload" type="file" accept=".jpg, .png, .jpeg, .svg">
-                            <label class="btn-white" for="file_upload"><i class="icon-upload"></i> {[ new_file.name ? new_file.name : '<?= $this->msg('select-image') ?>'  ]}</label>
+                            <label class="btn-white" for="file_upload"><i class="icon-upload"></i> {[ new_file.name ? new_file.name : '<?= $this->msg('ie-select-image') ?>'  ]}</label>
                         </div>
                         <div class="ie__modal__footer">
 <!--                            <div class="btn btn-danger" ng-click="panels.file_upload.opened = false">Cancel</div>-->
-                            <div class="btn-primary" ng-click="panels.file_upload.opened = false; loadImage(new_file);"><?= $this->msg('insert') ?></div>
+                            <div class="btn-primary" ng-click="panels.file_upload.opened = false; loadImage(new_file);"><?= $this->msg('ie-insert') ?></div>
                         </div>
                     </div>
                 </div>
@@ -403,8 +394,9 @@ class ImageEditorTemplate extends QuickTemplate {
                 <div class="ie__preloader__container">
                     <div class="ie__preloader__body">
                         <i class="icon-spinner8"></i>
-                        <p><?= $this->msg('loading') ?></p>
-                        <small><a class="link" ng-click="room.loaded = true"><?= $this->msg('close') ?></a></small>
+                        <p><?= $this->msg('ie-loading') ?></p>
+                        <p><small>{[loadingMessage]}</small></p>
+                        <small><a class="link" ng-click="room.loaded = true"><?= $this->msg('ie-close') ?></a></small>
                     </div>
                 </div>
             </div>

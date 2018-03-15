@@ -18,14 +18,22 @@ class SpecialImageEditor extends SpecialPage {
 	 *  [[Special:HelloWorld/subpage]].
 	 */
 	public function execute( $sub ) {
-        $template = new ImageEditorTemplate();
+        $user = $this->getUser();
+        $rights = $user->getRights();
+        global $wgGroupPermissions, $wgRevokePermissions;
+
         $out = $this->getOutput();
 
 
-        $template->setRef("context", $this);
-
-        $out->addModules(["font-awesome","ext.imageEditor"]);
-        $out->addTemplate($template);
+        if(!$this->getUser()->isAllowed('edit')){
+            $out->showPermissionsErrorPage([['badaccess-group0']], 'edit');
+        }
+        else{
+            $template = new ImageEditorTemplate();
+            $template->setRef("context", $this);
+            $out->addModules(["ext.imageEditor"]);
+            $out->addTemplate($template);
+        }
     }
     function getGroupName() {
         return 'media';

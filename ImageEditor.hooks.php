@@ -47,10 +47,20 @@ class ImageEditorHooks
         ) {
             $content_navigation['views']['edit-image'] = [
                 'class' => '',
-                'text' => $skinTemplate->getContext()->msg('open-image-editor'),
-                'href' => $wgScript .'?title=Special:ImageEditor&file='.$skinTemplate->thispage,
+                'text' => $skinTemplate->getContext()->msg('ie-open-image-editor'),
+                'href' => $wgScript .'?title=Special:ImageEditor&file='.$skinTemplate->thispage."&returnto=".$title->getPrefixedURL(),
                 'primary' => true, // don't collapse this in vector
             ];
         }
+    }
+    public static function onResourceLoaderGetConfigVars( array &$vars ) {
+        global $wgImageEditorServerPort, $wgImageEditorServerHost;
+
+        $vars['wgImageEditor'] = [
+            'port' => $wgImageEditorServerPort,
+            'host' => $wgImageEditorServerHost
+        ];
+
+        return true;
     }
 }
