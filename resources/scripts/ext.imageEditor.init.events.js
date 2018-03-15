@@ -1,6 +1,5 @@
 function initEvents($scope) {
-
-    // ------------ Socket event listeners - END ------------
+    // ------------ Socket event listeners - START ------------
     $scope.socket.on('connect', function (user) {
         $scope.user = user;
         $scope.loadingMessage = "";

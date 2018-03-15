@@ -1,5 +1,4 @@
-(function (mw, angular) {
-
+(function (mw, angular, fabric) {
     var canvas = new fabric.Canvas('ie__canvas', {preserveObjectStacking: true});
     window.canvas = canvas;
 
@@ -157,4 +156,4 @@
     });
 
 
-}(mediaWiki, angular));
+}(mediaWiki, angular, fabric));

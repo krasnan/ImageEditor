@@ -1,6 +1,4 @@
 (function (mw, global, $) {
-    'use strict';
-
     $( document ).ready( function () {
         var outer=$('.ie__playground');
         var inner=$('.ie__playground>div');
