@@ -1,4 +1,6 @@
-(function (global, $) {
+(function (mw, global, $) {
+    'use strict';
+
     $( document ).ready( function () {
         var outer=$('.ie__playground');
         var inner=$('.ie__playground>div');
@@ -47,5 +49,19 @@
     global.hex2rgb = hex2rgb;
     global.rgb2hex = rgb2hex;
 
-})(this, jQuery);
+    fabric.Canvas.prototype.getObjectById = function (id) {
+        var objects = this.getObjects();
+        for (var i = 0; i < objects.length; i++) {
+            if (objects[i].id === id) return objects[i];
+        }
+        return null;
+    };
+    fabric.Object.prototype.getIndex = function () {
+        return this.canvas.getObjects().indexOf(this);
+    };
+    fabric.Object.prototype.isSelected = function () {
+        return canvas.getActiveObjects().indexOf(this) >= 0;
+    };
+
+})(mediaWiki, this, jQuery);
 
