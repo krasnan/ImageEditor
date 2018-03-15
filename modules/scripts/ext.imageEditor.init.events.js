@@ -12,10 +12,7 @@ function initEvents($scope) {
         $scope.canvasHeight = data.room.canvas.height;
         $scope.updateCanvasZoom();
         $scope.canvas.setBackgroundColor(data.room.canvas.backgroundColor);
-        // $scope.canvas.setHeight(data.canvas.height);
-        if (!$scope.room.loaded) {
-            //TODO: preloader hide
-        }
+
         for (let key in $scope.room.objects) {
             if ($scope.room.objects.hasOwnProperty(key)) {
                 $scope.addObject($scope.room.objects[key]);
