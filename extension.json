@@ -59,7 +59,6 @@
 		"ext.imageEditor": {
 			"scripts": [
 				"scripts/ext.imageEditor.utils.js",
-				"scripts/ext.imageEditor.config.js",
 				"scripts/ext.imageEditor.init.accessors.js",
 				"scripts/ext.imageEditor.init.tools.js",
 				"scripts/ext.imageEditor.init.events.js",
