@@ -17,7 +17,8 @@
         $scope.canvas = canvas;
         $scope.mw = mw;
         $scope.server = $scope.mw.config.values.wgImageEditor.host + ':' + $scope.mw.config.values.wgImageEditor.port;
-        var query = {query: 'name=' + $scope.mw.user.getName() + '&room=' + $scope.mw.util.getParamValue("file")};
+        var apiEndpoint = location.protocol + '//' + location.hostname + $scope.mw.util.wikiScript('api');
+        var query = {query: 'name=' + $scope.mw.user.getName() + '&file=' + $scope.mw.util.getParamValue("file") + '&endpoint='+apiEndpoint};
         $scope.loadingMessage = $scope.mw.msg("ie-connecting-to-server");
 
 

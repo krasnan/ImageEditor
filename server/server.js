@@ -1,4 +1,5 @@
 var ENDPOINT = process.env.npm_package_config_endpoint;
+var DYNAMIC_ENDPOINT = process.env.npm_package_config_dynamic_endpoint;
 var PORT = process.env.npm_package_config_port;
 var HOST = process.env.npm_package_config_host;
 
@@ -8,13 +9,23 @@ var server = require('http').createServer();
 var io = require('socket.io')(server);
 
 server.listen(PORT, HOST);
-console.log('Running on '+HOST+':'+PORT);
+console.log('Running on: ' + HOST + ':' + PORT);
+console.log('Running dynamic endpoints: ' + DYNAMIC_ENDPOINT);
+
 var rm = new RoomManager();
 
 io.on('connection', function (socket) {
     query = socket.handshake.query;
-    room = rm.createRoom(query['room']);
-    user = new User(query['name'], socket);
+    var room;
+
+
+
+    if (DYNAMIC_ENDPOINT === "true")
+        room = rm.createRoom(query['file'], query['endpoint']);
+    else
+        room = rm.createRoom(query['file'], ENDPOINT);
+
+    var user = new User(query['name'], socket);
 
     socket.join(room.name);
 
@@ -82,36 +93,42 @@ function Message(text, from, to, type) {
     this.time = dt.toLocaleTimeString();
 }
 
-function Room(name) {
+function Room(file, endpoint) {
     var self = this;
-    this.name = name;
     this.users = {};
     this.messages = [];
     this.objects = {};
     this.canvas = {width: 1280, height: 720};
     this.format = "png";
     this.loaded = false;
-    this.loadFromUrl = false;
+    this.file = file;
+    this.endpoint = endpoint;
+
+    this.name = this.endpoint + "_" + this.file;
 
     this.isEmpty = function () {
         return Object.keys(this.users).length <= 0;
     };
 
+    this.setEndpoint = function (endpoint) {
+        this.endpoint = endpoint;
+    };
+
     this.loadFromWiki = function () {
         request.post(
             {
-                url: ENDPOINT,
+                url: this.endpoint,
                 form: {
                     action: 'query',
                     format: 'json',
                     prop: 'imageinfo',
-                    titles: this.name,
+                    titles: this.file,
                     iiprop: 'url|dimensions|metadata|mime'
                 }
             },
             function (error, response, body) {
-                if (error){
-                    console.log("Unable to connect to: " + ENDPOINT);
+                if (error) {
+                    console.log("Unable to connect to: " + this.endpoint);
                     console.log(error);
                     return;
                 }
@@ -201,7 +218,7 @@ function Room(name) {
         socket.broadcast.to(room.name).emit('object-created', this.objects[obj.id]);
     };
 
-    this.loadObjectImageFromUrl = function(url){
+    this.loadObjectImageFromUrl = function (url) {
         this.objects['loaded_image'] = {
             id: 'loaded_image',
             type: 'image',
@@ -302,16 +319,17 @@ function RoomManager() {
         return Object.keys(this.rooms).length <= 0;
     };
 
-    this.getRoom = function (name) {
-        return this.rooms[name];
+    this.getRoom = function (file, endpoint) {
+        return this.rooms[endpoint + "_" + file];
     };
 
-    this.createRoom = function (name) {
-        room = this.getRoom(name);
+    this.createRoom = function (file, endpoint) {
+        room = this.getRoom(file, endpoint);
         if (room === undefined) {
-            room = new Room(name);
-            this.rooms[name] = room;
-            console.log("+ room " + name + " added");
+            room = new Room(file, endpoint);
+            this.rooms[room.name] = room;
+
+            console.log("+ room " + room.name + " added");
             room.loadFromWiki();
         }
         return room;
