@@ -40,6 +40,17 @@ function initTools($scope, $http, $timeout) {
 
     $scope.updateCanvasZoom();
 
+    $scope.updateIfIdle = function () {
+        if($scope.selectionCahngedTimestamp + 60 * 1000 < Date.now()
+            && $scope.canvas.getActiveObjects().length > 0)
+        {
+            canvas.discardActiveObject();
+        }
+        $timeout($scope.updateIfIdle, 1000);
+    };
+
+    $timeout($scope.updateIfIdle, 1000);
+
     $scope.saveRevision = function () {
         //TODO ukladat vo formate podla urlky
         $scope.room.loaded = false;
@@ -351,7 +362,7 @@ function initTools($scope, $http, $timeout) {
                 break;
 
             case $scope.tools.text:
-                obj = new fabric.Textbox($scope.mw.msg('insert-your-text...'), {
+                obj = new fabric.Textbox($scope.mw.msg('ie-insert-your-text...'), {
                     id: uniqueId(),
                     strokeWidth: 0,
                     left: origX,
@@ -626,6 +637,21 @@ function initTools($scope, $http, $timeout) {
         else {
             return undefined;
         }
+    };
+    $scope.addFilter = function (obj, index, filter) {
+        if(!filter) return;
+        f = fabric.util.string.camelize(fabric.util.string.capitalize(filter));
+        obj.filters[index] = new fabric.Image.filters[f]({});
+        obj.applyFilters($scope.canvas.renderAll.bind($scope.canvas));
+    };
+
+    $scope.applyFilterValue = function (obj, index, prop, value) {
+        if(obj.filters[index]){
+            obj.filters[index][prop] = value;
+            obj.applyFilter();
+        }
+        obj.applyFilters($scope.canvas.renderAll.bind($scope.canvas));
+
     };
 
     $scope.groupSelection = function () {

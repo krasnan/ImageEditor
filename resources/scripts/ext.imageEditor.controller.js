@@ -11,11 +11,16 @@
         function updateScope() {
             $scope.$$phase || $scope.$digest();
             $scope.canvas.renderAll();
+
+            //automatic deselection of objects if canvas in indle
+            $scope.selectionCahngedTimestamp = Date.now();
         }
 
         $scope.socket = socket;
         $scope.canvas = canvas;
+        $scope.fabric = fabric;
         $scope.mw = mw;
+
         $scope.server = $scope.mw.config.values.wgImageEditor.host + ':' + $scope.mw.config.values.wgImageEditor.port;
         var apiEndpoint = location.protocol + '//' + location.hostname + $scope.mw.util.wikiScript('api');
         var query = {query: 'name=' + $scope.mw.user.getName() + '&file=' + $scope.mw.util.getParamValue("file") + '&endpoint='+apiEndpoint};

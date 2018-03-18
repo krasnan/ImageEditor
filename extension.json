@@ -18,7 +18,6 @@
 		"ImageEditor": "SpecialImageEditor"
 	},
 	"config": {
-		"ImageEditorEnableFoo": true
 	},
 	"ExtensionMessagesFiles": {
 		"ImageEditorAlias": "ImageEditor.i18n.alias.php"

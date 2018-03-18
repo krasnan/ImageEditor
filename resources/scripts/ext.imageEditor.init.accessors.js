@@ -106,7 +106,7 @@ function initAccessors($scope) {
         $scope.setActiveStyle('top', parseInt(value, 10));
     };
     $scope.getLeft = function () {
-        return $scope.getActiveStyle('left');
+        return $scope.getActiveStyle('left')+0;
     };
     $scope.setLeft = function (value) {
         $scope.setActiveStyle('left', parseInt(value, 10));

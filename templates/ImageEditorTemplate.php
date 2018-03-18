@@ -349,13 +349,24 @@ class ImageEditorTemplate extends QuickTemplate {
                         </div>
                     </div>
 
-<!--                    <div class="ie__panel__vertical" ng-class="panels.image.opened === true ? 'opened' : '' " ng-show="canvas.getActiveObject().get('type') == 'textbox'">-->
-<!--                        <div class="ie__options__text">-->
-<!--                            <div class="ie__options__header">Image <a title="<?= $this->msg('ie-toggle-panel') ?>"  class="ie__options__toggle" ng-click="panels.image.opened = !panels.image.opened"><i class="icon-circle-up"></i></a></div>-->
-<!--                            <div class="ie__options__body">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="ie__panel__vertical" ng-class="panels.image.opened === true ? 'opened' : '' " ng-show="canvas.getActiveObject().get('type') === 'image' && false">
+                        <div class="ie__options__text">
+                            <div class="ie__options__header"><?= $this->msg('ie-image') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>"  class="ie__options__toggle" ng-click="panels.image.opened = !panels.image.opened"><i class="icon-circle-up"></i></a></div>
+                            <div class="ie__options__body">
+
+                                <div class="ie__tile__24">
+                                    <label>
+<!--                                        <input type="checkbox" ng-checked="canvas.getActiveObject().filters[0] === false" ng-click="addFilter(canvas.getActiveObject(), 0, this.checked && 'contrast')">-->
+                                        <?= $this->msg('ie-contrast') ?>
+<!--                                        <input type="text" ng-model="canvas.getActiveObject().filters[0]['contrast']" >-->
+                                    </label>
+<!--                                    <input title="" type="range" ng-model="canvas.getActiveObject().filters[0]['contrast']" ng-change="" min="-1" max="1" step="0.001">-->
+<!--                                    canvas.getActiveObject().applyFilters(canvas.renderAll.bind(canvas));-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
 
                 </div>
