@@ -1,16 +1,19 @@
-var ENDPOINT = process.env.npm_package_config_endpoint;
-var DYNAMIC_ENDPOINT = process.env.npm_package_config_dynamic_endpoint;
-var PORT = process.env.npm_package_config_port;
-var HOST = process.env.npm_package_config_host;
+var ENDPOINT = process.env.npm_package_config_endpoint || "http://wiki.example.com/api.php";
+var DYNAMIC_ENDPOINT = process.env.npm_package_config_dynamic_endpoint || "false";
+var PORT = process.env.PORT || 8080;
+
 
 // Setup basic express server
 var request = require('request');
 var server = require('http').createServer();
 var io = require('socket.io')(server);
 
-server.listen(PORT, HOST);
-console.log('Running on: ' + HOST + ':' + PORT);
+server.listen(PORT);
+console.log('Running on: http://localhost:' + PORT);
 console.log('Running dynamic endpoints: ' + DYNAMIC_ENDPOINT);
+if(DYNAMIC_ENDPOINT === "false")
+    console.log('Runing with Endpoint: ' + ENDPOINT);
+
 
 var rm = new RoomManager();
 

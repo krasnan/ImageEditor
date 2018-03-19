@@ -5,9 +5,10 @@
 /vendor
 /node_modules
 /package-lock.json
+/server
+/server/*
 /_docs/text/*
 !/_docs/text/*.tex
 !/_docs/text/*.bib
 !/_docs/text/*.bbl
 !/_docs/text/*.pdf
-/server/node_modules

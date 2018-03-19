@@ -9,10 +9,8 @@
     "start": "node server.js"
   },
   "config": {
-    "port": "3000",
-    "host": "localhost",
-    "endpoint": "http://wiki.example.com/api.php",
-    "dynamic_endpoint": "true"
+    "endpoint": "http://wiki.matfyz.sk/api.php",
+    "dynamic_endpoint": "false"
   },
   "dependencies": {
     "express": "^4.15.2",
@@ -20,6 +18,6 @@
     "socket.io": "^2.0.4"
   },
   "engines": {
-    "node": "^4.1.1"
+    "node": "^7.6.0"
   }
 }
