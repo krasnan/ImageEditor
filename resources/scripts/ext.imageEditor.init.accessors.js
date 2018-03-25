@@ -1,3 +1,5 @@
+console.log("accessors loaded");
+
 function initAccessors($scope) {
     $scope.getActiveStyle = function (styleName, object) {
         object = object || $scope.canvas.getActiveObject();

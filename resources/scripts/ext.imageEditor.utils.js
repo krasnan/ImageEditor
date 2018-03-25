@@ -1,3 +1,5 @@
+console.log("utils loaded");
+
 (function (mw, $) {
     $( document ).ready( function () {
         var outer=$('.ie__playground');
