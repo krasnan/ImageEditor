@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "MediaWiki Colaborative ImageEditor client application",
   "author": "Martin Krasnan <martin.krasnan@devhouse.sk>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krasnan/ImageEditor.git"
+  },
+  "license": "MIT",
   "scripts": {
   },
   "dependencies": {
