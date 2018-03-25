@@ -80,7 +80,7 @@ function initAccessors($scope) {
 
     // -------------------- object ---------------------
     $scope.getHeight = function () {
-        return $scope.getActiveStyle('height') * $scope.getActiveStyle('scaleY')+0;
+        return $scope.getActiveStyle('height') * $scope.getActiveStyle('scaleY');
     };
     $scope.setHeight = function (value) {
         $scope.setActiveStyle('scaleY', parseInt(value, 10) / $scope.getActiveStyle('height'));
@@ -94,7 +94,7 @@ function initAccessors($scope) {
     };
 
     $scope.getWidth = function () {
-        return $scope.getActiveStyle('width') * $scope.getActiveStyle('scaleX')+0;
+        return $scope.getActiveStyle('width') * $scope.getActiveStyle('scaleX');
     };
     $scope.setWidth = function (value) {
         $scope.setActiveStyle('scaleX', parseInt(value, 10) / $scope.getActiveStyle('width'));

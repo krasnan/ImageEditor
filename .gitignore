@@ -5,8 +5,7 @@
 /vendor
 /node_modules
 /package-lock.json
-/server
-/server/*
+/ie-server
 /_docs/text/*
 !/_docs/text/*.tex
 !/_docs/text/*.bib

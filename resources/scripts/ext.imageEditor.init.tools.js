@@ -163,7 +163,9 @@ function initTools($scope, $http, $timeout) {
     };
 
     $scope.getSelectableObjects = function () {
-        return $scope.canvas.getObjects().filter(obj => obj.selectable);
+        return $scope.canvas.getObjects().filter(function(obj){
+            return obj.selectable;
+        });
     };
 
     $scope.setActiveTool = function (tool) {

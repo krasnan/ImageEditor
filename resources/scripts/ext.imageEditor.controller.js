@@ -6,46 +6,6 @@
         'colorpicker.module'
     ]);
 
-    app.controller('ImageEditor', function ($scope, $http, $timeout, socket) {
-
-        function updateScope() {
-            $scope.$$phase || $scope.$digest();
-            $scope.canvas.renderAll();
-
-            //automatic deselection of objects if canvas in indle
-            $scope.selectionCahngedTimestamp = Date.now();
-        }
-
-        $scope.socket = socket;
-        $scope.canvas = canvas;
-        $scope.fabric = fabric;
-        $scope.mw = mw;
-
-        $scope.server = $scope.mw.config.values.wgImageEditor.host + ':' + $scope.mw.config.values.wgImageEditor.port;
-        var apiEndpoint = location.protocol + '//' + location.hostname + $scope.mw.util.wikiScript('api');
-        var query = {query: 'name=' + $scope.mw.user.getName() + '&file=' + $scope.mw.util.getParamValue("file") + '&endpoint='+apiEndpoint};
-        $scope.loadingMessage = $scope.mw.msg("ie-connecting-to-server");
-
-
-        $scope.canvas
-            .on('object:selected', updateScope)
-            .on('object:modified', updateScope)
-            .on('group:selected', updateScope)
-            .on('path:created', updateScope)
-            .on('selection:created', updateScope)
-            .on('selection:cleared', updateScope)
-            .on('selection:updated', updateScope);
-
-
-        socket.connect($scope.server, query);
-
-        initAccessors($scope);
-        initTools($scope, $http, $timeout);
-        initEvents($scope);
-        initKeyBindings($scope);
-
-    });
-
     app.config(function ($interpolateProvider) {
         $interpolateProvider
             .startSymbol('{[')
@@ -159,6 +119,46 @@
                 })
             }
         };
+    });
+
+    app.controller('ImageEditor', function ($scope, $http, $timeout, socket) {
+
+        function updateScope() {
+            $scope.$$phase || $scope.$digest();
+            $scope.canvas.renderAll();
+
+            //automatic deselection of objects if canvas in indle
+            $scope.selectionCahngedTimestamp = Date.now();
+        }
+
+        $scope.socket = socket;
+        $scope.canvas = canvas;
+        $scope.fabric = fabric;
+        $scope.mw = mw;
+
+        $scope.server = $scope.mw.config.values.wgImageEditor.host + ':' + $scope.mw.config.values.wgImageEditor.port;
+        var apiEndpoint = location.protocol + '//' + location.hostname + $scope.mw.util.wikiScript('api');
+        var query = {query: 'name=' + $scope.mw.user.getName() + '&file=' + $scope.mw.util.getParamValue("file") + '&endpoint='+apiEndpoint};
+        $scope.loadingMessage = $scope.mw.msg("ie-connecting-to-server");
+
+
+        $scope.canvas
+            .on('object:selected', updateScope)
+            .on('object:modified', updateScope)
+            .on('group:selected', updateScope)
+            .on('path:created', updateScope)
+            .on('selection:created', updateScope)
+            .on('selection:cleared', updateScope)
+            .on('selection:updated', updateScope);
+
+
+        socket.connect($scope.server, query);
+
+        initAccessors($scope);
+        initTools($scope, $http, $timeout);
+        initEvents($scope);
+        initKeyBindings($scope);
+
     });
 
 

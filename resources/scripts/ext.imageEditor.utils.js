@@ -1,4 +1,4 @@
-(function (mw, global, $) {
+(function (mw, $) {
     $( document ).ready( function () {
         var outer=$('.ie__playground');
         var inner=$('.ie__playground>div');
@@ -18,7 +18,7 @@
 
     function hex2rgb(hex) {
         // long version
-        r = hex.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+        var r = hex.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
         if (r) {
             return r.slice(1, 4).map(function (x) {
                 return parseInt(x, 16);
@@ -38,14 +38,9 @@
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    function getFileName() {
-        return location.href.search();
-    }
-
-    global.getFileName = getFileName;
-    global.capitalize = capitalize;
-    global.hex2rgb = hex2rgb;
-    global.rgb2hex = rgb2hex;
+    window.capitalize = capitalize;
+    window.hex2rgb = hex2rgb;
+    window.rgb2hex = rgb2hex;
 
     fabric.Canvas.prototype.getObjectById = function (id) {
         var objects = this.getObjects();
@@ -61,5 +56,5 @@
         return canvas.getActiveObjects().indexOf(this) >= 0;
     };
 
-})(mediaWiki, this, jQuery);
+})(mediaWiki, jQuery);
 

@@ -80,7 +80,7 @@ function initEvents($scope) {
 
     $scope.socket.on('object-created', function (obj) {
         console.log('SOCKET: object-created');
-        object = $scope.addObject(obj);
+        var object = $scope.addObject(obj);
         if (object === undefined) return;
         object.setCoords();
         $scope.canvas.renderAll();
@@ -134,11 +134,11 @@ function initEvents($scope) {
 
     $scope.canvas.on('object:modified', function (event) {
         console.log('CANVAS: object:modified');
-        object = event.target;
+        var object = event.target;
         if (object.type === "activeSelection") {
             var group = object;
             for (var i = group._objects.length - 1; i >= 0; i--) {
-                obj = group._objects[i];
+                var obj = group._objects[i];
                 obj.index = obj.getIndex();
                 group.removeWithUpdate(obj);
                 $scope.socket.emit('object-modified', obj.toJSON(['id', 'selectable', 'index']));
@@ -174,10 +174,10 @@ function initEvents($scope) {
 
     $scope.canvas.on('path:created', function (event) {
         console.log('CANVAS: path:created');
-        obj = event.path;
-        obj.index = obj.getIndex();
-        obj.id = uniqueId();
-        $scope.socket.emit('object-created', obj.toJSON(['id', 'selectable', 'index']));
+        var object = event.path;
+        object.index = object.getIndex();
+        object.id = uniqueId();
+        $scope.socket.emit('object-created', object.toJSON(['id', 'selectable', 'index']));
     });
 
     $scope.canvas.on('object:moving', function (options) {
