@@ -1,8 +1,8 @@
-console.log("controller loaded");
-
 (function (mw, angular, fabric) {
     var canvas = new fabric.Canvas('ie__canvas', {preserveObjectStacking: true});
     window.canvas = canvas;
+
+
 
     var app = angular.module('ImageEditor', [
         'colorpicker.module'
@@ -162,6 +162,10 @@ console.log("controller loaded");
         initKeyBindings($scope);
 
     });
+
+    angular.element(document).ready(function () {
+        angular.bootstrap(document, ['ImageEditor']);
+    })
 
 
 }(mediaWiki, angular, fabric));

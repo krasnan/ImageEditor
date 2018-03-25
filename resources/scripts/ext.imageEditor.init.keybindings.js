@@ -1,5 +1,3 @@
-console.log("keybindings loaded");
-
 function initKeyBindings($scope) {
     $scope.ctrlPressed = false;
     $scope.shiftPressed = false;

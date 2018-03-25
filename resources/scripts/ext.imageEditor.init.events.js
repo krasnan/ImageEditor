@@ -1,5 +1,3 @@
-console.log("events loaded");
-
 function initEvents($scope) {
     // ------------ Socket event listeners - START ------------
     $scope.socket.on('connect', function (user) {
