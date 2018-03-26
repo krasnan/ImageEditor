@@ -139,8 +139,8 @@
         $scope.mw = mw;
 
         $scope.server = $scope.mw.config.values.wgImageEditor.host + ':' + $scope.mw.config.values.wgImageEditor.port;
-        var apiEndpoint = location.protocol + '//' + location.hostname + $scope.mw.util.wikiScript('api');
-        var query = {query: 'name=' + $scope.mw.user.getName() + '&file=' + $scope.mw.util.getParamValue("file") + '&endpoint='+apiEndpoint};
+        // let apiEndpoint = location.protocol + '//' + location.hostname + $scope.mw.util.wikiScript('api');
+        let query = {query: 'name=' + $scope.mw.user.getName() + '&file=' + $scope.mw.util.getParamValue("file") + '&secret='+$scope.mw.config.values.wgImageEditor.secret};
         $scope.loadingMessage = $scope.mw.msg("ie-connecting-to-server");
 
 

@@ -54,9 +54,10 @@ class ImageEditorHooks
         }
     }
     public static function onResourceLoaderGetConfigVars( array &$vars ) {
-        global $wgImageEditorServerPort, $wgImageEditorServerHost;
+        global $wgImageEditorServerPort, $wgImageEditorServerHost, $wgImageEditorServerSecret;
 
         $vars['wgImageEditor'] = [
+            'secret' => md5($wgImageEditorServerSecret),
             'port' => $wgImageEditorServerPort,
             'host' => $wgImageEditorServerHost
         ];
