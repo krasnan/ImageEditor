@@ -15,7 +15,7 @@ class ImageEditorHooks
      */
     public static function onFileUpload($file, $reupload, $newPageContent)
     {
-        if( $file->getDescription()[0] != '{') return false;
+        if ($file->getDescription()[0] != '{') return false;
         $meta = $file;
         $dbw = $file->repo->getMasterDB();
         $meta = unserialize($file->getMetadata());
@@ -28,32 +28,44 @@ class ImageEditorHooks
         return true;
     }
 
-    public static function onSkinTemplateNavigation(&$skinTemplate, &$content_navigation ){
+    public static function onSkinTemplateNavigation(&$skinTemplate, &$content_navigation)
+    {
         global $wgScript;
         $title = $skinTemplate->getRelevantTitle();
 
-        if($title->getNamespace() != 6) return;
+        if ($title->getNamespace() != 6) return;
 
         $user = $skinTemplate->getUser();
         $file = $skinTemplate->getContext()->getWikiPage()->getFile();
-        $mime = $file->getMimeType();
-        $mime_major = explode('/', $mime)[0]; //image
-        $mime_minor = explode('/', $mime)[1]; //png/jpeg/....
 
-        if ( $title->quickUserCan( 'edit', $user )
-            && ( $title->exists() || $title->quickUserCan( 'create', $user ))
-            && $mime_major == 'image'
-            && in_array($mime_minor, ['png', 'jpeg', 'jpg', 'gif', 'tiff'])
-        ) {
+        if ($file->exists()) {
+            $mime = $file->getMimeType();
+            $mime_major = explode('/', $mime)[0]; //image
+            $mime_minor = explode('/', $mime)[1]; //png/jpeg/....
+            if ($title->quickUserCan('edit', $user)
+                && $mime_major == 'image'
+                && in_array($mime_minor, ['png', 'jpeg', 'jpg', 'gif', 'tiff'])
+            ) {
+                $content_navigation['views']['edit-image'] = [
+                    'class' => '',
+                    'text' => $skinTemplate->getContext()->msg('ie-open-image-editor'),
+                    'href' => $wgScript . '?title=Special:ImageEditor&file=' . $skinTemplate->thispage . "&returnto=" . $title->getPrefixedURL(),
+                    'primary' => true, // don't collapse this in vector
+                ];
+            }
+        } else if ($title->quickUserCan('create', $user)
+            && $title->quickUserCan('upload', $user)) {
             $content_navigation['views']['edit-image'] = [
                 'class' => '',
-                'text' => $skinTemplate->getContext()->msg('ie-open-image-editor'),
-                'href' => $wgScript .'?title=Special:ImageEditor&file='.$skinTemplate->thispage."&returnto=".$title->getPrefixedURL(),
+                'text' => $skinTemplate->getContext()->msg('ie-create-with-image-editor'),
+                'href' => $wgScript . '?title=Special:ImageEditor&file=' . $skinTemplate->thispage . "&returnto=" . $title->getPrefixedURL(),
                 'primary' => true, // don't collapse this in vector
             ];
         }
     }
-    public static function onResourceLoaderGetConfigVars( array &$vars ) {
+
+    public static function onResourceLoaderGetConfigVars(array &$vars)
+    {
         global $wgImageEditorServerPort, $wgImageEditorServerHost, $wgImageEditorServerSecret;
 
         $vars['wgImageEditor'] = [

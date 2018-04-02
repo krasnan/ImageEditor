@@ -48,6 +48,15 @@
 			],
 			"position": "top"
 		},
+		"angular-sortable-view":{
+			"scripts": [
+				"vendor/angular-sortable-view/src/angular-sortable-view.min.js"
+			],
+			"dependencies": [
+				"angular"
+			],
+			"position": "top"
+		},
 		"socket.io-client":{
 			"scripts": [
 				"vendor/socket.io-client/dist/socket.io.js"
@@ -91,6 +100,7 @@
 			],
 			"dependencies": [
 				"angular",
+				"angular-sortable-view",
 				"angular-bootstrap-colorpicker",
 				"socket.io-client",
 				"fabric",

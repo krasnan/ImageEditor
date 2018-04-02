@@ -23,7 +23,7 @@ class ImageEditorTemplate extends QuickTemplate {
      */
     public function execute() {
         ?>
-        <div class="ie" ng-controller="ImageEditor" ng-class="room.loaded==true ? 'ie__loaded' : ''" >
+        <div class="ie" ng-controller="ImageEditor" ng-class="{ie__loaded : room.loaded, ie__fullscreen : isFullscreen}" >
             <div class="ie__container" style="visibility: hidden;">
                 <div class="ie__playground">
                     <div class="ie__playground__container">
@@ -115,15 +115,15 @@ class ImageEditorTemplate extends QuickTemplate {
 
                     <div class="ie__panel__vertical" ng-class="panels.layers.opened === true ? 'opened' : '' ">
                         <div class="ie__options__header"><?= $this->msg('ie-layers') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.layers.opened = !panels.layers.opened"><i class="icon-circle-up"></i></a></div>
-                        <div class="ie__options__body">
-                            <div ng-repeat="layer in getLayers() | orderBy: 'index': true" class="ie__tile__14" style="{[(room.users[layer.selectedBy] !== undefined ? 'border:' + room.users[layer.selectedBy].color + '1px solid' : '' )">
+                        <div sv-root sv-part="canvas._objects"  sv-on-sort="reorderLayer($item, $indexTo)" class="ie__options__body">
+
+                            <div ng-repeat="layer in canvas._objects" sv-element class="ie__tile__14 ie__layer"  ng-class="layer.selectable ? '' : 'disabled' " style="{[(room.users[layer.selectedBy] !== undefined ? 'border:' + room.users[layer.selectedBy].color + '1px solid' : '' )">
                                 <div>
-                                    <a title="<?= $this->msg('ie-select-layer') ?>" ng-class="layer.selectable ? '' : 'disabled' " ng-click="selectObject(layer)"><i ng-class="layer.isSelected() ? 'icon-radio-checked' : 'icon-radio-unchecked'"></i></a>
-                                    {[layer.type]}
-                                    <a title="<?= $this->msg('ie-delete-layer') ?>" ng-class="layer.selectable ? '' : 'disabled' " ng-click="deleteObject(layer)" class="pull-right"><i class="icon-trash"></i></a>
-                                    <span class="pull-right">&nbsp;</span>
-                                    <a title="<?= $this->msg('ie-bring-layer-forward') ?>" ng-show="$index !== 0" ng-class="layer.selectable ? '' : 'disabled' " ng-click="bringForward(layer)" class="pull-right">⭱</a>
-                                    <a title="<?= $this->msg('ie-send-layer-backward') ?>" ng-show="$index !== getLayers().length-1" ng-class="layer.selectable ? '' : 'disabled' " ng-click="sendBackwards(layer)" class="pull-right">⭳</a>
+                                    <a title="<?= $this->msg('ie-select-layer') ?>" ng-click="selectObject(layer)" class="pull-left"><i ng-class="layer.isSelected() ? 'icon-radio-checked' : 'icon-radio-unchecked'"></i></a>
+                                    <input title="{[layer.name]}" type="text" ng-model="layer.name" ng-change="applyChanges(layer)" ng-model-options="{updateOn: 'blur'}">
+                                    <a title="<?= $this->msg('ie-reorder-layer') ?>" sv-handle class="ie__layer__reorder pull-right">☰</a>
+                                    <a title="<?= $this->msg('ie-delete-layer') ?>" ng-click="deleteObject(layer)" class="pull-right"><i class="icon-trash"></i></a>
+                                    <a title="<?= $this->msg('ie-toggle-layer-visibility') ?>" ng-click="toggleVisibility(layer)" class="pull-right"><i ng-class="layer.visible ? 'icon-eye': 'icon-eye-blocked'" class="icon-trash"></i></a>
                                 </div>
 
                             </div>
@@ -140,6 +140,7 @@ class ImageEditorTemplate extends QuickTemplate {
                             <div class="ie__tile__11">
                                 <a title="<?= $this->msg('ie-deselect-all') ?>" ng-class="canvas.getActiveObjects().length>0 ? 'text-primary' : 'disabled' " ng-click="canvas.discardActiveObject();" ><i class="icon-checkbox-unchecked"></i></a>
                             </div>
+
                         </div>
 
                     </div>
@@ -147,13 +148,49 @@ class ImageEditorTemplate extends QuickTemplate {
                     <div class="ie__panel__vertical" ng-class="panels.properties.opened === true ? 'opened' : '' ">
                         <div class="ie__options__header"><?= $this->msg('ie-options') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.properties.opened = !panels.properties.opened"><i class="icon-circle-up"></i></a></div>
                         <div class="ie__options__body">
-                            <!-- canvas properties-->
+
                             <div>
                                 <div class="ie__tile__24">
-                                    <label><?= $this->msg('ie-zoom') ?> <input type="number" ng-model="canvasZoom" ng-change="updateCanvasZoom()" min="1" max="300" step="0.1">%</label>
+                                    <label>
+                                        <?= $this->msg('ie-zoom') ?>
+                                        <input type="number" ng-model="canvasZoom" ng-change="updateCanvasZoom()" min="1" max="300" step="0.1">%
+                                        <a title="<?= $this->msg('ie-center-viewport') ?>" ng-click="centerViewport()" class="btn pull-right" ><i class="icon-target"></i></a>
+                                    </label>
                                     <input title="" type="range" ng-model="canvasZoom" ng-change="updateCanvasZoom()" min="1" max="300" step="0.1">
                                 </div>
                             </div>
+
+                            <!-- brush properties-->
+                            <div class="ie__options__stroke" ng-show="canvas.isDrawingMode">
+                                <div class="ie__options__title"><?= $this->msg('ie-brush') ?></div>
+
+                                <div class="ie__tile__11">
+                                    <a ng-init="brushType='Pencil'" ng-click="setFreeDrawingBrush('Pencil')" ng-class="brushType === 'Pencil' ? 'active' : ''"><i class="icon-pencil"></i></a>
+                                </div>
+                                <div class="ie__tile__11">
+                                    <a ng-click="setFreeDrawingBrush('Spray')" ng-class="brushType === 'Spray' ? 'active' : ''"><i class="icon-spray"></i></a>
+                                </div>
+                                <div class="ie__tile__11">
+                                    <a ng-click="setFreeDrawingBrush('Circle')" ng-class="brushType === 'Circle' ? 'active' : ''"><i class="icon-oval"></i></a>
+                                </div>
+
+                                <div class="ie__tile__22">
+                                    <label><?= $this->msg('ie-brush-size') ?></label>
+                                    <input title="" type="number" min="1" step="1" ng-model="canvas.freeDrawingBrush.width">
+                                </div>
+                                <div class="ie__options__title"><?= $this->msg('ie-shadow') ?></div>
+                                <div class="ie__tile__22">
+                                    <label><?= $this->msg('ie-blur') ?></label>
+                                    <input title="" type="number" min="0" step="1" ng-model="canvas.freeDrawingBrush.shadow.blur">
+                                </div>
+                                <div class="ie__tile__22">
+                                    <label><?= $this->msg('ie-color') ?></label>
+                                    <div title="" colorpicker="rgba" colorpicker-position="left" colorpicker-with-input="true" ng-model="canvas.freeDrawingBrush.shadow.color" class="ie__colorpicker" style="background-color:{[canvas.freeDrawingBrush.shadow.color]}"></div>
+
+                                </div>
+                            </div>
+
+                            <!-- canvas properties-->
                             <div class="ie__options__canvas" ng-show="canvas.getActiveObject() == undefined">
                                 <div class="ie__options__title"><?= $this->msg('ie-canvas') ?> </div>
                                 <div class="ie__tile__22">
@@ -169,10 +206,8 @@ class ImageEditorTemplate extends QuickTemplate {
                                     <label><?= $this->msg('ie-background-color') ?></label>
                                     <div title="" colorpicker="rgba" colorpicker-position="left" colorpicker-with-input="true" ng-model="canvasBgColor" ng-change="setCanvasBgColor(canvasBgColor)" class="ie__colorpicker" style="background-color:{[getCanvasBgColor()]}"></div>
 
-                                    <!--                            <input type="color" bind-value-to="canvasBgColor">-->
                                 </div>
                             </div>
-
 
                             <!-- object default properties-->
                             <div class="ie__options__object" ng-show="canvas.getActiveObject() != undefined">
@@ -253,6 +288,7 @@ class ImageEditorTemplate extends QuickTemplate {
                                     <input title="" type="number" bind-value-to="strokeWidth" min="0">
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -307,47 +343,6 @@ class ImageEditorTemplate extends QuickTemplate {
 
                     </div>
 
-                    <div class="ie__panel__vertical" ng-class="panels.brush.opened === true ? 'opened' : '' " ng-show="canvas.isDrawingMode">
-                        <div class="ie__options__text">
-                            <div class="ie__options__header"><?= $this->msg('ie-brush') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.brush.opened = !panels.brush.opened"><i class="icon-circle-up"></i></a></div>
-                            <div class="ie__options__body" >
-<!--                                <div class="ie__tile__24">-->
-<!--                                    <label>Brush</label>-->
-<!--                                    <select title="" ng-init="brushType='Pencil'" ng-model="brushType" ng-change="setFreeDrawingBrush(brushType)">-->
-<!--                                        <option value="Pencil">Pencil</option>-->
-<!--                                        <option value="Circle">Circle</option>-->
-<!--                                        <option value="Spray">Spray</option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-                                <div class="ie__tile__11">
-                                    <a ng-init="brushType='Pencil'" ng-click="setFreeDrawingBrush('Pencil')" ng-class="brushType === 'Pencil' ? 'active' : ''"><i class="icon-pencil"></i></a>
-                                </div>
-                                <div class="ie__tile__11">
-                                    <a ng-click="setFreeDrawingBrush('Spray')" ng-class="brushType === 'Spray' ? 'active' : ''"><i class="icon-spray"></i></a>
-                                </div>
-                                <div class="ie__tile__11">
-                                    <a ng-click="setFreeDrawingBrush('Circle')" ng-class="brushType === 'Circle' ? 'active' : ''"><i class="icon-oval"></i></a>
-                                </div>
-
-                                <div class="ie__tile__22">
-                                    <label><?= $this->msg('ie-brush-size') ?></label>
-                                    <input title="" type="number" min="1" step="1" ng-model="canvas.freeDrawingBrush.width">
-                                </div>
-                                <div class="ie__options__title"><?= $this->msg('ie-shadow') ?></div>
-                                <div class="ie__tile__22">
-                                    <label><?= $this->msg('ie-blur') ?></label>
-                                    <input title="" type="number" min="0" step="1" ng-model="canvas.freeDrawingBrush.shadow.blur">
-                                </div>
-                                <div class="ie__tile__22">
-                                    <label><?= $this->msg('ie-color') ?></label>
-                                    <div title="" colorpicker="rgba" colorpicker-position="left" colorpicker-with-input="true" ng-model="canvas.freeDrawingBrush.shadow.color" class="ie__colorpicker" style="background-color:{[canvas.freeDrawingBrush.shadow.color]}"></div>
-
-                                    <!--                            <input type="color" bind-value-to="canvasBgColor">-->
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="ie__panel__vertical" ng-class="panels.image.opened === true ? 'opened' : '' " ng-show="canvas.getActiveObject().get('type') === 'image' && false">
                         <div class="ie__options__text">

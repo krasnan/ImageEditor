@@ -20,7 +20,8 @@ function initEvents($scope) {
         }
         $scope.canvas.getObjects().forEach(function (obj) {
             obj.moveTo(obj.index);
-        })
+        });
+        $scope.centerViewport();
     });
 
     $scope.socket.on('user-created', function (user) {
@@ -141,13 +142,13 @@ function initEvents($scope) {
                 var obj = group._objects[i];
                 obj.index = obj.getIndex();
                 group.removeWithUpdate(obj);
-                $scope.socket.emit('object-modified', obj.toJSON(['id', 'selectable', 'index']));
+                $scope.socket.emit('object-modified', obj.toJSON(['id', 'selectable', 'index', 'name']));
                 group.addWithUpdate(obj);
             }
         }
         else {
             object.index = object.getIndex();
-            $scope.socket.emit('object-modified', object.toJSON(['id', 'selectable', 'index']));
+            $scope.socket.emit('object-modified', object.toJSON(['id', 'selectable', 'index', 'name']));
         }
     });
 
@@ -155,7 +156,7 @@ function initEvents($scope) {
         console.log('CANVAS: object:created');
         var obj = event.target;
         obj.index = obj.getIndex();
-        $scope.socket.emit('object-created', obj.toJSON(['id', 'selectable', 'index']));
+        $scope.socket.emit('object-created', obj.toJSON(['id', 'selectable', 'index', 'name']));
     });
 
     $scope.canvas.on('object:removed', function (event) {
@@ -177,7 +178,8 @@ function initEvents($scope) {
         var object = event.path;
         object.index = object.getIndex();
         object.id = uniqueId();
-        $scope.socket.emit('object-created', object.toJSON(['id', 'selectable', 'index']));
+        object.name = "path_" + object.id;
+        $scope.socket.emit('object-created', object.toJSON(['id', 'selectable', 'index', 'name']));
     });
 
     $scope.canvas.on('object:moving', function (options) {

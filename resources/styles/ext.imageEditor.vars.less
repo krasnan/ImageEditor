@@ -142,11 +142,11 @@ Roboto
 }
 
 .btn {
-  .fs(20);
+  .fs(14);
   margin: @offset-xs;
-  min-width: @offset-md;
-  min-height: @offset-md;
-  line-height: @offset-md;
+  min-width: @offset + @offset-sm;
+  min-height: @offset + @offset-sm;
+  line-height: @offset + @offset-sm;
   text-align: center;
   display: inline-block;
   color: lighten(@black, 25%);
@@ -209,6 +209,13 @@ Roboto
   -o-transition: ease-in-out all 0.2s;
   transition: ease-in-out all 0.2s;
 }
+.transition-none {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+}
 
 .shadow-box {
   -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.08);
@@ -216,14 +223,16 @@ Roboto
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.08);
   border: @border solid 1px;
 }
-.blur{
+
+.blur {
   -webkit-filter: blur(5px);
   -moz-filter: blur(5px);
   -o-filter: blur(5px);
   -ms-filter: blur(5px);
   filter: blur(5px);
 }
-.sharp{
+
+.sharp {
   -webkit-filter: blur(0);
   -moz-filter: blur(0);
   -o-filter: blur(0);

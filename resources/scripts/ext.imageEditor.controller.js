@@ -5,7 +5,8 @@
 
 
     var app = angular.module('ImageEditor', [
-        'colorpicker.module'
+        'colorpicker.module',
+        'angular-sortable-view'
     ]);
 
     app.config(function ($interpolateProvider) {
@@ -161,6 +162,7 @@
         initEvents($scope);
         initKeyBindings($scope);
 
+        $scope.centerViewport();
     });
 
     angular.element(document).ready(function () {

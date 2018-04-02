@@ -5,6 +5,8 @@ function initKeyBindings($scope) {
 
 
     document.onkeyup = function (e) {
+        if ($scope.canvas.getActiveObject() !== null && $scope.canvas.getActiveObject().isEditing) return;
+
         $scope.ctrlPressed = e.ctrlKey;
         $scope.shiftPressed = e.shiftKey;
         $scope.altPressed = e.altKey;

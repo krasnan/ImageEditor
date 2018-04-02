@@ -377,4 +377,17 @@ function initAccessors($scope) {
             $scope.canvas.trigger('object:modified', {target: object});
         }
     };
+    $scope.applyChanges = function (object) {
+        if (object !== undefined)
+            $scope.canvas.trigger('object:modified', {target: object});
+    };
+
+    $scope.toggleVisibility = function (object) {
+        if (object === undefined)
+            object = $scope.canvas.getActiveObject();
+        if (object) {
+            object.visible = !object.visible;
+            $scope.canvas.trigger('object:modified', {target: object});
+        }
+    }
 }

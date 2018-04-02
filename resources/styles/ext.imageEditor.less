@@ -75,6 +75,10 @@
     width: 100%;
     height: calc(~"100vh - 250px");
     overflow: auto;
+
+    .ie__fullscreen &{
+      height: 100vh;
+    }
     &__container {
       width: fit-content;
       padding: 2000px;
@@ -101,7 +105,7 @@
     }
   }
   &__options {
-    right: @offset-lg;
+    right: @offset;
     margin-top: @offset-lg;
     width: ((2 * @offset-lg) + (@offset-sm *2));
     text-align: left;
@@ -281,6 +285,7 @@
       height: @offset-md;
       line-height: @offset-md;
       margin-right: -2px;
+
       //margin-right: @offset-xs;
       a {
         &:extend(.btn all);
@@ -288,6 +293,9 @@
         min-width: 0;
         min-height: 0;
         font-size: 1rem;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
     &__14 {
@@ -311,6 +319,21 @@
       height: @offset-lg - @offset;
     }
   }
+  &__layer{
+    &:extend(.transition-none all);
+    input{
+      .fs(13);
+      position: unset;
+      width: 45%;
+      padding-left: @offset-xs;
+      line-height: 2rem;
+      text-align: left;
+    }
+    &__reorder{
+      padding-left: @offset-xs;
+      cursor: ns-resize !important;
+    }
+  }
   &__dropdown {
     float: left;
     position: relative;
@@ -318,7 +341,6 @@
     a {
       text-align: left;
       padding: 0 0.5rem;
-      font-size: 1rem;
     }
     &:hover {
       > div {
@@ -334,7 +356,7 @@
       //&:extend(.shadow-box all);
       position: absolute;
       left: 0;
-      top: 40px;
+      //top: 40px;
       text-align: left;
       width: 200px;
       background: @white;
@@ -342,7 +364,7 @@
       border: @border 1px solid;
       a {
         display: block !important;
-        margin: 0;
+        margin: @offset-xs;
         font-size: 12px;
         &:hover {
           background: darken(@white, 3%);
@@ -358,7 +380,6 @@
     display: inline-block;
 
     > a {
-      .fs(20) !important;
       min-width: @offset-xs;
       margin-left: 0;
     }
@@ -513,13 +534,26 @@
       padding: @offset-sm @offset;
     }
   }
+  &__fullscreen{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: @white;
+  }
   .pull-right {
     float: right;
   }
+  .pull-left {
+    float: left;
+  }
   .disabled {
-    color: @grey !important;
     pointer-events: none;
-    cursor: pointer;
+    a{
+      color: @grey !important;
+      cursor: not-allowed !important;
+    }
   }
   .hidden {
     display: none;

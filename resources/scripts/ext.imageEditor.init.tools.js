@@ -18,11 +18,11 @@ function initTools($scope, $http, $timeout) {
     };
     $scope.panels = {};
     $scope.room = {
-        canvas:{},
-        objects:{},
-        users:{},
-        messages:[],
-        loaded:false
+        canvas: {},
+        objects: {},
+        users: {},
+        messages: [],
+        loaded: false
     };
 
     // $scope.canvas = canvas;
@@ -40,10 +40,18 @@ function initTools($scope, $http, $timeout) {
 
     $scope.updateCanvasZoom();
 
+    $scope.centerViewport = function () {
+        var outer = document.getElementsByClassName("ie__playground")[0];
+        var inner = document.getElementsByClassName("ie__playground__container")[0];
+
+        outer.scrollLeft = ((inner.offsetWidth - outer.offsetWidth) / 2);
+        outer.scrollTop = ((inner.offsetHeight - outer.offsetHeight) / 2);
+
+    };
+
     $scope.updateIfIdle = function () {
-        if($scope.selectionCahngedTimestamp + 60 * 1000 < Date.now()
-            && $scope.canvas.getActiveObjects().length > 0)
-        {
+        if ($scope.selectionCahngedTimestamp + 60 * 1000 < Date.now()
+            && $scope.canvas.getActiveObjects().length > 0) {
             canvas.discardActiveObject();
         }
         $timeout($scope.updateIfIdle, 1000);
@@ -56,16 +64,16 @@ function initTools($scope, $http, $timeout) {
         $scope.room.loaded = false;
         var token = $scope.mw.user.tokens.get('editToken');
         var dataUrl;
-        if($scope.room.format === "svg+xml")
+        if ($scope.room.format === "svg+xml")
             dataUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent($scope.canvas.toSVG());
         else
-            dataUrl = $scope.canvas.toDataURL({format:$scope.room.format, multiplier:100/$scope.canvasZoom});
+            dataUrl = $scope.canvas.toDataURL({format: $scope.room.format, multiplier: 100 / $scope.canvasZoom});
 
         var file = dataURItoBlob(dataUrl);
 
         formData = new FormData();
         formData.append("action", "upload");
-        formData.append("filename", $scope.filename);
+        formData.append("filename", $scope.mw.util.getParamValue("file"));
         formData.append("token", token);
         formData.append("file", file);
         formData.append("format", "json");
@@ -74,14 +82,14 @@ function initTools($scope, $http, $timeout) {
 
         $http({
             method: "POST",
-            url:$scope.mw.util.wikiScript('api'),
-            data:formData,
+            url: $scope.mw.util.wikiScript('api'),
+            data: formData,
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         }).then(
             function (value) {
                 console.log(value);
-                if(value.data.error !== undefined){
+                if (value.data.error !== undefined) {
                     $scope.panels.modal = {
                         opened: true,
                         header: $scope.mw.msg("ie-error"),
@@ -89,7 +97,7 @@ function initTools($scope, $http, $timeout) {
                         successText: $scope.mw.msg("ie-ok")
                     }
                 }
-                else{
+                else {
                     $scope.panels.modal = {
                         opened: true,
                         header: $scope.mw.msg("ie-success"),
@@ -157,13 +165,13 @@ function initTools($scope, $http, $timeout) {
         var sel = new fabric.ActiveSelection($scope.getSelectableObjects(), {
             canvas: $scope.canvas
         });
-        if(sel.getObjects().length === 0 ) return;
+        if (sel.getObjects().length === 0) return;
         $scope.canvas.setActiveObject(sel);
         $scope.canvas.requestRenderAll();
     };
 
     $scope.getSelectableObjects = function () {
-        return $scope.canvas.getObjects().filter(function(obj){
+        return $scope.canvas.getObjects().filter(function (obj) {
             return obj.selectable;
         });
     };
@@ -253,7 +261,7 @@ function initTools($scope, $http, $timeout) {
         }
         else {
             var elem = angular.element(e.currentTarget)[0];
-            elem.href = $scope.canvas.toDataURL({format:"png", multiplier:100/$scope.canvasZoom});
+            elem.href = $scope.canvas.toDataURL({format: "png", multiplier: 100 / $scope.canvasZoom});
             elem.download = filename;
 
         }
@@ -308,7 +316,11 @@ function initTools($scope, $http, $timeout) {
 
     $scope.cut = function () {
         $scope.copy();
-        $scope.deleteSelection();
+        var objects = $scope.canvas.getActiveObjects();
+        objects.forEach(function (object) {
+            $scope.canvas.trigger('object:removed', {target: object});
+            $scope.canvas.remove(object);
+        });
     };
 
 
@@ -419,9 +431,16 @@ function initTools($scope, $http, $timeout) {
                 return false;
         }
         if (obj != null) {
+            obj.name = obj.type + "_" + obj.id;
+
+            $scope.canvas.getObjects().forEach(function (obj) {
+                obj.lockMovementX = true;
+                obj.lockMovementY = true;
+            });
             $scope.canvas.add(obj);
             $scope.canvas.trigger('object:created', {target: obj});
             $scope.canvas.setActiveObject(obj);
+
         }
         isDown = true;
     });
@@ -517,7 +536,6 @@ function initTools($scope, $http, $timeout) {
                     }
                     break;
 
-
                 default:
                     return;
             }
@@ -529,6 +547,10 @@ function initTools($scope, $http, $timeout) {
         $scope.canvas.selection = true;
         if (!isDown) return;
         if (obj != null) {
+            $scope.canvas.getObjects().forEach(function (obj) {
+                obj.lockMovementX = false;
+                obj.lockMovementY = false;
+            });
             $scope.canvas.trigger('object:modified', {target: obj});
             // canvas.trigger('object:created',{target:obj});
             obj.setCoords();
@@ -551,29 +573,12 @@ function initTools($scope, $http, $timeout) {
     };
 
     $scope.toggleFullScreen = function () {
-        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-            (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-            if (document.documentElement.requestFullScreen) {
-                document.documentElement.requestFullScreen();
-                $scope.isFullscreen = true;
-            } else if (document.documentElement.mozRequestFullScreen) {
-                document.documentElement.mozRequestFullScreen();
-                $scope.isFullscreen = true;
-            } else if (document.documentElement.webkitRequestFullScreen) {
-                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-                $scope.isFullscreen = true;
-            }
-        } else {
-            if (document.cancelFullScreen) {
-                document.cancelFullScreen();
-                $scope.isFullscreen = false;
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-                $scope.isFullscreen = false;
-            } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-                $scope.isFullscreen = false;
-            }
+        $scope.isFullscreen = !$scope.isFullscreen;
+        if ($scope.isFullscreen) {
+            document.getElementById('mw-navigation').style.display = 'none';
+        }
+        else {
+            document.getElementById('mw-navigation').style.display = 'block';
         }
     };
 
@@ -595,6 +600,7 @@ function initTools($scope, $http, $timeout) {
             case 'image':
                 fabric.Image.fromURL(object.src, function (obj) {
                     obj.id = object.id;
+                    obj.name = object.name;
                     obj.set(object);
                     obj.top = object.top;
                     obj.left = object.left;
@@ -610,6 +616,7 @@ function initTools($scope, $http, $timeout) {
                 console.log(object);
                 new fabric.Group.fromObject(object, function (obj) {
                     obj.id = object.id;
+                    obj.name = object.name;
                     obj.set(object);
                     obj.top = object.top;
                     obj.left = object.left;
@@ -630,6 +637,7 @@ function initTools($scope, $http, $timeout) {
         }
         if (obj !== undefined) {
             obj.id = object.id;
+            obj.name = object.name;
             obj.selectable = object.selectable;
             obj.selectedBy = object.selectedBy;
             $scope.canvas.add(obj);
@@ -641,14 +649,14 @@ function initTools($scope, $http, $timeout) {
         }
     };
     $scope.addFilter = function (obj, index, filter) {
-        if(!filter) return;
+        if (!filter) return;
         f = fabric.util.string.camelize(fabric.util.string.capitalize(filter));
         obj.filters[index] = new fabric.Image.filters[f]({});
         obj.applyFilters($scope.canvas.renderAll.bind($scope.canvas));
     };
 
     $scope.applyFilterValue = function (obj, index, prop, value) {
-        if(obj.filters[index]){
+        if (obj.filters[index]) {
             obj.filters[index][prop] = value;
             obj.applyFilter();
         }
@@ -748,7 +756,8 @@ function initTools($scope, $http, $timeout) {
     $scope.getLayers = function () {
         return $scope.canvas._objects;
     };
+    $scope.reorderLayer = function (object,indexTo) {
+        object.moveTo(indexTo);
+        $scope.canvas.trigger('object:modified', {target: object});
+    }
 }
-
-
-
