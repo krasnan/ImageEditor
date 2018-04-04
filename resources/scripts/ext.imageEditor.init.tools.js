@@ -354,8 +354,6 @@ function initTools($scope, $http, $timeout) {
                     strokeWidth: 0,
                     left: origX,
                     top: origY,
-                    rx:10,
-                    ry:10,
                     fill: $scope.fillColor,
                     stroke: $scope.strokeColor
                 });
