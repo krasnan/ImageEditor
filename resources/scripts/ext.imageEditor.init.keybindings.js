@@ -5,7 +5,16 @@ function initKeyBindings($scope) {
 
 
     document.onkeyup = function (e) {
-        if ($scope.canvas.getActiveObject() !== null && $scope.canvas.getActiveObject().isEditing) return;
+        let tag = e.target.tagName.toLowerCase();
+        if (($scope.canvas.getActiveObject() !== undefined
+                && $scope.canvas.getActiveObject() !== null
+                && $scope.canvas.getActiveObject().isEditing === true)
+            || tag === 'input'
+            || tag === 'textarea'
+            || tag === 'select'
+            || tag === ''
+            || tag === 'checkbox'
+        ) return;
 
         $scope.ctrlPressed = e.ctrlKey;
         $scope.shiftPressed = e.shiftKey;
@@ -28,9 +37,6 @@ function initKeyBindings($scope) {
         else if (e.keyCode === 88 && $scope.ctrlPressed) {
             $scope.cut();
         }
-        // else if (e.keyCode === 68 && e.ctrlKey && e.shiftKey) {
-        //     $scope.duplicate();
-        // }
         else if (e.keyCode === 68 && $scope.shiftPressed) {
             $scope.duplicate();
         }

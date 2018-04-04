@@ -324,14 +324,21 @@
     input{
       .fs(13);
       position: unset;
-      width: 45%;
+      width: 30%;
       padding-left: @offset-xs;
       line-height: 2rem;
       text-align: left;
     }
     &__reorder{
-      padding-left: @offset-xs;
+
       cursor: ns-resize !important;
+    }
+    a{
+      padding-left: @offset-xs;
+      font-size: 12px;
+      &:first-child{
+        padding-left: 0;
+      }
     }
   }
   &__dropdown {
@@ -391,15 +398,18 @@
     height: 0;
     //visibility: hidden;
     opacity: 0;
+    padding-bottom: 0;
     &.active {
       &:extend(.transition all);
       height: 100%;
       //visibility: visible;
       opacity: 1;
+      padding-bottom: @offset;
     }
     &__messages {
       max-height: 200px;
       overflow-y: auto;
+
 
     }
     &__item {
@@ -435,11 +445,15 @@
         margin: 0;
       }
       a {
-        width: 30px;
+        margin: 0;
+        height: 2rem;
+        width: 45px;
+        line-height: 2rem;
         background-color: @blue;
         border: @border 1px solid;
         border-radius: @radius;
         color: @white;
+        float: right;
       }
     }
   }

@@ -1,118 +1,120 @@
 {
-	"name": "image-editor",
-	"version": "0.1.0",
-	"author": [
-		"Martin Krasňan"
-	],
-	"url": "https://www.mediawiki.org/wiki/Extension:ImageEditor",
-	"descriptionmsg": "ie-image-editor-desc",
-	"license-name": "MIT",
-	"type": "other",
-	"AutoloadClasses": {
-		"ImageEditorHooks": "ImageEditor.hooks.php",
-		"SpecialImageEditor": "specials/SpecialImageEditor.php",
-
-		"ImageEditorTemplate": "templates/ImageEditorTemplate.php"
-	},
-	"SpecialPages": {
-		"ImageEditor": "SpecialImageEditor"
-	},
-	"config": {
-	},
-	"ExtensionMessagesFiles": {
-		"ImageEditorAlias": "ImageEditor.i18n.alias.php"
-	},
-	"Hooks": {
-		"FileUpload": "ImageEditorHooks::onFileUpload",
-		"SkinTemplateNavigation": "ImageEditorHooks::onSkinTemplateNavigation",
-		"ResourceLoaderGetConfigVars": "ImageEditorHooks::onResourceLoaderGetConfigVars"
-	},
-	"MessagesDirs": {
-		"ImageEditor": [
-			"i18n"
-		]
-	},
-	"ResourceModules": {
-		"angular":{
-			"scripts": [
-				"vendor/angular/angular.min.js"
-			],
-			"position": "top"
-		},
-		"angular-bootstrap-colorpicker":{
-			"scripts": [
-				"vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"
-			],
-			"dependencies": [
-				"angular"
-			],
-			"position": "top"
-		},
-		"angular-sortable-view":{
-			"scripts": [
-				"vendor/angular-sortable-view/src/angular-sortable-view.min.js"
-			],
-			"dependencies": [
-				"angular"
-			],
-			"position": "top"
-		},
-		"socket.io-client":{
-			"scripts": [
-				"vendor/socket.io-client/dist/socket.io.js"
-			]
-		},
-		"fabric":{
-			"scripts": [
-				"vendor/fabricjs/fabric.min.js"
-			]
-		},
-		"ext.imageEditor": {
-			"scripts": [
-				"scripts/ext.imageEditor.utils.js",
-				"scripts/ext.imageEditor.init.accessors.js",
-				"scripts/ext.imageEditor.init.tools.js",
-				"scripts/ext.imageEditor.init.events.js",
-				"scripts/ext.imageEditor.init.keybindings.js",
-				"scripts/ext.imageEditor.controller.js"
-			],
-			"styles": [
-				"styles/ext.imageEditor.less"
-			],
-			"messages": [
-				"ie-success",
-				"ie-warning",
-				"ie-error",
-				"ie-cancel",
-				"ie-close",
-				"ie-ok",
-				"ie-yes",
-				"ie-no",
-				"ie-close-editor-header",
-				"ie-close-editor-description",
-				"ie-save-and-close",
-				"ie-insert-your-text...",
-				"ie-file-saved-successfully",
-				"ie-file-save-error",
-				"ie-file-save-warning",
-				"ie-connecting-to-server",
-				"ie-connection-failed"
-			],
-			"dependencies": [
-				"angular",
-				"angular-sortable-view",
-				"angular-bootstrap-colorpicker",
-				"socket.io-client",
-				"fabric",
-				"mediawiki.jqueryMsg"
-			],
-			"position": "bottom"
-		}
-	},
-	"ResourceFileModulePaths": {
-		"localBasePath": "resources",
-		"remoteExtPath": "ImageEditor/resources"
-	},
-
-	"manifest_version": 1
+  "name": "image-editor",
+  "version": "0.1.0",
+  "author": [
+    "Martin Krasňan"
+  ],
+  "url": "https://www.mediawiki.org/wiki/Extension:ImageEditor",
+  "descriptionmsg": "ie-image-editor-desc",
+  "license-name": "MIT",
+  "type": "other",
+  "AutoloadClasses": {
+    "ImageEditorHooks": "ImageEditor.hooks.php",
+    "SpecialImageEditor": "specials/SpecialImageEditor.php",
+    "ImageEditorTemplate": "templates/ImageEditorTemplate.php"
+  },
+  "SpecialPages": {
+    "ImageEditor": "SpecialImageEditor"
+  },
+  "config": {
+  },
+  "ExtensionMessagesFiles": {
+    "ImageEditorAlias": "ImageEditor.i18n.alias.php"
+  },
+  "Hooks": {
+    "FileUpload": "ImageEditorHooks::onFileUpload",
+    "SkinTemplateNavigation": "ImageEditorHooks::onSkinTemplateNavigation",
+    "ResourceLoaderGetConfigVars": "ImageEditorHooks::onResourceLoaderGetConfigVars"
+  },
+  "MessagesDirs": {
+    "ImageEditor": [
+      "i18n"
+    ]
+  },
+  "ResourceModules": {
+    "angular": {
+      "scripts": [
+        "vendor/angular/angular.min.js"
+      ],
+      "position": "top"
+    },
+    "angular-bootstrap-colorpicker": {
+      "scripts": [
+        "vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"
+      ],
+      "dependencies": [
+        "angular"
+      ],
+      "position": "top"
+    },
+    "angular-sortable-view": {
+      "scripts": [
+        "vendor/angular-sortable-view/src/angular-sortable-view.min.js"
+      ],
+      "dependencies": [
+        "angular"
+      ],
+      "position": "top"
+    },
+    "socket.io-client": {
+      "scripts": [
+        "vendor/socket.io-client/dist/socket.io.js"
+      ]
+    },
+    "fabric": {
+      "scripts": [
+        "vendor/fabricjs/fabric.min.js"
+      ]
+    },
+    "ext.imageEditor": {
+      "scripts": [
+        "scripts/ext.imageEditor.utils.js",
+        "scripts/ext.imageEditor.init.accessors.js",
+        "scripts/ext.imageEditor.init.tools.js",
+        "scripts/ext.imageEditor.init.events.js",
+        "scripts/ext.imageEditor.init.keybindings.js",
+        "scripts/ext.imageEditor.controller.js"
+      ],
+      "styles": [
+        "styles/ext.imageEditor.less"
+      ],
+      "messages": [
+        "ie-success",
+        "ie-warning",
+        "ie-error",
+        "ie-cancel",
+        "ie-close",
+        "ie-ok",
+        "ie-yes",
+        "ie-no",
+        "ie-delete",
+        "ie-close-editor-header",
+        "ie-close-editor-description",
+        "ie-save-and-close",
+        "ie-insert-your-text...",
+        "ie-file-saved-successfully",
+        "ie-file-save-error",
+        "ie-file-save-warning",
+        "ie-connecting-to-server",
+        "ie-connection-failed",
+        "ie-delete-layer-message",
+        "ie-delete-objects-header",
+        "ie-delete-objects-message"
+      ],
+      "dependencies": [
+        "angular",
+        "angular-sortable-view",
+        "angular-bootstrap-colorpicker",
+        "socket.io-client",
+        "fabric",
+        "mediawiki.jqueryMsg"
+      ],
+      "position": "bottom"
+    }
+  },
+  "ResourceFileModulePaths": {
+    "localBasePath": "resources",
+    "remoteExtPath": "ImageEditor/resources"
+  },
+  "manifest_version": 1
 }

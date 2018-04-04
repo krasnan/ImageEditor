@@ -45,6 +45,9 @@
   "ie-toggle-panel": "Zobraziť/Skryť",
   "ie-layers": "Vrstvy",
   "ie-delete-layer": "Odstrániť vrstvu",
+  "ie-delete-layer-message": "Naozaj chcete odstrániť túto vrstvu?",
+  "ie-delete-objects-header": "Odstrániť objekty",
+  "ie-delete-objects-message": "Naozaj chcete odstrániť vybraté objekty?",
   "ie-select-layer": "Vybrať vrstvu",
   "ie-bring-layer-forward": "Posuň vrstvu dopredu",
   "ie-send-layer-backward": "Posuň vrstvu dozadu",
@@ -100,5 +103,8 @@
   "ie-insert-your-text...": "Zadajte váš text...",
   "ie-file-saved-successfully": "Súbor bol úspešne uložený.",
   "ie-file-save-error": "Súbor sa nepodarilo uložiť.",
-  "ie-file-save-warning": "Súbor bol uložený s upozorneniami."
+  "ie-file-save-warning": "Súbor bol uložený s upozorneniami.",
+  "ie-border-radius":"Zaoblenie rohov",
+  "ie-toggle-layer-lock":"Zamknúť/Odomknúť vrstvu"
+
 }

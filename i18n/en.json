@@ -45,6 +45,9 @@
   "ie-toggle-panel": "Toggle panel",
   "ie-layers": "Layers",
   "ie-delete-layer": "Delete layer",
+  "ie-delete-layer-message": "Do you want to delete layer?",
+  "ie-delete-objects-header": "Delete items",
+  "ie-delete-objects-message": "Do you want to delete selected objects?",
   "ie-select-layer": "Select layer",
   "ie-bring-layer-forward": "Bring layer forward",
   "ie-send-layer-backward": "Send layer backward",
@@ -100,5 +103,8 @@
   "ie-insert-your-text...": "Insert your text...",
   "ie-file-saved-successfully": "File was saved successfully.",
   "ie-file-save-error": "File was not saved.",
-  "ie-file-save-warning": "File was saved with warnings."
+  "ie-file-save-warning": "File was saved with warnings.",
+  "ie-border-radius":"Corner radius",
+  "ie-toggle-layer-lock":"Toggle layer lock"
+
 }

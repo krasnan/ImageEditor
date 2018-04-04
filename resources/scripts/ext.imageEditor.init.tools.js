@@ -78,7 +78,7 @@ function initTools($scope, $http, $timeout) {
         formData.append("file", file);
         formData.append("format", "json");
         formData.append("ignorewarnings", true);
-        formData.append("comment", JSON.stringify($scope.canvas.toJSON('id', 'index')));
+        formData.append("comment", JSON.stringify($scope.canvas.toJSON(['id', 'index', 'name'])));
 
         $http({
             method: "POST",
@@ -132,7 +132,7 @@ function initTools($scope, $http, $timeout) {
         return new Blob([ab], {type: mimeString});
     }
 
-    $scope.closeEditor = function (e) {
+    $scope.closeEditor = function () {
         $scope.panels.modal = {
             opened: true,
             header: $scope.mw.msg("ie-close-editor-header"),
@@ -143,12 +143,14 @@ function initTools($scope, $http, $timeout) {
             success: function () {
                 $scope.room.loaded = false;
                 $scope.saveRevision();
+                window.onbeforeunload = null;
                 window.location = $scope.mw.util.wikiScript() + '?title=' + $scope.mw.util.getParamValue("file");
             },
             optional: function () {
             },
             cancel: function () {
                 $scope.room.loaded = false;
+                window.onbeforeunload = null;
                 window.location = $scope.mw.util.wikiScript() + '?title=' + $scope.mw.util.getParamValue("file");
             }
         };
@@ -219,10 +221,10 @@ function initTools($scope, $http, $timeout) {
         if (objects.length > 0) {
             $scope.panels.modal = {
                 opened: true,
-                header: "Delete items?",
-                text: "Do you want to delete selected items?",
-                successText: "Delete",
-                cancelText: "Cancel",
+                header: $scope.mw.msg('ie-delete-objects-header'),
+                text: $scope.mw.msg('ie-delete-objects-message'),
+                successText: $scope.mw.msg('ie-delete'),
+                cancelText: $scope.mw.msg('ie-cancel'),
                 success: function () {
                     objects.forEach(function (object) {
                         $scope.canvas.trigger('object:removed', {target: object});
@@ -238,10 +240,10 @@ function initTools($scope, $http, $timeout) {
     $scope.deleteObject = function (object) {
         $scope.panels.modal = {
             opened: true,
-            header: "Delete " + object.type + "?",
-            text: "Do you want to delete " + object.type + "(" + object.id + ") object?",
-            successText: "Delete",
-            cancelText: "Cancel",
+            header: object.name + " ("+object.type+")",
+            text: $scope.mw.msg('ie-delete-layer-message'),
+            successText: $scope.mw.msg('ie-delete'),
+            cancelText: $scope.mw.msg('ie-cancel'),
             success: function () {
                 $scope.canvas.remove(object);
                 $scope.canvas.trigger('object:removed', {target: object});
@@ -276,6 +278,7 @@ function initTools($scope, $http, $timeout) {
     $scope.copy = function () {
         $scope.canvas.getActiveObject().clone(function (cloned) {
             $scope._clipboard = cloned;
+            console.log($scope._clipboard);
         });
     };
 
@@ -293,12 +296,14 @@ function initTools($scope, $http, $timeout) {
                 clonedObj.canvas = $scope.canvas;
                 clonedObj.forEachObject(function (obj) {
                     obj.id = uniqueId();
+                    obj.name = obj.type + "_" + obj.id;
                     $scope.canvas.add(obj);
                 });
                 // this should solve the unselectability
                 clonedObj.setCoords();
             } else {
                 clonedObj.id = uniqueId();
+                clonedObj.name = clonedObj.type + "_" + clonedObj.id;
                 $scope.canvas.add(clonedObj);
             }
             $scope._clipboard.top += 10;
@@ -349,6 +354,8 @@ function initTools($scope, $http, $timeout) {
                     strokeWidth: 0,
                     left: origX,
                     top: origY,
+                    rx:10,
+                    ry:10,
                     fill: $scope.fillColor,
                     stroke: $scope.strokeColor
                 });
@@ -383,7 +390,8 @@ function initTools($scope, $http, $timeout) {
                     top: origY,
                     fill: $scope.fillColor,
                     stroke: $scope.strokeColor,
-                    fontFamily: 'Arial'
+                    fontFamily: 'Arial',
+                    centerTransform: true
                     // originX: 'left'
                 });
                 break;
@@ -421,6 +429,7 @@ function initTools($scope, $http, $timeout) {
                     obj.set(tmp);
                     $scope.canvas.renderAll();
                     $scope.canvas.setActiveObject(obj);
+                    //TODO: setup all properties in object:modified event trigger
                     $scope.canvas.trigger('object:modified', {target: obj});
                     return;
                 }
@@ -547,12 +556,12 @@ function initTools($scope, $http, $timeout) {
         $scope.canvas.selection = true;
         if (!isDown) return;
         if (obj != null) {
-            $scope.canvas.getObjects().forEach(function (obj) {
-                obj.lockMovementX = false;
-                obj.lockMovementY = false;
+            $scope.canvas.getObjects().forEach(function (o) {
+                o.lockMovementX = false;
+                o.lockMovementY = false;
             });
+            //TODO: setup all properties in object:modified event trigger
             $scope.canvas.trigger('object:modified', {target: obj});
-            // canvas.trigger('object:created',{target:obj});
             obj.setCoords();
             if ($scope.activeTool !== $scope.tools.polygon) {
                 $scope.setActiveTool($scope.tools.select);
@@ -735,7 +744,7 @@ function initTools($scope, $http, $timeout) {
             obj.setCoords();
             $scope.canvas.renderAll();
         });
-        $scope.canvas.trigger('object:modified', {target: object});
+        $scope.canvas.trigger('object:modified', {target: object, properties:['top', 'left', 'originY', 'originX']});
 
     };
 
@@ -758,6 +767,6 @@ function initTools($scope, $http, $timeout) {
     };
     $scope.reorderLayer = function (object,indexTo) {
         object.moveTo(indexTo);
-        $scope.canvas.trigger('object:modified', {target: object});
+        $scope.canvas.trigger('object:modified', {target: object, properties:['index']});
     }
 }

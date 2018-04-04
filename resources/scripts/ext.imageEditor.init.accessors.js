@@ -12,7 +12,7 @@ function initAccessors($scope) {
         var object = $scope.canvas.getActiveObject();
         if (!object) return;
         object.set(name, value).setCoords();
-        $scope.canvas.trigger('object:modified', {target: object});
+        $scope.canvas.trigger('object:modified', {target: object, properties:[name]});
         $scope.canvas.renderAll();
     };
 
@@ -35,7 +35,7 @@ function initAccessors($scope) {
             object.set(styleName, value);
         }
         object.setCoords();
-        $scope.canvas.trigger('object:modified', {target: object});
+        $scope.canvas.trigger('object:modified', {target: object, properties:[styleName]});
         $scope.canvas.renderAll();
     };
 
@@ -117,7 +117,18 @@ function initAccessors($scope) {
     $scope.setOpacity = function (value) {
         $scope.setActiveStyle('opacity', parseInt(value, 10) / 100);
     };
-
+    $scope.getRx = function () {
+        return $scope.getActiveStyle('rx')+0;
+    };
+    $scope.setRx = function (value) {
+        $scope.setActiveStyle('rx', parseInt(value, 10));
+    };
+    $scope.getRy = function () {
+        return $scope.getActiveStyle('ry')+0;
+    };
+    $scope.setRy = function (value) {
+        $scope.setActiveStyle('ry', parseInt(value, 10));
+    };
     $scope.getFill = function () {
         return $scope.getActiveStyle('fill');
     };
@@ -347,7 +358,7 @@ function initAccessors($scope) {
             object = $scope.canvas.getActiveObject();
         if (object) {
             $scope.canvas.sendBackwards(object);
-            $scope.canvas.trigger('object:modified', {target: object});
+            $scope.canvas.trigger('object:modified', {target: object, properties:['index']});
         }
     };
 
@@ -356,7 +367,7 @@ function initAccessors($scope) {
             object = $scope.canvas.getActiveObject();
         if (object) {
             $scope.canvas.sendToBack(object);
-            $scope.canvas.trigger('object:modified', {target: object});
+            $scope.canvas.trigger('object:modified', {target: object, properties:['index']});
         }
     };
 
@@ -365,7 +376,7 @@ function initAccessors($scope) {
             object = $scope.canvas.getActiveObject();
         if (object) {
             $scope.canvas.bringForward(object);
-            $scope.canvas.trigger('object:modified', {target: object});
+            $scope.canvas.trigger('object:modified', {target: object, properties:['index']});
         }
     };
 
@@ -374,12 +385,12 @@ function initAccessors($scope) {
             object = $scope.canvas.getActiveObject();
         if (object) {
             $scope.canvas.bringToFront(object);
-            $scope.canvas.trigger('object:modified', {target: object});
+            $scope.canvas.trigger('object:modified', {target: object, properties:['index']});
         }
     };
     $scope.applyChanges = function (object) {
         if (object !== undefined)
-            $scope.canvas.trigger('object:modified', {target: object});
+            $scope.canvas.trigger('object:modified', {target: object, properties:['index']});
     };
 
     $scope.toggleVisibility = function (object) {
@@ -387,7 +398,28 @@ function initAccessors($scope) {
             object = $scope.canvas.getActiveObject();
         if (object) {
             object.visible = !object.visible;
-            $scope.canvas.trigger('object:modified', {target: object});
+            $scope.canvas.trigger('object:modified', {target: object, properties:['visible']});
         }
     }
+    $scope.toggleLock = function (object) {
+        if (object === undefined)
+            object = $scope.canvas.getActiveObject();
+        if (object) {
+            if(!object.lockMovementX
+                && !object.lockMovementY
+                && !object.lockScalingX
+                && !object.lockScalingY
+                && !object.lockUniScaling
+                && !object.lockRotation)
+            {
+                object.lockMovementX = object.lockMovementY = object.lockScalingX = object.lockScalingY = object.lockUniScaling = object.lockRotation = true;
+            }
+            else{
+                object.lockMovementX = object.lockMovementY = object.lockScalingX = object.lockScalingY = object.lockUniScaling = object.lockRotation = false;
+            }
+
+            $scope.canvas.trigger('object:modified', {target: object, properties:['lockMovementX','lockMovementY','lockScalingX','lockScalingY','lockUniScaling','lockRotation']});
+        }
+    }
+
 }

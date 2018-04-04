@@ -45,6 +45,7 @@ function initEvents($scope) {
         console.log('SOCKET: selection-changed');
         var obj = $scope.canvas.getObjectById(data.id);
         obj.selectable = data.selectable;
+        obj.editable = data.selectable;
         obj.selectedBy = data.selectedBy;
     });
 
@@ -134,23 +135,43 @@ function initEvents($scope) {
     });
 
     $scope.canvas.on('object:modified', function (event) {
-        console.log('CANVAS: object:modified');
+        console.log('CANVAS: object:modified', event);
         var object = event.target;
+        var properties = event.properties;
         if (object.type === "activeSelection") {
             var group = object;
             for (var i = group._objects.length - 1; i >= 0; i--) {
                 var obj = group._objects[i];
                 obj.index = obj.getIndex();
                 group.removeWithUpdate(obj);
-                $scope.socket.emit('object-modified', obj.toJSON(['id', 'selectable', 'index', 'name']));
+
+                $scope.socket.emit('object-modified', toJSONbaseWithParams(obj, properties));
                 group.addWithUpdate(obj);
             }
         }
         else {
             object.index = object.getIndex();
-            $scope.socket.emit('object-modified', object.toJSON(['id', 'selectable', 'index', 'name']));
+            $scope.socket.emit('object-modified', toJSONbaseWithParams(object, properties));
         }
     });
+
+    function toJSONbaseWithParams(obj, propertiesToInclude){
+        if(propertiesToInclude === undefined || true) return obj.toJSON(['id', 'selectable', 'index', 'name']);
+        var serialized = {
+            id: obj.id,
+            type: obj.type,
+            left: obj.left,
+            top: obj.top,
+            scaleX: obj.scaleX,
+            scaleY: obj.scaleY,
+            angle: obj.angle,
+            index: obj.index
+        };
+        propertiesToInclude.forEach(function (p) {
+            serialized[p] = obj[p];
+        });
+        return serialized;
+    }
 
     $scope.canvas.on('object:created', function (event) {
         console.log('CANVAS: object:created');
@@ -167,8 +188,8 @@ function initEvents($scope) {
 
     $scope.canvas.on('canvas:modified', function (event) {
         $scope.socket.emit('canvas-modified', {
-            width:  $scope.getCanvasWidth(),
-            height:  $scope.getCanvasHeight(),
+            width: $scope.getCanvasWidth(),
+            height: $scope.getCanvasHeight(),
             backgroundColor: $scope.canvas.backgroundColor
         })
     });
@@ -192,9 +213,18 @@ function initEvents($scope) {
     });
 
     $scope.canvas.on('mouse:wheel', function (event) {
-        if(!$scope.ctrlPressed) return;
+        if (!$scope.ctrlPressed) return;
 
         console.log(event);
-    })
+    });
     // ------------ Canvas event listeners - END ------------
+    // ------------ Window event listeners - START ------------
+    window.onbeforeunload = beforeunload;
+    function beforeunload(){
+        alert("confirm exit is being called");
+        return false;
+    }
+    // ------------ Window event listeners - END ------------
+
+
 }

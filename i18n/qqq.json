@@ -45,6 +45,9 @@
   "ie-toggle-panel": "",
   "ie-layers": "",
   "ie-delete-layer": "",
+  "ie-delete-layer-message": "",
+  "ie-delete-objects-header": "",
+  "ie-delete-objects-message": "",
   "ie-select-layer": "",
   "ie-bring-layer-forward": "",
   "ie-send-layer-backward": "",
@@ -100,5 +103,7 @@
   "ie-insert-your-text...": "",
   "ie-file-saved-successfully": "",
   "ie-file-save-error": "",
-  "ie-file-save-warning": ""
+  "ie-file-save-warning": "",
+  "ie-border-radius":"",
+  "ie-toggle-layer-lock":""
 }

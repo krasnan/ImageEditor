@@ -50,7 +50,7 @@ class ImageEditorTemplate extends QuickTemplate {
                                 <a title="" class="btn" ng-click="cut()"><?= $this->msg('ie-cut') ?><span>ctrl + x</span></a>
                                 <a title="" class="btn" ng-click="copy()"><?= $this->msg('ie-copy') ?><span>ctrl + c</span></a>
                                 <a title="" class="btn" ng-click="paste()"><?= $this->msg('ie-paste') ?><span>ctrl + v</span></a>
-                                <a title="" class="btn" ng-click="duplicate()"><?= $this->msg('ie-duplicate') ?></a>
+                                <a title="" class="btn" ng-click="duplicate()"><?= $this->msg('ie-duplicate') ?><span>shift + v</span></a>
                                 <a title="" class="btn" ng-click="deleteSelection()"><?= $this->msg('ie-delete') ?><span>del</span></a>
                             </div>
                         </div>
@@ -73,7 +73,8 @@ class ImageEditorTemplate extends QuickTemplate {
                         </div>
 
                         <a title="<?= $this->msg('ie-toggle-fullscreen') ?>" ng-click="toggleFullScreen()" class="btn" ><i ng-class="isFullscreen ? 'icon-shrink' : 'icon-enlarge'"></i></a>
-                        <a title="<?= $this->msg('ie-toggle-messenger') ?>" ng-click="scrollDown('ie__messenger__messages'); messengerVisible = !messengerVisible; room.newMessage = false" class="btn" ng-class="room.newMessage && !messengerVisible ? 'text-primary' : ''"><i class="icon-bubbles2"></i></a>
+                        <a title="<?= $this->msg('ie-center-viewport') ?>" ng-click="centerViewport()" class="btn" ><i class="icon-target"></i></a>
+                        <a title="<?= $this->msg('ie-toggle-messenger') ?>" ng-click="scrollDown('ie__messenger__messages'); messengerVisible = !messengerVisible; room.newMessage = false" class="btn" ng-class="room.newMessage && !messengerVisible ? 'text-danger' : ''"><i class="icon-bubbles2"></i></a>
                         <div class="ie__messenger" ng-class="messengerVisible==true ? 'active' : ''">
                             <div class="ie__messenger__messages">
                                 <div ng-repeat="message in room.messages" class="ie__messenger__item" ng-class="message.type=='system' ? 'system_message' : ''">
@@ -83,7 +84,7 @@ class ImageEditorTemplate extends QuickTemplate {
                                 </div>
                             </div>
                             <div class="ie__messenger__controll">
-                                <input type="text" ng-model="message" placeholder="<?= $this->msg('ie-message') ?>">
+                                <input type="text" ng-model="message" on-enter="sendMessage(message)" placeholder="<?= $this->msg('ie-message') ?>">
                                 <a title="<?= $this->msg('ie-send') ?>" class="btn" ng-click="sendMessage(message)"><i class="icon-send active"></i></a>
                             </div>
                         </div>
@@ -123,7 +124,8 @@ class ImageEditorTemplate extends QuickTemplate {
                                     <input title="{[layer.name]}" type="text" ng-model="layer.name" ng-change="applyChanges(layer)" ng-model-options="{updateOn: 'blur'}">
                                     <a title="<?= $this->msg('ie-reorder-layer') ?>" sv-handle class="ie__layer__reorder pull-right">☰</a>
                                     <a title="<?= $this->msg('ie-delete-layer') ?>" ng-click="deleteObject(layer)" class="pull-right"><i class="icon-trash"></i></a>
-                                    <a title="<?= $this->msg('ie-toggle-layer-visibility') ?>" ng-click="toggleVisibility(layer)" class="pull-right"><i ng-class="layer.visible ? 'icon-eye': 'icon-eye-blocked'" class="icon-trash"></i></a>
+                                    <a title="<?= $this->msg('ie-toggle-layer-visibility') ?>" ng-click="toggleVisibility(layer)" class="pull-right"><i ng-class="layer.visible ? 'icon-eye': 'icon-eye-blocked'"></i></a>
+                                    <a title="<?= $this->msg('ie-toggle-layer-lock') ?>" ng-click="toggleLock(layer)" class="pull-right"><i ng-class="!layer.lockMovementX && !layer.lockMovementY && !layer.lockScalingX && !layer.lockScalingY && !layer.lockUniScaling && !layer.lockRotation  ? 'icon-unlocked': 'icon-lock'"></i></a>
                                 </div>
 
                             </div>
@@ -154,7 +156,6 @@ class ImageEditorTemplate extends QuickTemplate {
                                     <label>
                                         <?= $this->msg('ie-zoom') ?>
                                         <input type="number" ng-model="canvasZoom" ng-change="updateCanvasZoom()" min="1" max="300" step="0.1">%
-                                        <a title="<?= $this->msg('ie-center-viewport') ?>" ng-click="centerViewport()" class="btn pull-right" ><i class="icon-target"></i></a>
                                     </label>
                                     <input title="" type="range" ng-model="canvasZoom" ng-change="updateCanvasZoom()" min="1" max="300" step="0.1">
                                 </div>
@@ -237,6 +238,19 @@ class ImageEditorTemplate extends QuickTemplate {
                                     <label><?= $this->msg('ie-opacity') ?></label>
                                     <input type="number" bind-value-to="opacity" min="0" max="100">
                                 </div>
+                                <div ng-show="canvas.getActiveObject().type === 'rect'">
+                                    <div class="ie__options__title"><?= $this->msg('ie-border-roundness') ?></div>
+
+                                    <div class="ie__tile__22">
+                                        <label>rx</label>
+                                        <input type="number" bind-value-to="rx" min="0">
+                                    </div>
+                                    <div class="ie__tile__22">
+                                        <label>ry</label>
+                                        <input type="number" bind-value-to="ry" min="0">
+                                    </div>
+                                </div>
+
 
                                 <div class="ie__options__title"><?= $this->msg('ie-reference-point') ?></div>
                                 <div class="ie__options__reference">
