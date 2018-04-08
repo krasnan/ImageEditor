@@ -78,7 +78,8 @@ function initTools($scope, $http, $timeout) {
         formData.append("file", file);
         formData.append("format", "json");
         formData.append("ignorewarnings", true);
-        formData.append("comment", JSON.stringify($scope.canvas.toJSON(['id', 'index', 'name'])));
+        formData.append("comment", $scope.mw.msg("ie-edited-with-image-editor"));
+        formData.append("imageeditor", JSON.stringify($scope.canvas.toJSON(['id', 'index', 'name'])));
 
         $http({
             method: "POST",

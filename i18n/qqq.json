@@ -105,5 +105,6 @@
   "ie-file-save-error": "",
   "ie-file-save-warning": "",
   "ie-border-radius":"",
-  "ie-toggle-layer-lock":""
+  "ie-toggle-layer-lock":"",
+  "ie-edited-with-image-editor":""
 }

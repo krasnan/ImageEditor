@@ -99,7 +99,8 @@
         "ie-connection-failed",
         "ie-delete-layer-message",
         "ie-delete-objects-header",
-        "ie-delete-objects-message"
+        "ie-delete-objects-message",
+        "ie-edited-with-image-editor"
       ],
       "dependencies": [
         "angular",

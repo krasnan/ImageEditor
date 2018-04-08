@@ -105,6 +105,7 @@
   "ie-file-save-error": "Súbor sa nepodarilo uložiť.",
   "ie-file-save-warning": "Súbor bol uložený s upozorneniami.",
   "ie-border-radius":"Zaoblenie rohov",
-  "ie-toggle-layer-lock":"Zamknúť/Odomknúť vrstvu"
+  "ie-toggle-layer-lock":"Zamknúť/Odomknúť vrstvu",
+  "ie-edited-with-image-editor":"Upravené pomocou editora obrázkov"
 
 }
