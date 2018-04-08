@@ -16,10 +16,13 @@ class ImageEditorHooks
     public static function onFileUpload($file, $reupload, $newPageContent)
     {
         if ($file->getDescription()[0] != '{') return false;
-        $meta = $file;
+
         $dbw = $file->repo->getMasterDB();
         $meta = unserialize($file->getMetadata());
-        $meta["imageEditorContent"] = $file->getDescription();
+
+        $meta["imageEditorContent"] = isset($_REQUEST['comment'])
+            ? $_REQUEST['comment']
+            : $file->getDescription();
 
         $dbw->update('image',
             ['img_metadata' => serialize($meta)],
