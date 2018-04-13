@@ -25,9 +25,10 @@ class ImageEditorTemplate extends QuickTemplate {
         ?>
         <div class="ie" ng-controller="ImageEditor" ng-class="{ie__loaded : room.loaded, ie__fullscreen : isFullscreen}" >
             <div class="ie__container" style="visibility: hidden;">
-                <div class="ie__playground">
+                <div class="ie__playground" ng-click="onPlaygroundClick($event);">
                     <div class="ie__playground__container">
                         <canvas id="ie__canvas" width="800" height="600"></canvas>
+                        <div class="ie__user__bubble">asdf</div>
                     </div>
                 </div>
 
@@ -420,6 +421,7 @@ class ImageEditorTemplate extends QuickTemplate {
                     </div>
                 </div>
             </div>
+
 
 
         </div>

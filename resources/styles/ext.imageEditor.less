@@ -19,6 +19,22 @@
   ul {
     &:extend(.ul_reset);
   }
+  &__user__bubble{
+    &:extend(.transition all);
+    &:extend(.shadow-box all);
+    position: absolute;
+    visibility: hidden;
+    opacity: 1;
+    border-radius: @radius;
+    color: @white;
+    -webkit-transform: translate(-50% , -100%);
+    -moz-transform: translate(-50% , -100%);
+    -ms-transform: translate(-50% , -100%);
+    -o-transform: translate(-50% , -100%);
+    transform: translate(-50% , -100%);
+    padding: @offset-sm;
+  }
+
   &__container {
     position: relative;
     pointer-events: none;

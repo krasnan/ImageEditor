@@ -57,6 +57,11 @@ function initEvents($scope) {
         console.log('SOCKET: object-modified');
         var object = $scope.canvas.getObjectById(obj.id);
         if (object !== null) {
+            if (object.type === 'polygon' && object.points.length !== obj.points.length) {
+                delete obj.top;
+                delete obj.left;
+                obj = new fabric.Polygon(obj.points, obj);
+            }
             object.animate(
                 {
                     left: obj.left,
@@ -69,7 +74,8 @@ function initEvents($scope) {
                     onChange: function () {
                         object.setCoords();
                         $scope.canvas.renderAll();
-                    }
+                    },
+                    easing: fabric.util.ease['easeInOutCubic']
                 }
             );
             object.set(obj);
@@ -111,6 +117,9 @@ function initEvents($scope) {
     // ------------ Canvas event listeners - START ------------
     $scope.canvas.on('selection:created', function (event) {
         console.log('CANVAS: selection:created');
+
+        // $scope.historyManager.objectBefore = $scope.canvas.getActiveObject().toJSON(['id', 'index', 'name']);
+
         event.selected.forEach(function (obj) {
             $scope.socket.emit('selection-changed', {id: obj.id, selectable: false});
         });
@@ -118,6 +127,9 @@ function initEvents($scope) {
 
     $scope.canvas.on('selection:updated', function (event) {
         console.log('CANVAS: selection:updated');
+
+        // $scope.historyManager.objectBefore = $scope.canvas.getActiveObject().toJSON(['id', 'index', 'name']);
+
         event.selected.forEach(function (obj) {
             $scope.socket.emit('selection-changed', {id: obj.id, selectable: false});
         });
@@ -128,6 +140,9 @@ function initEvents($scope) {
 
     $scope.canvas.on('selection:cleared', function (event) {
         console.log('CANVAS: selection:cleared');
+
+        // $scope.historyManager.objectBefore = null;
+
         if (event.deselected === undefined) return;
         event.deselected.forEach(function (obj) {
             $scope.socket.emit('selection-changed', {id: obj.id, selectable: true});
@@ -136,6 +151,10 @@ function initEvents($scope) {
 
     $scope.canvas.on('object:modified', function (event) {
         console.log('CANVAS: object:modified', event);
+
+        // if (!event.fromHistory)
+        //     $scope.historyManager.commit($scope.historyManager.operation.modify ,event.target);
+
         var object = event.target;
         var properties = event.properties;
         if (object.type === "activeSelection") {
@@ -155,8 +174,9 @@ function initEvents($scope) {
         }
     });
 
-    function toJSONbaseWithParams(obj, propertiesToInclude){
-        if(propertiesToInclude === undefined || true) return obj.toJSON(['id', 'selectable', 'index', 'name']);
+
+    function toJSONbaseWithParams(obj, propertiesToInclude) {
+        if (propertiesToInclude === undefined || true) return obj.toJSON(['id', 'selectable', 'index', 'name']);
         var serialized = {
             id: obj.id,
             type: obj.type,
@@ -175,15 +195,31 @@ function initEvents($scope) {
 
     $scope.canvas.on('object:created', function (event) {
         console.log('CANVAS: object:created');
-        var obj = event.target;
+
+        // if (!event.fromHistory)
+        //     $scope.historyManager.commit($scope.historyManager.operation.add ,event.target);
+
+        let obj = event.target;
         obj.index = obj.getIndex();
         $scope.socket.emit('object-created', obj.toJSON(['id', 'selectable', 'index', 'name']));
+
+
     });
 
     $scope.canvas.on('object:removed', function (event) {
         console.log('CANVAS: object:removed');
-        var obj = event.target;
-        $scope.socket.emit('object-removed', obj.id);
+
+        // if (!event.fromHistory)
+        //     $scope.historyManager.commit($scope.historyManager.operation.remove ,event.target);
+
+        let obj = event.target;
+        if (obj.type === "activeSelection") {
+            objects.forEach(function (object) {
+                $scope.socket.emit('object-removed', object.id);
+            });
+        }
+        else
+            $scope.socket.emit('object-removed', obj.id);
     });
 
     $scope.canvas.on('canvas:modified', function (event) {
@@ -196,7 +232,7 @@ function initEvents($scope) {
 
     $scope.canvas.on('path:created', function (event) {
         console.log('CANVAS: path:created');
-        var object = event.path;
+        let object = event.path;
         object.index = object.getIndex();
         object.id = uniqueId();
         object.name = "path_" + object.id;
@@ -217,13 +253,47 @@ function initEvents($scope) {
 
         console.log(event);
     });
+
+    $scope.canvas.on('mouse:over', function (e) {
+        if (e.target == null) return;
+        if (!e.target.selectable) {
+            var obj = e.target,
+                objectLeft = obj.getBoundingRect().left + obj.getBoundingRect().width / 2,
+                objectTop = obj.getBoundingRect().top,
+                element = document.getElementsByClassName('ie__user__bubble')[0],
+                canvas = document.getElementById('ie__canvas');
+
+            element.textContent = $scope.room.users[obj.selectedBy].name;
+            element.style.backgroundColor = $scope.room.users[obj.selectedBy].color;
+            element.style.left = canvas.offsetParent.offsetLeft + objectLeft + 'px';
+            element.style.top = canvas.offsetParent.offsetTop + objectTop + 'px';
+            element.style.visibility = 'visible';
+            element.style.opacity = 1;
+        }
+    });
+
+    $scope.canvas.on('mouse:out', function (e) {
+        if (e.target == null) return;
+        element = document.getElementsByClassName('ie__user__bubble')[0];
+        element.style.visibility = 'hidden';
+        element.style.opacity = 0;
+    });
+
+    $scope.onPlaygroundClick = function (e) {
+        if (e.target.className === 'ie__playground__container') {
+            $scope.canvas.discardActiveObject();
+        }
+    };
+
     // ------------ Canvas event listeners - END ------------
     // ------------ Window event listeners - START ------------
     window.onbeforeunload = beforeunload;
-    function beforeunload(){
+
+    function beforeunload() {
         alert("confirm exit is being called");
         return false;
     }
+
     // ------------ Window event listeners - END ------------
 
 

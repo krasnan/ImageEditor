@@ -1,5 +1,5 @@
 (function (mw, angular, fabric) {
-    var canvas = new fabric.Canvas('ie__canvas', {preserveObjectStacking: true});
+    var canvas = new fabric.Canvas('ie__canvas', {preserveObjectStacking: true, perPixelTargetFind:true});
     window.canvas = canvas;
 
 
@@ -175,6 +175,7 @@
         initTools($scope, $http, $timeout);
         initEvents($scope);
         initKeyBindings($scope);
+        initHistoryManager($scope);
 
         $scope.centerViewport();
     });

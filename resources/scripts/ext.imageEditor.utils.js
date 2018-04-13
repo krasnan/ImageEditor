@@ -47,6 +47,12 @@
     fabric.Object.prototype.isSelected = function () {
         return canvas.getActiveObjects().indexOf(this) >= 0;
     };
+    fabric.Object.prototype.set({
+        cornerSize: 18,
+        cornerColor: '#00a5ff',
+        borderColor:'#00a5ff',
+        borderScaleFactor: 2,
+    });
 
 })(mediaWiki, jQuery);
 

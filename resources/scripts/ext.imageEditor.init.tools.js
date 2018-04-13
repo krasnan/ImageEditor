@@ -217,8 +217,13 @@ function initTools($scope, $http, $timeout) {
 
         $scope.canvas.freeDrawingBrush.color = value;
     };
-    $scope.deleteSelection = function () {
-        var objects = $scope.canvas.getActiveObjects();
+    $scope.deleteSelection = function (selection) {
+        var objects;
+        if(selection !== undefined)
+            objects = selection;
+        else
+            objects = $scope.canvas.getActiveObjects();
+
         if (objects.length > 0) {
             $scope.panels.modal = {
                 opened: true,
@@ -228,9 +233,9 @@ function initTools($scope, $http, $timeout) {
                 cancelText: $scope.mw.msg('ie-cancel'),
                 success: function () {
                     objects.forEach(function (object) {
-                        $scope.canvas.trigger('object:removed', {target: object});
                         $scope.canvas.remove(object);
                     });
+                    $scope.canvas.trigger('object:removed', {target: objects});
                     $scope.canvas.discardActiveObject();
                 },
                 cancel: function () {
