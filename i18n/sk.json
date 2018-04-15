@@ -106,6 +106,6 @@
   "ie-file-save-warning": "Súbor bol uložený s upozorneniami.",
   "ie-border-radius":"Zaoblenie rohov",
   "ie-toggle-layer-lock":"Zamknúť/Odomknúť vrstvu",
-  "ie-edited-with-image-editor":"Upravené pomocou editora obrázkov"
-
+  "ie-edited-with-image-editor":"Upravené pomocou editora obrázkov",
+  "ie-border-roundness":"Zaoblenie rohov"
 }

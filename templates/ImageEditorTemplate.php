@@ -97,8 +97,8 @@ class ImageEditorTemplate extends QuickTemplate {
                         <a title="<?= $this->msg('ie-select-tool') ?>" ng-class="activeTool == tools.select ? 'active' : '' " ng-click="setActiveTool(tools.select)" class="btn"><i class="icon-select"></i></a>
                         <a title="<?= $this->msg('ie-brush-tool') ?>" ng-class="activeTool == tools.brush ? 'active' : '' " ng-click="setActiveTool(tools.brush)" class="btn"><i class="icon-pencil2"></i></a>
                         <a title="<?= $this->msg('ie-image-tool') ?>" ng-click="panels.file_upload.opened = true" class="btn"><i class="icon-image"></i></a>
-                        <a title="<?= $this->msg('ie-Line-tool') ?>" ng-class="activeTool == tools.line ? 'active' : '' " ng-click="setActiveTool(tools.line)" class="btn"><big><b>\</b></big></a>
-                        <a title="<?= $this->msg('ie-Rectangle-tool') ?>" ng-class="activeTool == tools.rectangle ? 'active' : '' " ng-click="setActiveTool(tools.rectangle)" class="btn"><i class="icon-square" ng-click="addRect()"></i></a>
+                        <a title="<?= $this->msg('ie-line-tool') ?>" ng-class="activeTool == tools.line ? 'active' : '' " ng-click="setActiveTool(tools.line)" class="btn"><big><b>\</b></big></a>
+                        <a title="<?= $this->msg('ie-rectangle-tool') ?>" ng-class="activeTool == tools.rectangle ? 'active' : '' " ng-click="setActiveTool(tools.rectangle)" class="btn"><i class="icon-square" ng-click="addRect()"></i></a>
                         <a title="<?= $this->msg('ie-ellipse-tool') ?>" ng-class="activeTool == tools.ellipse ? 'active' : '' " ng-click="setActiveTool(tools.ellipse)" class="btn"><i class="icon-oval"></i></a>
                         <a title="<?= $this->msg('ie-triangle-tool') ?>" ng-class="activeTool == tools.triangle ? 'active' : '' " ng-click="setActiveTool(tools.triangle)" class="btn"><i class="icon-triangle"></i></a>
                         <a title="<?= $this->msg('ie-polygon-tool') ?>" ng-class="activeTool == tools.polygon ? 'active' : '' " ng-click="setActiveTool(tools.polygon)" class="btn"><i class="icon-polygon"></i></a>

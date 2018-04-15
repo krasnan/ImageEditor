@@ -106,5 +106,6 @@
   "ie-file-save-warning": "File was saved with warnings.",
   "ie-border-radius":"Corner radius",
   "ie-toggle-layer-lock":"Toggle layer lock",
-  "ie-edited-with-image-editor":"Edited with ImageEditor"
+  "ie-edited-with-image-editor":"Edited with ImageEditor",
+  "ie-border-roundness":"Border roundness"
 }

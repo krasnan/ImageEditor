@@ -106,5 +106,6 @@
   "ie-file-save-warning": "",
   "ie-border-radius":"",
   "ie-toggle-layer-lock":"",
-  "ie-edited-with-image-editor":""
+  "ie-edited-with-image-editor":"",
+  "ie-border-roundness":""
 }
