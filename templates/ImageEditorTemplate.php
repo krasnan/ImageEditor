@@ -94,16 +94,16 @@ class ImageEditorTemplate extends QuickTemplate {
 
                 <div class="ie__tools">
                     <div class="ie__panel__vertical">
-                        <a title="<?= $this->msg('ie-select-tool') ?>" ng-class="activeTool == tools.select ? 'active' : '' " ng-click="setActiveTool(tools.select)" class="btn"><i class="icon-select"></i></a>
-                        <a title="<?= $this->msg('ie-brush-tool') ?>" ng-class="activeTool == tools.brush ? 'active' : '' " ng-click="setActiveTool(tools.brush)" class="btn"><i class="icon-pencil2"></i></a>
+                        <a title="<?= $this->msg('ie-select-tool') ?> (S)" ng-class="activeTool == tools.select ? 'active' : '' " ng-click="setActiveTool(tools.select)" class="btn"><i class="icon-select"></i></a>
+                        <a title="<?= $this->msg('ie-brush-tool') ?> (B)" ng-class="activeTool == tools.brush ? 'active' : '' " ng-click="setActiveTool(tools.brush)" class="btn"><i class="icon-pencil2"></i></a>
                         <a title="<?= $this->msg('ie-image-tool') ?>" ng-click="panels.file_upload.opened = true" class="btn"><i class="icon-image"></i></a>
-                        <a title="<?= $this->msg('ie-line-tool') ?>" ng-class="activeTool == tools.line ? 'active' : '' " ng-click="setActiveTool(tools.line)" class="btn"><big><b>\</b></big></a>
-                        <a title="<?= $this->msg('ie-rectangle-tool') ?>" ng-class="activeTool == tools.rectangle ? 'active' : '' " ng-click="setActiveTool(tools.rectangle)" class="btn"><i class="icon-square" ng-click="addRect()"></i></a>
-                        <a title="<?= $this->msg('ie-ellipse-tool') ?>" ng-class="activeTool == tools.ellipse ? 'active' : '' " ng-click="setActiveTool(tools.ellipse)" class="btn"><i class="icon-oval"></i></a>
+                        <a title="<?= $this->msg('ie-line-tool') ?> (L)" ng-class="activeTool == tools.line ? 'active' : '' " ng-click="setActiveTool(tools.line)" class="btn"><big><b>\</b></big></a>
+                        <a title="<?= $this->msg('ie-rectangle-tool') ?> (R)" ng-class="activeTool == tools.rectangle ? 'active' : '' " ng-click="setActiveTool(tools.rectangle)" class="btn"><i class="icon-square" ng-click="addRect()"></i></a>
+                        <a title="<?= $this->msg('ie-ellipse-tool') ?> (E)" ng-class="activeTool == tools.ellipse ? 'active' : '' " ng-click="setActiveTool(tools.ellipse)" class="btn"><i class="icon-oval"></i></a>
                         <a title="<?= $this->msg('ie-triangle-tool') ?>" ng-class="activeTool == tools.triangle ? 'active' : '' " ng-click="setActiveTool(tools.triangle)" class="btn"><i class="icon-triangle"></i></a>
-                        <a title="<?= $this->msg('ie-polygon-tool') ?>" ng-class="activeTool == tools.polygon ? 'active' : '' " ng-click="setActiveTool(tools.polygon)" class="btn"><i class="icon-polygon"></i></a>
-                        <a title="<?= $this->msg('ie-textbox-tool') ?>" ng-class="activeTool == tools.text ? 'active' : '' " ng-click="setActiveTool(tools.text)" class="btn"><bib><b>T</b></bib></a>
-                        <a title="<?= $this->msg('ie-snap-to-grid') ?>" ng-class="snapToGrid ? 'active' : '' " ng-click="snapToGrid = !snapToGrid" class="btn"><big>▦</big></a>
+                        <a title="<?= $this->msg('ie-polygon-tool') ?> (P)" ng-class="activeTool == tools.polygon ? 'active' : '' " ng-click="setActiveTool(tools.polygon)" class="btn"><i class="icon-polygon"></i></a>
+                        <a title="<?= $this->msg('ie-textbox-tool') ?> (T)" ng-class="activeTool == tools.text ? 'active' : '' " ng-click="setActiveTool(tools.text)" class="btn"><bib><b>T</b></bib></a>
+                        <a title="<?= $this->msg('ie-snap-to-grid') ?> (G)" ng-class="snapToGrid ? 'active' : '' " ng-click="snapToGrid = !snapToGrid" class="btn"><big>▦</big></a>
                         <div class="ie__container__picker btn">
                             <div title="<?= $this->msg('ie-background-color') ?>" colorpicker="rgba" colorpicker-position="right" colorpicker-with-input="true" ng-model="fillColor" ng-change="setFillColor(fillColor)" class="ie__container__picker__background" style="background-color:{[getFillColor()]}"></div>
                             <div title="<?= $this->msg('ie-stroke-color') ?>" colorpicker="rgba" colorpicker-position="right" colorpicker-with-input="true" ng-model="strokeColor" ng-change="setStrokeColor(strokeColor)" class="ie__container__picker__stroke" style="background-color:{[getStrokeColor();]}">

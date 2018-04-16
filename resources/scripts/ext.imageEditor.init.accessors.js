@@ -176,17 +176,20 @@ function initAccessors($scope) {
             : ($scope.getActiveStyle('textDecoration') + ' underline');
 
         $scope.setActiveStyle('textDecoration', value);
+        $scope.setActiveStyle('underline', !$scope.getActiveStyle('underline'));
     };
 
     $scope.isLinethrough = function () {
-        return $scope.getActiveStyle('textDecoration').indexOf('line-through') > -1;
+        return $scope.getActiveStyle('textDecoration').indexOf('linethrough') > -1;
     };
     $scope.toggleLinethrough = function () {
         var value = $scope.isLinethrough()
-            ? $scope.getActiveStyle('textDecoration').replace('line-through', '')
-            : ($scope.getActiveStyle('textDecoration') + ' line-through');
+            ? $scope.getActiveStyle('textDecoration').replace('linethrough', '')
+            : ($scope.getActiveStyle('textDecoration') + ' linethrough');
 
         $scope.setActiveStyle('textDecoration', value);
+        $scope.setActiveStyle('linethrough', !$scope.getActiveStyle('linethrough'));
+
     };
     $scope.isOverline = function () {
         return $scope.getActiveStyle('textDecoration').indexOf('overline') > -1;

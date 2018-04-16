@@ -242,8 +242,8 @@ function initEvents($scope) {
     $scope.canvas.on('object:moving', function (options) {
         if ($scope.snapToGrid) {
             options.target.set({
-                left: Math.round(options.target.left / $scope.grid) * $scope.grid,
-                top: Math.round(options.target.top / $scope.grid) * $scope.grid
+                left: Math.round(options.target.left / ($scope.grid / $scope.canvas.getZoom())) * ($scope.grid / $scope.canvas.getZoom()),
+                top: Math.round(options.target.top / ($scope.grid / $scope.canvas.getZoom())) * ($scope.grid / $scope.canvas.getZoom())
             });
         }
     });

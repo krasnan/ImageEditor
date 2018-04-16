@@ -22,7 +22,7 @@ function initKeyBindings($scope) {
 
         e = window.event ? event : e;
 
-        // console.log(String.fromCharCode(e.keyCode) + " " + e.keyCode);
+        console.log(String.fromCharCode(e.keyCode) + " " + e.keyCode);
 
         if (e.keyCode === 37 && $scope.ctrlPressed) {
             $scope.copy();
@@ -48,8 +48,8 @@ function initKeyBindings($scope) {
         else if (e.keyCode === 83) {
             $scope.setActiveTool($scope.tools.select);
         }
-        else if (e.keyCode === 80) {
-            $scope.setActiveTool($scope.tools.pencil);
+        else if (e.keyCode === 66) {
+            $scope.setActiveTool($scope.tools.brush)
         }
         else if (e.keyCode === 76) {
             $scope.setActiveTool($scope.tools.line);
@@ -57,11 +57,17 @@ function initKeyBindings($scope) {
         else if (e.keyCode === 82) {
             $scope.setActiveTool($scope.tools.rectangle);
         }
-        else if (e.keyCode === 67) {
-            $scope.setActiveTool($scope.tools.circle);
+        else if (e.keyCode === 69) {
+            $scope.setActiveTool($scope.tools.ellipse);
         }
         else if (e.keyCode === 84) {
             $scope.setActiveTool($scope.tools.text);
+        }
+        else if (e.keyCode === 80) {
+            $scope.setActiveTool($scope.tools.polygon);
+        }
+        else if (e.keyCode === 71) {
+            $scope.snapToGrid = !$scope.snapToGrid
         }
 
         //object
@@ -76,6 +82,9 @@ function initKeyBindings($scope) {
         }
         else if (e.keyCode === 38 && $scope.ctrlPressed) {
             $scope.bringForward();
+        }
+        else if (e.keyCode === 27) {
+            $scope.canvas.discardActiveObject();
         }
 
 
