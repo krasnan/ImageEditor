@@ -181,6 +181,8 @@
       .fs(11);
       display: block;
       clear: both;
+      border-top: 1px @border solid;
+      border-bottom: 1px @border solid;
       //color: lighten(@black, 50%);
     }
     &__align {
@@ -188,10 +190,11 @@
     }
     &__reference {
       width: @offset + @offset-md;
-      margin: auto;
+      margin: @offset auto;
       rect {
         &:extend(.transition);
         fill: @grey;
+        cursor: pointer;
         &.active {
           fill: @blue;
         }

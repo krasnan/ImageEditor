@@ -163,7 +163,7 @@ class ImageEditorTemplate extends QuickTemplate {
                             </div>
 
                             <!-- brush properties-->
-                            <div class="ie__options__stroke" ng-show="canvas.isDrawingMode">
+                            <div class="ie__options__brush" ng-show="canvas.isDrawingMode">
                                 <div class="ie__options__title"><?= $this->msg('ie-brush') ?></div>
 
                                 <div class="ie__tile__11">
@@ -190,6 +190,69 @@ class ImageEditorTemplate extends QuickTemplate {
                                     <div title="" colorpicker="rgba" colorpicker-position="left" colorpicker-with-input="true" ng-model="canvas.freeDrawingBrush.shadow.color" class="ie__colorpicker" style="background-color:{[canvas.freeDrawingBrush.shadow.color]}"></div>
 
                                 </div>
+                            </div>
+
+                            <!-- text properties-->
+                            <div class="ie__options__font" ng-show="canvas.getActiveObject().get('type') == 'textbox'">
+                                <div class="ie__options__title"><?= $this->msg('ie-font') ?> </div>
+
+                                <div class="ie__tile__24">
+                                    <label><?= $this->msg('ie-font') ?> </label>
+                                    <select title="" bind-value-to="fontFamily">
+                                        <option value="arial">Arial</option>
+                                        <option value="helvetica" selected="">Helvetica</option>
+                                        <option value="myriad pro">Myriad Pro</option>
+                                        <option value="delicious">Delicious</option>
+                                        <option value="verdana">Verdana</option>
+                                        <option value="georgia">Georgia</option>
+                                        <option value="courier">Courier</option>
+                                        <option value="comic sans ms">Comic Sans MS</option>
+                                        <option value="impact">Impact</option>
+                                        <option value="monaco">Monaco</option>
+                                        <option value="optima">Optima</option>
+                                        <option value="hoefler text">Hoefler Text</option>
+                                        <option value="plaster">Plaster</option>
+                                        <option value="engagement">Engagement</option>
+                                    </select>
+                                </div>
+
+                                <div class="ie__tile__11">
+                                    <a title="<?= $this->msg('ie-bold') ?>" ng-click="toggleBold()" ng-class="isBold() == true ? 'active' : ''" ><i class="icon-bold"></i></a>
+                                </div>
+                                <div class="ie__tile__11">
+                                    <a title="<?= $this->msg('ie-italic') ?>" ng-click="toggleItalic()" ng-class="isItalic() == true ? 'active' : ''" ><i class="icon-italic"></i></a>
+                                </div>
+                                <div class="ie__tile__11">
+                                    <a title="<?= $this->msg('ie-underline') ?>" ng-click="toggleUnderline()" ng-class="isUnderline() == true ? 'active' : ''" ><i class="icon-underline"></i></a>
+                                </div>
+                                <div class="ie__tile__11">
+                                    <a title="<?= $this->msg('ie-line-through') ?>" ng-click="toggleLinethrough()" ng-class="isLinethrough() == true ? 'active' : ''" ><i class="icon-strikethrough"></i></a>
+                                </div>
+
+
+                                <div class="ie__tile__11">
+                                    <a title="<?= $this->msg('ie-align-left') ?>" ng-click="setTextAlign('left')" ng-class="getTextAlign() == 'left' ? 'active' : ''" ><i class="icon-paragraph-left"></i></a>
+                                </div>
+                                <div class="ie__tile__11">
+                                    <a title="<?= $this->msg('ie-align-center') ?>" ng-click="setTextAlign('center')" ng-class="getTextAlign() == 'center' ? 'active' : ''" ><i class="icon-paragraph-center"></i></a>
+                                </div>
+                                <div class="ie__tile__11">
+                                    <a title="<?= $this->msg('ie-align-right') ?>" ng-click="setTextAlign('right')" ng-class="getTextAlign() == 'right' ? 'active' : ''" ><i class="icon-paragraph-right"></i></a>
+                                </div>
+                                <div class="ie__tile__11">
+                                    <a title="<?= $this->msg('ie-align-justify') ?>" ng-click="setTextAlign('justify')" ng-class="getTextAlign() == 'justify' ? 'active' : ''" ><i class="icon-paragraph-justify"></i></a>
+                                </div>
+
+
+                                <div class="ie__tile__22">
+                                    <label><?= $this->msg('ie-line-height') ?></label>
+                                    <input title="" type="number" bind-value-to="lineHeight" min="0" step="0.1">
+                                </div>
+                                <div class="ie__tile__22">
+                                    <label><?= $this->msg('ie-font-size') ?></label>
+                                    <input title="" type="number" bind-value-to="fontSize" min="0">
+                                </div>
+
                             </div>
 
                             <!-- canvas properties-->
@@ -305,57 +368,6 @@ class ImageEditorTemplate extends QuickTemplate {
                             </div>
 
                         </div>
-                    </div>
-
-
-                    <div class="ie__panel__vertical" ng-class="panels.font.opened === true ? 'opened' : '' " ng-show="canvas.getActiveObject().get('type') == 'textbox'">
-                        <div class="ie__options__text">
-                            <div class="ie__options__header"><?= $this->msg('ie-font') ?> <a title="<?= $this->msg('ie-toggle-panel') ?>" class="ie__options__toggle" ng-click="panels.font.opened = !panels.font.opened"><i class="icon-circle-up"></i></a></div>
-                            <div class="ie__options__body">
-
-                                <div class="ie__tile__24">
-                                    <label><?= $this->msg('ie-font') ?> </label>
-                                    <select title="" bind-value-to="fontFamily">
-                                        <option value="arial">Arial</option>
-                                        <option value="helvetica" selected="">Helvetica</option>
-                                        <option value="myriad pro">Myriad Pro</option>
-                                        <option value="delicious">Delicious</option>
-                                        <option value="verdana">Verdana</option>
-                                        <option value="georgia">Georgia</option>
-                                        <option value="courier">Courier</option>
-                                        <option value="comic sans ms">Comic Sans MS</option>
-                                        <option value="impact">Impact</option>
-                                        <option value="monaco">Monaco</option>
-                                        <option value="optima">Optima</option>
-                                        <option value="hoefler text">Hoefler Text</option>
-                                        <option value="plaster">Plaster</option>
-                                        <option value="engagement">Engagement</option>
-                                    </select>
-
-                                </div>
-                                <div class="ie__tile__11">
-                                    <a title="<?= $this->msg('ie-bold') ?>" ng-click="toggleBold()" ng-class="isBold() == true ? 'active' : ''" ><i class="icon-bold"></i></a>
-                                </div>
-                                <div class="ie__tile__11">
-                                    <a title="<?= $this->msg('ie-italic') ?>" ng-click="toggleItalic()" ng-class="isItalic() == true ? 'active' : ''" ><i class="icon-italic"></i></a>
-                                </div>
-                                <div class="ie__tile__11">
-                                    <a title="<?= $this->msg('ie-underline') ?>" ng-click="toggleUnderline()" ng-class="isUnderline() == true ? 'active' : ''" ><i class="icon-underline"></i></a>
-                                </div>
-                                <div class="ie__tile__11">
-                                    <a title="<?= $this->msg('ie-line-through') ?>" ng-click="toggleLinethrough()" ng-class="isLinethrough() == true ? 'active' : ''" ><i class="icon-strikethrough"></i></a>
-                                </div>
-                                <div class="ie__tile__22">
-                                    <label><?= $this->msg('ie-line-height') ?></label>
-                                    <input title="" type="number" bind-value-to="lineHeight" min="0" step="0.1">
-                                </div>
-                                <div class="ie__tile__22">
-                                    <label><?= $this->msg('ie-font-size') ?></label>
-                                    <input title="" type="number" bind-value-to="fontSize" min="0">
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
 

@@ -210,7 +210,7 @@ function initAccessors($scope) {
     };
 
     $scope.getTextAlign = function () {
-        return capitalize($scope.getActiveProp('textAlign'));
+        return $scope.getActiveProp('textAlign');
     };
     $scope.setTextAlign = function (value) {
         $scope.setActiveProp('textAlign', value.toLowerCase());
