@@ -41,7 +41,8 @@ function initEvents($scope) {
         //console.log('SOCKET: message-created');
         // //console.log(message);
         $scope.room.messages.push(message);
-        $scope.room.newMessage = true
+        $scope.room.newMessage = true;
+        $scope.scrollDown('ie__messenger__messages');
     });
 
     $scope.socket.on('selection-changed', function (data) {
