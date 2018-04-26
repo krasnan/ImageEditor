@@ -29,6 +29,19 @@ class ImageEditorHooks
         return true;
     }
 
+    public static function onSkinTemplateNavigation_SpecialPage( &$skinTemplate, array &$content_navigation ) {
+        global $wgScript;
+
+        if(!isset($_GET['wpDestFile'])) return;
+
+        $content_navigation['views']['edit-image'] = [
+            'class' => '',
+            'text' => $skinTemplate->getContext()->msg('ie-create-with-image-editor'),
+            'href' => $wgScript . '?title=Special:ImageEditor&file=' . "File:" . $_GET['wpDestFile'] . "&returnto=File:" . $_GET['wpDestFile'],
+            'primary' => true, // don't collapse this in vector
+        ];
+    }
+
     public static function onSkinTemplateNavigation(&$skinTemplate, &$content_navigation)
     {
         global $wgScript;

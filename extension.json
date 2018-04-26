@@ -24,6 +24,7 @@
   "Hooks": {
     "FileUpload": "ImageEditorHooks::onFileUpload",
     "SkinTemplateNavigation": "ImageEditorHooks::onSkinTemplateNavigation",
+    "SkinTemplateNavigation::SpecialPage": "ImageEditorHooks::onSkinTemplateNavigation_SpecialPage",
     "ResourceLoaderGetConfigVars": "ImageEditorHooks::onResourceLoaderGetConfigVars"
   },
   "MessagesDirs": {
