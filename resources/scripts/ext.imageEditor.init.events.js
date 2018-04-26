@@ -9,6 +9,7 @@ function initEvents($scope) {
         console.log('SOCKET: init', data);
         $scope.canvas.clear();
         $scope.room = data.room;
+        $scope.user = data.user;
         $scope.canvasWidth = data.room.canvas.width;
         $scope.canvasHeight = data.room.canvas.height;
         $scope.updateCanvasZoom();

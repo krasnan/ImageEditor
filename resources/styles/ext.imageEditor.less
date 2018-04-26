@@ -19,7 +19,7 @@
   ul {
     &:extend(.ul_reset);
   }
-  &__user__bubble{
+  &__user__bubble {
     &:extend(.transition all);
     &:extend(.shadow-box all);
     position: absolute;
@@ -27,11 +27,11 @@
     opacity: 1;
     border-radius: @radius;
     color: @white;
-    -webkit-transform: translate(-50% , -100%);
-    -moz-transform: translate(-50% , -100%);
-    -ms-transform: translate(-50% , -100%);
-    -o-transform: translate(-50% , -100%);
-    transform: translate(-50% , -100%);
+    -webkit-transform: translate(-50%, -100%);
+    -moz-transform: translate(-50%, -100%);
+    -ms-transform: translate(-50%, -100%);
+    -o-transform: translate(-50%, -100%);
+    transform: translate(-50%, -100%);
     padding: @offset-sm;
   }
 
@@ -43,7 +43,7 @@
     &:extend(.blur all);
     &:extend(.transition all);
 
-    .ie__loaded &{
+    .ie__loaded & {
       opacity: 1;
       visibility: visible !important;
       pointer-events: auto;
@@ -92,7 +92,7 @@
     height: calc(~"100vh - 250px");
     overflow: auto;
 
-    .ie__fullscreen &{
+    .ie__fullscreen & {
       height: 100vh;
     }
     &__container {
@@ -259,7 +259,7 @@
         font-size: 10px;
         line-height: 0.5rem;
         color: @grey;
-        input{
+        input {
           width: 40%;
           float: unset;
           position: unset;
@@ -338,9 +338,9 @@
       height: @offset-lg - @offset;
     }
   }
-  &__layer{
+  &__layer {
     &:extend(.transition-none all);
-    input{
+    input {
       .fs(13);
       position: unset;
       width: 30%;
@@ -348,14 +348,14 @@
       line-height: 2rem;
       text-align: left;
     }
-    &__reorder{
+    &__reorder {
 
       cursor: ns-resize !important;
     }
-    a{
+    a {
       padding-left: @offset-xs;
       font-size: 12px;
-      &:first-child{
+      &:first-child {
         padding-left: 0;
       }
     }
@@ -429,23 +429,30 @@
       max-height: 200px;
       overflow-y: auto;
 
-
     }
     &__item {
       text-align: left;
       margin: @offset-xs 0;
       padding: @offset-xs;
-      border: 1px solid @primary;
-      border-radius: @radius;
+
       &__head {
         font-size: 10px;
+        color: @grey;
       }
       &__content {
-
+        padding: @offset-xs @offset;
+        border: 1px solid @primary;
+        border-radius: @radius;
+        display: inline-block;
+        max-width: 300px;
+        text-align: left;
       }
-      &.system_message {
-        opacity: 0.7;
-        border-color: @border;
+      &.active {
+        text-align: right;
+        .ie__messenger__item__content{
+          background-color: @primary;
+          color: @white;
+        }
       }
     }
     &__controll {
@@ -455,7 +462,7 @@
       border-top: solid @border 3px;
       input {
         &:extend(.input all);
-        width: calc(~"100% - 50px");
+        width: calc(~"100% - 100px");
         min-height: 32px;
         height: auto;
         //border-radius: @radius;
@@ -466,7 +473,7 @@
       a {
         margin: 0;
         height: 2rem;
-        width: 45px;
+        width: 95px;
         line-height: 2rem;
         background-color: @primary;
         border: @border 1px solid;
@@ -476,7 +483,7 @@
       }
     }
   }
-  &__preloader{
+  &__preloader {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -486,7 +493,7 @@
     &:extend(.transition all);
     visibility: visible;
     opacity: 1;
-    &__container{
+    &__container {
       &:extend(.shadow-box all);
       position: absolute;
       top: 50%;
@@ -501,10 +508,10 @@
       display: inline-block;
 
     }
-    &__body{
+    &__body {
       .fs(16);
 
-      i{
+      i {
         color: @primary;
         padding: @offset;
         .fs(70);
@@ -514,20 +521,32 @@
         animation: spin 1s infinite linear;
       }
       @-moz-keyframes spin {
-        from { -moz-transform: rotate(0deg); }
-        to { -moz-transform: rotate(360deg); }
+        from {
+          -moz-transform: rotate(0deg);
+        }
+        to {
+          -moz-transform: rotate(360deg);
+        }
       }
       @-webkit-keyframes spin {
-        from { -webkit-transform: rotate(0deg); }
-        to { -webkit-transform: rotate(360deg); }
+        from {
+          -webkit-transform: rotate(0deg);
+        }
+        to {
+          -webkit-transform: rotate(360deg);
+        }
       }
       @keyframes spin {
-        from {transform:rotate(0deg);}
-        to {transform:rotate(360deg);}
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
       }
     }
-    
-    .ie__loaded &{
+
+    .ie__loaded & {
       visibility: hidden;
       opacity: 0;
     }
@@ -567,7 +586,7 @@
       padding: @offset-sm @offset;
     }
   }
-  &__fullscreen{
+  &__fullscreen {
     position: fixed;
     left: 0;
     right: 0;
@@ -584,7 +603,7 @@
   .disabled {
     pointer-events: none;
     color: @grey !important;
-    a{
+    a {
       color: @grey !important;
       cursor: not-allowed !important;
     }

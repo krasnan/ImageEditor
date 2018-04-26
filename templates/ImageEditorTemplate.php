@@ -78,7 +78,7 @@ class ImageEditorTemplate extends QuickTemplate {
                         <a title="<?= $this->msg('ie-toggle-messenger') ?>" ng-click="scrollDown('ie__messenger__messages'); messengerVisible = !messengerVisible; room.newMessage = false" class="btn" ng-class="room.newMessage && !messengerVisible ? 'text-danger' : ''"><i class="icon-bubbles2"></i></a>
                         <div class="ie__messenger" ng-class="messengerVisible==true ? 'active' : ''">
                             <div class="ie__messenger__messages">
-                                <div ng-repeat="message in room.messages" class="ie__messenger__item" ng-class="message.type=='system' ? 'system_message' : ''">
+                                <div ng-repeat="message in room.messages" class="ie__messenger__item" ng-class="{ 'system_message': message.type=='system', 'active': message.from.id === user.id}">
                                     <div ng-show="message.type === 'system'" class="ie__messenger__item__head">{[message.time]} | {[message.text]}</div>
                                     <div ng-show="message.type !== 'system'" class="ie__messenger__item__head">
                                         {[message.time]} | {[message.from.name]} <span ng-show="message.to !== '*'"> > {[message.to.name]}</span>
@@ -88,7 +88,7 @@ class ImageEditorTemplate extends QuickTemplate {
                             </div>
                             <div class="ie__messenger__controll">
                                 <input type="text" ng-model="message" on-enter="sendMessage(message)" placeholder="<?= $this->msg('ie-message') ?>">
-                                <a title="<?= $this->msg('ie-send') ?>" class="btn" ng-click="sendMessage(message)"><i class="icon-send active"></i></a>
+                                <a title="<?= $this->msg('ie-send') ?>" class="btn" ng-click="sendMessage(message)"><?= $this->msg('ie-send') ?></a>
                             </div>
                         </div>
                     </div>
