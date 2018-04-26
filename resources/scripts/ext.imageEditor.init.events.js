@@ -7,6 +7,7 @@ function initEvents($scope) {
 
     $scope.socket.on('init', function (data) {
         console.log('SOCKET: init', data);
+        $scope.canvas.clear();
         $scope.room = data.room;
         $scope.canvasWidth = data.room.canvas.width;
         $scope.canvasHeight = data.room.canvas.height;
@@ -25,24 +26,24 @@ function initEvents($scope) {
     });
 
     $scope.socket.on('user-created', function (user) {
-        console.log('SOCKET: user-created');
+        //console.log('SOCKET: user-created');
         $scope.room.users[user.id] = user;
     });
 
     $scope.socket.on('user-removed', function (id) {
-        console.log('SOCKET: user-removed');
+        //console.log('SOCKET: user-removed');
         delete $scope.room.users[id];
     });
 
     $scope.socket.on('message-created', function (message) {
-        console.log('SOCKET: message-created');
-        // console.log(message);
+        //console.log('SOCKET: message-created');
+        // //console.log(message);
         $scope.room.messages.push(message);
         $scope.room.newMessage = true
     });
 
     $scope.socket.on('selection-changed', function (data) {
-        console.log('SOCKET: selection-changed');
+        //console.log('SOCKET: selection-changed');
         var obj = $scope.canvas.getObjectById(data.id);
         obj.selectable = data.selectable;
         obj.editable = data.selectable;
@@ -50,11 +51,12 @@ function initEvents($scope) {
     });
 
     $scope.socket.on('selection-deny', function (id) {
-        console.log('SOCKET: selection-deny');
+        //TODO: if selection denied, than force unselect object with by id
+        //console.log('SOCKET: selection-deny');
     });
 
     $scope.socket.on('object-modified', function (obj) {
-        console.log('SOCKET: object-modified');
+        //console.log('SOCKET: object-modified');
         var object = $scope.canvas.getObjectById(obj.id);
         if (object !== null) {
             if (object.type === 'polygon' && object.points.length !== obj.points.length) {
@@ -87,7 +89,7 @@ function initEvents($scope) {
     });
 
     $scope.socket.on('object-created', function (obj) {
-        console.log('SOCKET: object-created');
+        //console.log('SOCKET: object-created');
         var object = $scope.addObject(obj);
         if (object === undefined) return;
         object.setCoords();
@@ -97,14 +99,14 @@ function initEvents($scope) {
     });
 
     $scope.socket.on('object-removed', function (id) {
-        console.log('SOCKET: object-removed');
+        //console.log('SOCKET: object-removed');
         var object = $scope.canvas.getObjectById(id);
         $scope.canvas.remove(object);
         $scope.canvas.renderAll();
     });
 
     $scope.socket.on('canvas-modified', function (properties) {
-        console.log('SOCKET: canvas-modified');
+        //console.log('SOCKET: canvas-modified');
         $scope.canvasWidth = parseInt(properties.width, 10);
         $scope.canvasHeight = parseInt(properties.height, 10);
         $scope.updateCanvasZoom();
@@ -116,20 +118,16 @@ function initEvents($scope) {
 
     // ------------ Canvas event listeners - START ------------
     $scope.canvas.on('selection:created', function (event) {
-        console.log('CANVAS: selection:created');
-
+        //console.log('CANVAS: selection:created');
         // $scope.historyManager.objectBefore = $scope.canvas.getActiveObject().toJSON(['id', 'index', 'name']);
-
         event.selected.forEach(function (obj) {
             $scope.socket.emit('selection-changed', {id: obj.id, selectable: false});
         });
     });
 
     $scope.canvas.on('selection:updated', function (event) {
-        console.log('CANVAS: selection:updated');
-
+        //console.log('CANVAS: selection:updated');
         // $scope.historyManager.objectBefore = $scope.canvas.getActiveObject().toJSON(['id', 'index', 'name']);
-
         event.selected.forEach(function (obj) {
             $scope.socket.emit('selection-changed', {id: obj.id, selectable: false});
         });
@@ -139,10 +137,8 @@ function initEvents($scope) {
     });
 
     $scope.canvas.on('selection:cleared', function (event) {
-        console.log('CANVAS: selection:cleared');
-
+        //console.log('CANVAS: selection:cleared');
         // $scope.historyManager.objectBefore = null;
-
         if (event.deselected === undefined) return;
         event.deselected.forEach(function (obj) {
             $scope.socket.emit('selection-changed', {id: obj.id, selectable: true});
@@ -150,11 +146,9 @@ function initEvents($scope) {
     });
 
     $scope.canvas.on('object:modified', function (event) {
-        console.log('CANVAS: object:modified', event);
-
+        //console.log('CANVAS: object:modified', event);
         // if (!event.fromHistory)
         //     $scope.historyManager.commit($scope.historyManager.operation.modify ,event.target);
-
         var object = event.target;
         var properties = event.properties;
         if (object.type === "activeSelection") {
@@ -194,11 +188,9 @@ function initEvents($scope) {
     }
 
     $scope.canvas.on('object:created', function (event) {
-        console.log('CANVAS: object:created');
-
+        //console.log('CANVAS: object:created');
         // if (!event.fromHistory)
         //     $scope.historyManager.commit($scope.historyManager.operation.add ,event.target);
-
         let obj = event.target;
         obj.index = obj.getIndex();
         $scope.socket.emit('object-created', obj.toJSON(['id', 'selectable', 'index', 'name']));
@@ -207,11 +199,9 @@ function initEvents($scope) {
     });
 
     $scope.canvas.on('object:removed', function (event) {
-        console.log('CANVAS: object:removed');
-
+        //console.log('CANVAS: object:removed');
         // if (!event.fromHistory)
         //     $scope.historyManager.commit($scope.historyManager.operation.remove ,event.target);
-
         let obj = event.target;
         if (obj.type === "activeSelection") {
             objects.forEach(function (object) {
@@ -231,7 +221,7 @@ function initEvents($scope) {
     });
 
     $scope.canvas.on('path:created', function (event) {
-        console.log('CANVAS: path:created');
+        //console.log('CANVAS: path:created');
         let object = event.path;
         object.index = object.getIndex();
         object.id = uniqueId();
@@ -250,8 +240,6 @@ function initEvents($scope) {
 
     $scope.canvas.on('mouse:wheel', function (event) {
         if (!$scope.ctrlPressed) return;
-
-        console.log(event);
     });
 
     $scope.canvas.on('mouse:over', function (e) {

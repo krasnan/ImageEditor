@@ -48,20 +48,20 @@ class ImageEditorTemplate extends QuickTemplate {
                         <div class="ie__dropdown">
                             <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('ie-edit') ?></a>
                             <div class="ie__dropdown__list">
-                                <a title="" class="btn" ng-click="cut()"><?= $this->msg('ie-cut') ?><span>ctrl + x</span></a>
-                                <a title="" class="btn" ng-click="copy()"><?= $this->msg('ie-copy') ?><span>ctrl + c</span></a>
-                                <a title="" class="btn" ng-click="paste()"><?= $this->msg('ie-paste') ?><span>ctrl + v</span></a>
-                                <a title="" class="btn" ng-click="duplicate()"><?= $this->msg('ie-duplicate') ?><span>shift + v</span></a>
-                                <a title="" class="btn" ng-click="deleteSelection()"><?= $this->msg('ie-delete') ?><span>del</span></a>
+                                <a title="" class="btn" ng-click="cut()" ng-class="canvas.getActiveObject() === null ? 'disabled' : ''"><?= $this->msg('ie-cut') ?><span>ctrl + x</span></a>
+                                <a title="" class="btn" ng-click="copy()" ng-class="canvas.getActiveObject() === null ? 'disabled' : ''"><?= $this->msg('ie-copy') ?><span>ctrl + c</span></a>
+                                <a title="" class="btn" ng-click="paste()" ng-class="_clipboard === undefined ? 'disabled' : ''"><?= $this->msg('ie-paste') ?><span>ctrl + v</span></a>
+                                <a title="" class="btn" ng-click="duplicate()" ng-class="canvas.getActiveObject() === null ? 'disabled' : ''"><?= $this->msg('ie-duplicate') ?><span>shift + v</span></a>
+                                <a title="" class="btn" ng-click="deleteSelection()" ng-class="canvas.getActiveObject() === null ? 'disabled' : ''"><?= $this->msg('ie-delete') ?><span>del</span></a>
                             </div>
                         </div>
                         <div class="ie__dropdown">
                             <a title="" class="btn ie__dropdown__btn" ng-click=""><?= $this->msg('ie-object') ?></a>
                             <div class="ie__dropdown__list">
-                                <a title="" class="btn" ng-click="bringToFront()"><?= $this->msg('ie-bring-to-front') ?> <span>ctrl + shift + ↑</span></a>
-                                <a title="" class="btn" ng-click="bringForward()"><?= $this->msg('ie-bring-forward') ?> <span>ctrl + ↑</span></a>
-                                <a title="" class="btn" ng-click="sendBackwards()"><?= $this->msg('ie-send-backward') ?> <span>ctrl + ↓</span></a>
-                                <a title="" class="btn" ng-click="sendToBack()"><?= $this->msg('ie-send-to-back') ?> <span>ctrl + shift + ↓</span></a>
+                                <a title="" class="btn" ng-click="bringToFront()"  ng-class="canvas.getActiveObject() === null ? 'disabled' : ''"><?= $this->msg('ie-bring-to-front') ?> <span>ctrl + shift + ↑</span></a>
+                                <a title="" class="btn" ng-click="bringForward()" ng-class="canvas.getActiveObject() === null ? 'disabled' : ''"><?= $this->msg('ie-bring-forward') ?> <span>ctrl + ↑</span></a>
+                                <a title="" class="btn" ng-click="sendBackwards()" ng-class="canvas.getActiveObject() === null ? 'disabled' : ''"><?= $this->msg('ie-send-backward') ?> <span>ctrl + ↓</span></a>
+                                <a title="" class="btn" ng-click="sendToBack()" ng-class="canvas.getActiveObject() === null ? 'disabled' : ''"><?= $this->msg('ie-send-to-back') ?> <span>ctrl + shift + ↓</span></a>
 
                             </div>
                         </div>
@@ -80,7 +80,9 @@ class ImageEditorTemplate extends QuickTemplate {
                             <div class="ie__messenger__messages">
                                 <div ng-repeat="message in room.messages" class="ie__messenger__item" ng-class="message.type=='system' ? 'system_message' : ''">
                                     <div ng-show="message.type === 'system'" class="ie__messenger__item__head">{[message.time]} | {[message.text]}</div>
-                                    <div ng-show="message.type !== 'system'" class="ie__messenger__item__head">{[message.time]} | {[message.from]}</div>
+                                    <div ng-show="message.type !== 'system'" class="ie__messenger__item__head">
+                                        {[message.time]} | {[message.from.name]} <span ng-show="message.to !== '*'"> > {[message.to.name]}</span>
+                                    </div>
                                     <span ng-show="message.type !== 'system'" class="ie__messenger__item__content">{[message.text]}</span>
                                 </div>
                             </div>
@@ -429,7 +431,7 @@ class ImageEditorTemplate extends QuickTemplate {
                         <i class="icon-spinner8"></i>
                         <p><?= $this->msg('ie-loading') ?></p>
                         <p><small>{[loadingMessage]}</small></p>
-                        <small><a class="link" ng-click="room.loaded = true"><?= $this->msg('ie-close') ?></a></small>
+                        <small><a class="text-primary " ng-click="room.loaded = true"><?= $this->msg('ie-close') ?></a></small>
                     </div>
                 </div>
             </div>

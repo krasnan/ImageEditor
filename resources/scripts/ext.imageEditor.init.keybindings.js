@@ -22,7 +22,7 @@ function initKeyBindings($scope) {
 
         e = window.event ? event : e;
 
-        console.log(String.fromCharCode(e.keyCode) + " " + e.keyCode);
+        // console.log(String.fromCharCode(e.keyCode) + " " + e.keyCode);
 
         if (e.keyCode === 37 && $scope.ctrlPressed) {
             $scope.copy();

@@ -6,8 +6,8 @@
 @black: #000;
 @grey: lighten(@black, 50%);
 @light: #fdfdfd;
-@blue: #00a5ff;
-@red: #ff444d;
+@primary: #00a5ff;
+@danger: #ff444d;
 @success: #2c962b;
 @border: #d4d4d4;
 // Transition Time
@@ -136,7 +136,7 @@ Roboto
   float: left;
   &:extend(.transition);
   &:focus, &:active, &:hover {
-    border-bottom: @blue 1px solid;
+    border-bottom: @primary 1px solid;
     outline: none !important;
   }
 }
@@ -158,7 +158,7 @@ Roboto
     cursor: pointer;
   }
   &.active {
-    color: @blue;
+    color: @primary;
   }
   > span {
     margin-left: 5px;
@@ -241,11 +241,11 @@ Roboto
 }
 
 .text-primary {
-  color: @blue !important;
+  color: @primary !important;
 }
 
 .text-danger {
-  color: @red !important;;
+  color: @danger !important;;
 }
 
 .text-success {
@@ -257,11 +257,11 @@ Roboto
 }
 
 .btn-primary {
-  .btn-color(@blue);
+  .btn-color(@primary);
 }
 
 .btn-danger {
-  .btn-color(@red);
+  .btn-color(@danger);
 }
 
 .btn-success {

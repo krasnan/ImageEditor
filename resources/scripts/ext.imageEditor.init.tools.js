@@ -89,7 +89,6 @@ function initTools($scope, $http, $timeout) {
             headers: {'Content-Type': undefined}
         }).then(
             function (value) {
-                console.log(value);
                 if (value.data.error !== undefined) {
                     $scope.panels.modal = {
                         opened: true,
@@ -159,7 +158,6 @@ function initTools($scope, $http, $timeout) {
 
     $scope.setFreeDrawingBrush = function (type) {
         $scope.brushType = type;
-        console.log(type);
         $scope.canvas.freeDrawingBrush = new fabric[type + 'Brush']($scope.canvas);
     };
 
@@ -282,14 +280,17 @@ function initTools($scope, $http, $timeout) {
     };
 
     $scope.copy = function () {
-        $scope.canvas.getActiveObject().clone(function (cloned) {
-            $scope._clipboard = cloned;
-            console.log($scope._clipboard);
-        });
+        let obj = $scope.canvas.getActiveObject();
+        if(obj !== undefined && obj !== null) {
+            obj.clone(function (cloned) {
+                $scope._clipboard = cloned;
+            });
+        }
     };
 
     $scope.paste = function () {
         // clone again, so you can do multiple copies.
+        if ($scope._clipboard === undefined) return;
         $scope._clipboard.clone(function (clonedObj) {
             $scope.canvas.discardActiveObject();
             clonedObj.set({
@@ -626,7 +627,6 @@ function initTools($scope, $http, $timeout) {
 
                 return;
             case 'group':
-                console.log(object);
                 new fabric.Group.fromObject(object, function (obj) {
                     obj.id = object.id;
                     obj.name = object.name;

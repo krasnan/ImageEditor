@@ -102,7 +102,6 @@
                     reader.onload = function (loadEvent) {
                         scope.$apply(function () {
                             scope.fileread = loadEvent.target.result;
-                            console.log(scope.fileread);
                         });
                     };
                     reader.readAsDataURL(changeEvent.target.files[0]);

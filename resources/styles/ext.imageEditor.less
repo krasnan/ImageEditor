@@ -169,7 +169,7 @@
       //margin: 5px;
     }
     &__toggle {
-      color: @blue;
+      color: @primary;
       &:extend(.transition all);
       padding: 0 0.5rem;
       float: right;
@@ -196,7 +196,7 @@
         fill: @grey;
         cursor: pointer;
         &.active {
-          fill: @blue;
+          fill: @primary;
         }
       }
     }
@@ -283,7 +283,7 @@
         border-bottom: transparent 1px solid;
         &:hover, &:focus, &:active {
           border-bottom: transparent 1px solid;
-          color: @blue;
+          color: @primary;
         }
       }
       .ie__colorpicker {
@@ -325,7 +325,7 @@
         padding: 0 @offset-xs;
       }
       a {
-        color: @blue;
+        color: @primary;
         text-decoration: none;
       }
     }
@@ -396,7 +396,7 @@
           background: darken(@white, 3%);
         }
         &:active {
-          color: @blue;
+          color: @primary;
         }
       }
     }
@@ -435,7 +435,7 @@
       text-align: left;
       margin: @offset-xs 0;
       padding: @offset-xs;
-      border: 1px solid @blue;
+      border: 1px solid @primary;
       border-radius: @radius;
       &__head {
         font-size: 10px;
@@ -468,7 +468,7 @@
         height: 2rem;
         width: 45px;
         line-height: 2rem;
-        background-color: @blue;
+        background-color: @primary;
         border: @border 1px solid;
         border-radius: @radius;
         color: @white;
@@ -505,7 +505,7 @@
       .fs(16);
 
       i{
-        color: @blue;
+        color: @primary;
         padding: @offset;
         .fs(70);
         display: block;
@@ -583,6 +583,7 @@
   }
   .disabled {
     pointer-events: none;
+    color: @grey !important;
     a{
       color: @grey !important;
       cursor: not-allowed !important;

@@ -109,5 +109,4 @@ function initHistoryManager($scope) {
     };
 
     $scope.historyManager = new HistoryManager();
-    console.log($scope.historyManager);
 }
