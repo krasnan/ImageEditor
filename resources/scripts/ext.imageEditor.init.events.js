@@ -1,6 +1,8 @@
 function initEvents($scope) {
     // ------------ Socket event listeners - START ------------
-    $scope.socket.on('connect', function (user) {
+    $scope.socket.on('connected', function (user) {
+        // console.log('SOCKET: connected', user);
+
         $scope.user = user;
         $scope.loadingMessage = "";
     });
@@ -9,7 +11,6 @@ function initEvents($scope) {
         console.log('SOCKET: init', data);
         $scope.canvas.clear();
         $scope.room = data.room;
-        $scope.user = data.user;
         $scope.canvasWidth = data.room.canvas.width;
         $scope.canvasHeight = data.room.canvas.height;
         $scope.updateCanvasZoom();
