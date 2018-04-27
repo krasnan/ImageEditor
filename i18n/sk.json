@@ -111,5 +111,11 @@
   "ie-border-radius":"Zaoblenie rohov",
   "ie-toggle-layer-lock":"Zamknúť/Odomknúť vrstvu",
   "ie-edited-with-image-editor":"Upravené pomocou editora obrázkov",
-  "ie-border-roundness":"Zaoblenie rohov"
+  "ie-border-roundness":"Zaoblenie rohov",
+
+  "ie-create-image":"Vytvoriť obrázok",
+  "ie-create-image-description":"Zadajte názov (1-100 alfanumerických znakov bez medzery)",
+  "ie-insert-image-name":"Názov: ",
+  "ie-invalid-image-name":"Chyba: Nesprávny formát názvu!",
+  "ie-create":"Vytvoriť"
 }

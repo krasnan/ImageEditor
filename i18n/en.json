@@ -111,5 +111,11 @@
   "ie-border-radius":"Corner radius",
   "ie-toggle-layer-lock":"Toggle layer lock",
   "ie-edited-with-image-editor":"Edited with ImageEditor",
-  "ie-border-roundness":"Border roundness"
+  "ie-border-roundness":"Border roundness",
+
+  "ie-create-image":"Create image",
+  "ie-create-image-description":"Insert name (1-100 alpha-numeric characters without spaces)",
+  "ie-image-name":"Name: ",
+  "ie-invalid-image-name":"Failed: Bad name format!",
+  "ie-create":"Create"
 }

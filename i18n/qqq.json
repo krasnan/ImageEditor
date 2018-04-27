@@ -111,5 +111,11 @@
   "ie-border-radius":"",
   "ie-toggle-layer-lock":"",
   "ie-edited-with-image-editor":"",
-  "ie-border-roundness":""
+  "ie-border-roundness":"",
+
+  "ie-create-image":"",
+  "ie-create-image-description":"",
+  "ie-insert-image-name":"",
+  "ie-invalid-image-name":"",
+  "ie-create":""
 }
