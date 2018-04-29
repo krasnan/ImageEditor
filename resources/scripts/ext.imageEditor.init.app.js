@@ -91,25 +91,6 @@
         }
     });
 
-    app.directive("fileread", [function () {
-        return {
-            scope: {
-                fileread: "="
-            },
-            link: function (scope, element, attributes) {
-                element.bind("change", function (changeEvent) {
-                    var reader = new FileReader();
-                    reader.onload = function (loadEvent) {
-                        scope.$apply(function () {
-                            scope.fileread = loadEvent.target.result;
-                        });
-                    };
-                    reader.readAsDataURL(changeEvent.target.files[0]);
-                });
-            }
-        }
-    }]);
-
     app.factory('socket', function ($rootScope) {
         var socket;
         return {
@@ -137,7 +118,7 @@
         };
     });
 
-    app.controller('ImageEditor', function ($scope, $http, $timeout, socket) {
+    app.controller('ImageEditorController', function ($scope, $http, $timeout, socket) {
 
         function updateScope() {
             $scope.$$phase || $scope.$digest();
@@ -156,7 +137,7 @@
         // let apiEndpoint = location.protocol + '//' + location.hostname + $scope.mw.util.wikiScript('api');
         let query = {query: 'name=' + $scope.mw.user.getName() + '&file=' + $scope.mw.util.getParamValue("file") + '&secret='+$scope.mw.config.values.wgImageEditor.secret};
         $scope.loadingMessage = $scope.mw.msg("ie-connecting-to-server");
-
+        socket.connect($scope.server, query);
 
         $scope.canvas
             .on('object:selected', updateScope)
@@ -168,9 +149,9 @@
             .on('selection:updated', updateScope);
 
 
-        socket.connect($scope.server, query);
 
-        initAccessors($scope);
+
+        initDatabindings($scope);
         initTools($scope, $http, $timeout);
         initEvents($scope);
         initKeyBindings($scope);
