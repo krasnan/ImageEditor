@@ -93,6 +93,9 @@ function initEvents($scope) {
 
     $scope.socket.on('object-created', function (obj) {
         //console.log('SOCKET: object-created');
+
+        // if object-modified with same object was handled before
+        if($scope.canvas.getObjectById(obj.id) !== null) return;
         var object = $scope.addObject(obj);
         if (object === undefined) return;
         object.setCoords();
@@ -104,6 +107,7 @@ function initEvents($scope) {
     $scope.socket.on('object-removed', function (id) {
         //console.log('SOCKET: object-removed');
         var object = $scope.canvas.getObjectById(id);
+        if (object === undefined) return;
         $scope.canvas.remove(object);
         $scope.canvas.renderAll();
     });

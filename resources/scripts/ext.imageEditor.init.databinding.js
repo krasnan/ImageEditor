@@ -9,19 +9,6 @@ function initDatabindings($scope) {
             : (object[styleName] || '');
     };
 
-    $scope.setActiveProp = function (name, value) {
-        var object = $scope.canvas.getActiveObject();
-        if (!object) return;
-        object.set(name, value).setCoords();
-        $scope.canvas.trigger('object:modified', {target: object, properties:[name]});
-        $scope.canvas.renderAll();
-    };
-
-    $scope.getActiveProp = function (name) {
-        var object = $scope.canvas.getActiveObject();
-        if (!object) return '';
-        return object[name] || '';
-    };
 
     $scope.setActiveStyle = function (styleName, value, object) {
         object = object || $scope.canvas.getActiveObject();
@@ -40,6 +27,19 @@ function initDatabindings($scope) {
         $scope.canvas.renderAll();
     };
 
+    $scope.setActiveProp = function (name, value) {
+        var object = $scope.canvas.getActiveObject();
+        if (!object) return;
+        object.set(name, value).setCoords();
+        $scope.canvas.trigger('object:modified', {target: object, properties:[name]});
+        $scope.canvas.renderAll();
+    };
+
+    $scope.getActiveProp = function (name) {
+        var object = $scope.canvas.getActiveObject();
+        if (!object) return '';
+        return object[name] || '';
+    };
 
     // -------------------- canvas ---------------------
     $scope.getCanvasHeight = function () {
