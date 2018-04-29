@@ -70,12 +70,12 @@
     "ext.imageEditor": {
       "scripts": [
         "scripts/ext.imageEditor.utils.js",
-        "scripts/ext.imageEditor.init.accessors.js",
+        "scripts/ext.imageEditor.init.databinding.js",
         "scripts/ext.imageEditor.init.tools.js",
         "scripts/ext.imageEditor.init.events.js",
         "scripts/ext.imageEditor.init.keybindings.js",
         "scripts/ext.imageEditor.init.history.js",
-        "scripts/ext.imageEditor.controller.js"
+        "scripts/ext.imageEditor.init.app.js"
       ],
       "styles": [
         "styles/ext.imageEditor.less"

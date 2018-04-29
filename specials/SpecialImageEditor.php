@@ -1,6 +1,6 @@
 <?php
 /**
- * HelloWorld SpecialPage for BoilerPlate extension
+ * HelloWorld SpecialPage for ImageEditor extension
  *
  * @file
  * @ingroup Extensions

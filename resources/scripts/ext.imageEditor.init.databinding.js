@@ -1,4 +1,5 @@
-function initAccessors($scope) {
+function initDatabindings($scope) {
+
     $scope.getActiveStyle = function (styleName, object) {
         object = object || $scope.canvas.getActiveObject();
         if (!object) return '';
@@ -403,7 +404,7 @@ function initAccessors($scope) {
             object.visible = !object.visible;
             $scope.canvas.trigger('object:modified', {target: object, properties:['visible']});
         }
-    }
+    };
     $scope.toggleLock = function (object) {
         if (object === undefined)
             object = $scope.canvas.getActiveObject();
@@ -423,6 +424,6 @@ function initAccessors($scope) {
 
             $scope.canvas.trigger('object:modified', {target: object, properties:['lockMovementX','lockMovementY','lockScalingX','lockScalingY','lockUniScaling','lockRotation']});
         }
-    }
+    };
 
 }

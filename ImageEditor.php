@@ -11,5 +11,5 @@ if ( function_exists( 'wfLoadExtension' ) ) {
 	);
 	return true;
 } else {
-	die( 'This version of the BoilerPlate extension requires MediaWiki 1.25+' );
+	die( 'This version of the ImageEditor extension requires MediaWiki 1.25+' );
 }

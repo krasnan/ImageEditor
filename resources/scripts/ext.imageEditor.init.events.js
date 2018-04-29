@@ -55,7 +55,7 @@ function initEvents($scope) {
 
     $scope.socket.on('selection-deny', function (id) {
         //TODO: if selection denied, than force unselect object with by id
-        //console.log('SOCKET: selection-deny');
+        console.log('SOCKET: selection-deny');
     });
 
     $scope.socket.on('object-modified', function (obj) {
@@ -269,21 +269,21 @@ function initEvents($scope) {
         element.style.visibility = 'hidden';
         element.style.opacity = 0;
     });
+    // ------------ Canvas event listeners - END ------------
 
+    // ------------ Window event listeners - START ------------
     $scope.onPlaygroundClick = function (e) {
         if (e.target.className === 'ie__playground__container') {
             $scope.canvas.discardActiveObject();
         }
     };
 
-    // ------------ Canvas event listeners - END ------------
-    // ------------ Window event listeners - START ------------
-    window.onbeforeunload = beforeunload;
-
     function beforeunload() {
         alert("confirm exit is being called");
         return false;
     }
+
+    window.onbeforeunload = beforeunload;
 
     // ------------ Window event listeners - END ------------
 

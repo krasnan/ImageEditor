@@ -348,7 +348,7 @@ function initTools($scope, $http, $timeout) {
         switch ($scope.activeTool) {
             case $scope.tools.line:
                 // obj = $scope.createLine(pointer);
-                obj = new fabric.Line([pointer.x, pointer.y, pointer.x, pointer.y], {
+                obj = new fabric.Line([pointer.x, pointer.y, pointer.x+100, pointer.y+100], {
                     id: uniqueId(),
                     strokeWidth: 5,
                     stroke: $scope.strokeColor,
@@ -361,9 +361,12 @@ function initTools($scope, $http, $timeout) {
                     strokeWidth: 0,
                     left: origX,
                     top: origY,
+                    width:100,
+                    height:100,
                     fill: $scope.fillColor,
                     stroke: $scope.strokeColor
                 });
+                console.log(obj.width);
                 break;
             case $scope.tools.circle:
                 obj = new fabric.Circle({
@@ -371,7 +374,7 @@ function initTools($scope, $http, $timeout) {
                     strokeWidth: 0,
                     left: origX,
                     top: origY,
-                    radius: 1,
+                    radius: 50,
                     fill: $scope.fillColor,
                     stroke: $scope.strokeColor
                 });
@@ -382,6 +385,8 @@ function initTools($scope, $http, $timeout) {
                     strokeWidth: 0,
                     left: origX,
                     top: origY,
+                    rx:50,
+                    ry:50,
                     fill: $scope.fillColor,
                     stroke: $scope.strokeColor
                 });
@@ -393,6 +398,8 @@ function initTools($scope, $http, $timeout) {
                     strokeWidth: 0,
                     left: origX,
                     top: origY,
+                    width:100,
+                    height:100,
                     fill: $scope.fillColor,
                     stroke: $scope.strokeColor,
                     fontFamily: 'Arial',
@@ -407,6 +414,8 @@ function initTools($scope, $http, $timeout) {
                     strokeWidth: 0,
                     left: origX,
                     top: origY,
+                    width:100,
+                    height:100,
                     fill: $scope.fillColor,
                     stroke: $scope.strokeColor
                 });
@@ -463,7 +472,7 @@ function initTools($scope, $http, $timeout) {
     $scope.canvas.on('mouse:move', function (o) {
         if (!isDown) return;
         var pointer = $scope.canvas.getPointer(o.e);
-
+        if(origX === pointer.x && origY === pointer.y) return;
         if (obj != null) {
             switch (obj.get('type')) {
                 case 'rect':
@@ -761,7 +770,7 @@ function initTools($scope, $http, $timeout) {
 
     $scope.sendMessage = function () {
         if ($scope.message === "") return;
-        $scope.socket.emit('message-created', {text: $scope.message});
+        $scope.socket.emit('message-created', {text: $scope.message, from:$scope.user});
         $scope.message = "";
         $scope.scrollDown('ie__messenger__messages');
     };

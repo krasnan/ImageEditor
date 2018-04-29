@@ -411,6 +411,7 @@
     }
   }
   &__messenger {
+    .ie__shadow-inset(0px, 8px, 8px, -8px, rgba(0,0,0,0.16));
     &:extend(.transition all);
     width: 100%;
     overflow: hidden;
@@ -426,21 +427,21 @@
       padding-bottom: @offset;
     }
     &__messages {
+      //.ie__shadow-inset(0, 0, 5px, 2px, rgba(0, 0, 0, 0.08));
+      padding: @offset 0;
       max-height: 200px;
       overflow-y: auto;
-
     }
     &__item {
       text-align: left;
-      margin: @offset-xs 0;
-      padding: @offset-xs;
+      padding: 0 @offset-xs;
 
       &__head {
         font-size: 10px;
         color: @grey;
       }
       &__content {
-        padding: @offset-xs @offset;
+        padding: 0 @offset;
         border: 1px solid @primary;
         border-radius: @radius;
         display: inline-block;
@@ -459,7 +460,6 @@
       width: 100%;
       margin: @offset-xs 0;
       padding: @offset-xs 0;
-      border-top: solid @border 3px;
       input {
         &:extend(.input all);
         width: calc(~"100% - 100px");

@@ -23,7 +23,7 @@ class ImageEditorTemplate extends QuickTemplate {
      */
     public function execute() {
         ?>
-        <div class="ie" ng-controller="ImageEditor" ng-class="{ie__loaded : room.loaded, ie__fullscreen : isFullscreen}" >
+        <div class="ie" ng-controller="ImageEditorController" ng-class="{ie__loaded : room.loaded, ie__fullscreen : isFullscreen}" >
             <div class="ie__container" style="visibility: hidden;">
                 <div class="ie__playground" ng-click="onPlaygroundClick($event);">
                     <div class="ie__playground__container">

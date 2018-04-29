@@ -218,12 +218,20 @@ Roboto
 }
 
 .shadow-box {
-  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.08);
-  -moz-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.08);
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.08);
+  .ie__shadow(0, 0, 5px, 2px, rgba(0, 0, 0, 0.08));
   border: @border solid 1px;
 }
+.ie__shadow(@x,@y,@blur,@spread, @color){
+  -webkit-box-shadow: @x @y @blur @spread @color;
+  -moz-box-shadow: @x @y @blur @spread @color;
+  box-shadow: @x @y @blur @spread @color;
 
+}
+.ie__shadow-inset(@x,@y,@blur,@spread, @color){
+  -webkit-box-shadow: inset @x @y @blur @spread @color;
+  -moz-box-shadow: inset @x @y @blur @spread @color;
+  box-shadow: inset @x @y @blur @spread @color;
+}
 .blur {
   -webkit-filter: blur(5px);
   -moz-filter: blur(5px);
